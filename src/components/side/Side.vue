@@ -1,12 +1,15 @@
 <script setup>
 import { ref } from 'vue'
 
-const isOpen = ref(true)
+const view = ref()
+const viewClose = () => {
+  view.value.classList.remove('open')
+}
 </script>
 
 <template>
-  <div class="sideView" :class="{ open: isOpen }">
-    <img class="close" src="@/assets/img/closeIcon.png" @click="isOpen = false" />
+  <div class="sideView" ref="view">
+    <img class="close" src="@/assets/img/closeIcon.png" @click="viewClose" />
     <slot></slot>
   </div>
 </template>

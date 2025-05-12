@@ -26,7 +26,7 @@ const handleSelectChatRoom = (target) => {
 </script>
 
 <template>
-  <Side class="chatView">
+  <Side class="chatView open">
     <div class="chat">
       <div class="chat-header">
         <img alt="logo" src="@/assets/img/logo-w.png" />
