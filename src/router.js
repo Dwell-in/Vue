@@ -27,9 +27,24 @@ const routes = [
     component: SignUpView,
   },
   {
-    path: '/board',
+    path: '/board/list',
     name: 'Board',
     component: BoardView,
+  },
+  {
+    path: '/board/post-detail',
+    name: 'PostDetail',
+    component: () => import('@/components/board/PostDetail.vue'),
+  },
+  {
+    path: '/board/post-write',
+    name: 'PostWrite',
+    component: () => import('@/components/board/PostWrite.vue'),
+  },
+  {
+    path: '/board/post-update',
+    name: 'PostUpdate',
+    component: () => import('@/components/board/PostUpdate.vue'),
   },
 ]
 const router = createRouter({

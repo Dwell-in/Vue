@@ -1,8 +1,12 @@
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import api from '@/lib/api'
+import BoardToolbar from '@/components/board/BoardToolbar.vue'
+
 defineProps(['categoryId'])
 
+const router = useRouter()
 const postList = ref([])
 
 const fetchPostList = async () => {
@@ -14,13 +18,22 @@ const fetchPostList = async () => {
   }
 }
 
+const goDetail = async (boardId) => {
+  router.push(`/board/post-detail?board-id=${boardId}`)
+}
+
 onMounted(async () => {
   await fetchPostList()
   console.log(postList.value[0])
 })
+
+const handleSearch = (keyword) => {
+  fetchPostList(keyword)
+}
 </script>
 
 <template>
+  <BoardToolbar @search="handleSearch" />
   <table class="table table-hover table-striped text-center align-middle">
     <thead class="table-light">
       <tr>
@@ -34,7 +47,7 @@ onMounted(async () => {
       <tr v-for="(item, index) in postList" :key="item.boardId">
         <td>{{ index + 1 }}</td>
         <td class="text-start ps-4">
-          <a href="#" class="text-decoration-none text-dark board-link" :data-id="item.boardId">
+          <a href="#" @click.prevent="goDetail(item.boardId)">
             {{ item.title }}
           </a>
         </td>
