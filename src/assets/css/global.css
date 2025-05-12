@@ -19,5 +19,5 @@ a {
   cursor: pointer;
 }
 .display-none {
-  display: none;
+  display: none !important;
 }
