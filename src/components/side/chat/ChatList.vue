@@ -56,7 +56,7 @@ const listToggle = () => {
       class="chat-room-icon"
       :class="{ selected: target.id === selectedTargetId }"
       @click="selectChatRoom(target)"
-      :src="props.profile || defaultProfile"
+      :src="target.profileImg || defaultProfile"
       alt="Profile"
     />
   </div>

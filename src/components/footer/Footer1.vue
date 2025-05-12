@@ -37,7 +37,7 @@ footer > div::before {
   left: 0;
   width: 90px;
   height: 70px;
-  background: url('../img/footerLogo.png') center center no-repeat;
+  background: url('@/assets/img/footerLogo.png') center center no-repeat;
   background-size: contain;
   content: '';
 }

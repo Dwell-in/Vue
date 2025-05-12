@@ -1,19 +1,36 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-const isLogined = ref(false)
-onMounted(() => {
-  // 로그인 여부 확인 후 isLogined true로
+import api from '@/lib/api'
+import defaultProfile from '@/assets/img/default_profile.png'
+
+// 로그인 유저 받아오기
+const loginUser = ref()
+onMounted(async () => {
+  try {
+    const res = await api.get('/api/v1/member/user-info')
+    loginUser.value = res.data.data
+  } catch (error) {
+    console.log('logout')
+  }
 })
+
+// 로그아웃
+const logout = async () => {
+  await api.get('/api/v1/member/logout')
+  loginUser.value = null
+}
 </script>
 
 <template>
   <div class="member">
-    <template v-if="isLogined">
-      <router-link to="/logout"><img class="profile" /></router-link>
+    <template v-if="loginUser">
+      <a href="#" @click="logout"
+        ><img class="profile" :src="loginUser.profileImg || defaultProfile"
+      /></a>
     </template>
     <template v-else>
-      <router-link to="/login">로그인</router-link>
-      <router-link to="/signup">회원가입</router-link>
+      <router-link to="/member/login">로그인</router-link>
+      <router-link to="/member/signup">회원가입</router-link>
     </template>
   </div>
 </template>

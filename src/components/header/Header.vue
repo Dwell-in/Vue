@@ -15,7 +15,7 @@ const hovered = ref(false)
   <header
     @mouseenter="hovered = true"
     @mouseleave="hovered = false"
-    :class="{ mainHeader: isMainHeader }"
+    :class="{ mainHeader: props.isMainHeader }"
   >
     <nav>
       <Menu :hovered="hovered" />

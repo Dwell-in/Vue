@@ -25,7 +25,7 @@ const scrollX = (e) => {
 
 <template>
   <Header :isMainHeader="true"></Header>
-  <main @wheel="scrollX">
+  <main class="home" @wheel="scrollX">
     <Info :moveSection="moveSection"></Info>
     <Section2 ref="nextSection"></Section2>
     <Section3></Section3>
@@ -35,9 +35,9 @@ const scrollX = (e) => {
 </template>
 
 <style>
-html,
-body {
-  widows: 100vw;
+html:has(.home),
+body:has(.home) {
+  width: 100vw;
   height: 100vh;
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
@@ -50,10 +50,10 @@ body {
 body:-webkit-scrollbar {
   display: none;
 }
-main {
+.home {
   display: flex;
 }
-section {
+.home section {
   width: 100vw;
   height: 100vh;
   flex-shrink: 0;

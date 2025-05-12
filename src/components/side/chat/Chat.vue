@@ -1,4 +1,5 @@
 <script setup>
+import api from '@/lib/api'
 import { ref, onMounted } from 'vue'
 import Side from '../Side.vue'
 import ChatList from './ChatList.vue'
@@ -13,8 +14,7 @@ const getLoginUser = async () => {
   return res.data.data.id
 }
 onMounted(async () => {
-  // loginUserId.value = await getLoginUser()
-  loginUserId.value = 1
+  loginUserId.value = await getLoginUser()
 })
 
 // ChatList에서 'select-chat-room' 이벤트 수신
