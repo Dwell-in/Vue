@@ -18,9 +18,6 @@
 
 <style scoped>
 footer {
-  position: absolute;
-  bottom: 0;
-  left: 0;
   width: 100vw;
   height: 150px;
   background-color: #1e2022;

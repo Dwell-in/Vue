@@ -7,7 +7,7 @@ defineProps(['hovered'])
     <router-link to="/" class="logo">
       <img src="@/assets/img/logo.png" alt="logo" />
     </router-link>
-    <router-link class="noti" to="/notification">공지사항</router-link>
+    <router-link class="noti" to="/board/list">공지사항</router-link>
     <router-link class="" to="/">메뉴</router-link>
     <router-link class="" to="/">메뉴</router-link>
     <router-link class="" to="/">메뉴</router-link>
