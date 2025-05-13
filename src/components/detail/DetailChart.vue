@@ -68,8 +68,7 @@ const drawChart = (houseInfo) => {
 watch(state, async () => drawChart(state.info))
 onMounted(async () => drawChart(state.info))
 </script>
+
 <template>
   <canvas id="priceChart" height="200"></canvas>
 </template>
-
-<style scoped></style>

@@ -4,7 +4,7 @@ import { loadScript } from '@/lib/loadScript'
 import Header from '@/components/header/Header.vue'
 import Footer2 from '@/components/footer/Footer2.vue'
 import KaKaoMap from '@/components/map/KaKaoMap.vue'
-import DetailSide from '@/components/side/detail/DetailSide.vue'
+import DetailSide from '@/components/side/DetailSide.vue'
 import { init } from '@/lib/kakao'
 
 // fontawesome CDN

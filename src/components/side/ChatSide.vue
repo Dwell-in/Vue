@@ -1,9 +1,9 @@
 <script setup>
 import api from '@/lib/api'
 import { ref, onMounted } from 'vue'
-import Side from '../Side.vue'
-import ChatList from './ChatList.vue'
-import ChatRoom from './ChatRoom.vue'
+import Side from '@/components/side/Side.vue'
+import ChatList from '@/components/chat/ChatList.vue'
+import ChatRoom from '@/components/chat/ChatRoom.vue'
 
 const loginUserId = ref()
 

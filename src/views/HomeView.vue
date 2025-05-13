@@ -5,7 +5,7 @@ import Info from '@/components/home/Info.vue'
 import Section2 from '@/components/home/Section2.vue'
 import Section3 from '@/components/home/Section3.vue'
 import Section4 from '@/components/home/Section4.vue'
-import Chat from '@/components/side/chat/Chat.vue'
+import ChatSide from '@/components/side/ChatSide.vue'
 
 // 버튼으로 섹션 이동
 const nextSection = ref(null)
@@ -31,7 +31,7 @@ const scrollX = (e) => {
     <Section3></Section3>
     <Section4></Section4>
   </main>
-  <Chat />
+  <ChatSide />
 </template>
 
 <style>

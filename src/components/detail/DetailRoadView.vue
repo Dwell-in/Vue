@@ -9,14 +9,5 @@ watch(state, async () => roadviewOn(roadviewContainer.value, state.info.lat, sta
 onMounted(async () => roadviewOn(roadviewContainer.value, state.info.lat, state.info.lon))
 </script>
 <template>
-  <div class="info-roadview" ref="roadviewContainer"></div>
+  <div ref="roadviewContainer"></div>
 </template>
-
-<style scoped>
-.info-roadview {
-  height: 25vh;
-  margin: 0 auto;
-  flex-shrink: 0;
-  border-radius: 20px;
-}
-</style>
