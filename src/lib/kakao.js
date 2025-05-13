@@ -1,18 +1,33 @@
 import { reactive } from 'vue'
+import { loadScript } from './loadScript'
 const state = reactive({
   kakao: null,
   info: null,
 })
 
+// 카카오 Map API 호출, kakao 객체 받아오기
+const loadKakaoAPI = async () => {
+  if (window.kakao && window.kakao.maps) return window.kakao
+  await loadScript(
+    `//dapi.kakao.com/v2/maps/sdk.js?appkey=${import.meta.env.VITE_KAKAO_MAP_API_KEY}&libraries=services,clusterer,drawing&autoload=false`,
+  )
+  return new Promise((resolve) => {
+    window.kakao.maps.load(() => resolve(window.kakao))
+  })
+}
+
+const init = async () => {
+  state.kakao = await loadKakaoAPI()
+}
+
 let position = { y: 37.5665, x: 126.978 }
-// 메인 지도창
 let map
 
 // 지도 생성 function
 const createMap = async (conatiner, lv) => {
   const mapOption = {
     center: new state.kakao.maps.LatLng(position.y, position.x), // 지도의 중심좌표
-    level: lv, // 지도의 확대 레벨
+    level: lv || 4, // 지도의 확대 레벨
   }
 
   map = new state.kakao.maps.Map(conatiner, mapOption)
@@ -192,4 +207,4 @@ const roadviewOn = (roadviewContainer, lat, lng) => {
 }
 //
 
-export { state, createMap, addressSearch, localSearchAll, maker_Toggle, roadviewOn }
+export { state, init, createMap, addressSearch, localSearchAll, maker_Toggle, roadviewOn }

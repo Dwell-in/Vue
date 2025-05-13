@@ -35,7 +35,7 @@ const init = async () => {
 }
 
 onMounted(async () => {
-  await createMap(mapContainer.value, 4)
+  await createMap(mapContainer.value)
   await init()
 })
 watch(
