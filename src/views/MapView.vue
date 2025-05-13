@@ -5,6 +5,7 @@ import Header from '@/components/header/Header.vue'
 import Footer2 from '@/components/footer/Footer2.vue'
 import KaKaoMap from '@/components/map/KaKaoMap.vue'
 import DetailSide from '@/components/side/detail/DetailSide.vue'
+import { state } from '@/lib/kakao'
 
 // fontawesome CDN
 onMounted(() => {
@@ -13,7 +14,7 @@ onMounted(() => {
 const loading = ref(true)
 
 // 카카오 Map API 호출, kakao 객체 받아오기
-const kakao = ref(null);
+const kakaoReady = ref(false)
 const loadKakaoMap = async () => {
   if (window.kakao && window.kakao.maps) return window.kakao
   await loadScript(
@@ -25,9 +26,9 @@ const loadKakaoMap = async () => {
 }
 
 onMounted(async () => {
-  kakao.value = await loadKakaoMap()
+  state.kakao = await loadKakaoMap()
+  kakaoReady.value = true
 })
-
 </script>
 
 <template>
@@ -37,9 +38,9 @@ onMounted(async () => {
       <div class="loading" :class="{ 'display-none': !loading }">
         <i class="fa-solid fa-spinner fa-spin fa-fade fa-5x"></i>
       </div>
-      <KaKaoMap v-if="kakao" :kakao="kakao" v-model:loading="loading"></KaKaoMap>
+      <KaKaoMap v-if="kakaoReady" v-model:loading="loading"></KaKaoMap>
     </div>
-    <DetailSide></DetailSide>
+    <DetailSide v-if="state.info"></DetailSide>
   </main>
   <Footer2></Footer2>
 </template>
@@ -55,7 +56,6 @@ main {
   width: 100%;
   height: 100%;
 }
-
 
 .loading {
   width: 100%;

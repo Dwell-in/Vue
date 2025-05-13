@@ -121,7 +121,7 @@ onMounted(() => {
     @focusout="handleFocusout"
   />
   <ul class="autocomplete-list" ref="listElement">
-    <li v-for="(item, index) in filtered" :key="index" @click="autocomplete(item)">
+    <li v-for="item in filtered" :key="item" @click="autocomplete(item)">
       {{ item }}
     </li>
   </ul>
