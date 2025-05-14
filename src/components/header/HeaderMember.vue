@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import api from '@/lib/api'
+import auth from '@/lib/auth'
 import defaultProfile from '@/assets/img/default_profile.png'
 
 // finia
@@ -10,20 +11,24 @@ const store = useSideStore()
 // 로그인 유저 받아오기
 const loginUser = ref()
 onMounted(async () => {
-  try {
-    const res = await api.get('/api/v1/member/user-info')
-    loginUser.value = res.data.data
-  } catch (error) {
-    console.log(error)
+  if (auth.isLoggedIn()) {
+    try {
+      const res = await api.get('/api/v1/member/user-info')
+      loginUser.value = res.data.data
+    } catch (error) {
+      // 토큰 만료 등으로 401이면 로그아웃 처리
+      console.error('유저 정보 조회 실패:', error)
+      loginUser.value = null
+    }
   }
 })
 </script>
 
 <template>
   <div class="member">
-    <template v-if="loginUser">
+    <template v-if="auth.isLoggedIn()">
       <a href="#" @click="store.myToggle(true)"
-        ><img class="profile" :src="loginUser.profileImg || defaultProfile"
+        ><img class="profile" :src="loginUser?.profileImg || defaultProfile"
       /></a>
     </template>
     <template v-else>

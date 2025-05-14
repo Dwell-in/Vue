@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import api from '@/lib/api'
+import auth from '@/lib/auth'
 import { useRouter } from 'vue-router'
 
 const email = ref('')
@@ -9,11 +10,14 @@ const password = ref('')
 const router = useRouter()
 
 const handleSubmit = async () => {
-  const formData = new URLSearchParams()
-  formData.append('email', email.value)
-  formData.append('password', password.value)
   try {
-    await api.post('/api/v1/member/login', formData)
+    const response = await api.post('/api/v1/auth/login', {
+      email: email.value,
+      password: password.value,
+    })
+    const token = response.data.token
+    auth.setToken(token)
+
     router.push({ name: 'Home' })
   } catch (error) {
     console.log(error)
