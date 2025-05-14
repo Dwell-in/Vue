@@ -4,6 +4,9 @@ import { ref, onMounted } from 'vue'
 import SideDefault from '@/components/side/SideDefault.vue'
 import ChatList from '@/components/chat/ChatList.vue'
 import ChatRoom from '@/components/chat/ChatRoom.vue'
+import { useSideStore } from '@/stores/side'
+
+const store = useSideStore()
 
 const loginUserId = ref()
 
@@ -26,7 +29,7 @@ const handleSelectChatRoom = (target) => {
 </script>
 
 <template>
-  <SideDefault class="chatView open">
+  <SideDefault class="chatView" @close="store.chatToggle(false)">
     <div class="chat">
       <div class="chat-header">
         <img alt="logo" src="@/assets/img/logo-w.png" />

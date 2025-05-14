@@ -1,10 +1,20 @@
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
 const view = ref()
 const viewClose = () => {
   view.value.classList.remove('open')
+  setTimeout(() => {
+    emit('close')
+  }, 500)
 }
+
+const emit = defineEmits('close')
+onMounted(() => {
+  setTimeout(() => {
+    view.value.classList.add('open')
+  }, 1)
+})
 </script>
 
 <template>
@@ -15,12 +25,18 @@ const viewClose = () => {
 </template>
 
 <style scoped>
+body:has(.home) .sideView {
+  height: calc(100% - 65px);
+}
+body:has(.map) .sideView {
+  height: calc(100% - 130px);
+}
 .sideView {
   width: 45vh;
-  height: 100%;
-  position: absolute;
+  margin-top: 65px;
+  position: fixed;
   top: 0;
-  left: 100%;
+  left: 105%;
   z-index: 30;
   display: flex;
   flex-direction: column;
@@ -52,5 +68,6 @@ const viewClose = () => {
   top: 1vh;
   left: 1vh;
   cursor: pointer;
+  z-index: 10;
 }
 </style>

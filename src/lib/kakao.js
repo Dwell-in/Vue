@@ -1,8 +1,10 @@
 import { reactive } from 'vue'
 import { loadScript } from './loadScript'
+
 const state = reactive({
   kakao: null,
   info: null,
+  store: null,
 })
 
 // 카카오 Map API 호출, kakao 객체 받아오기
@@ -16,8 +18,9 @@ const loadKakaoAPI = async () => {
   })
 }
 
-const init = async () => {
+const init = async (s) => {
   state.kakao = await loadKakaoAPI()
+  state.store = s
 }
 
 let position = { y: 37.5665, x: 126.978 }
@@ -113,9 +116,7 @@ const addEvent = async (num) => {
     overlay[num].setMap(null)
   })
   state.kakao.maps.event.addListener(marker[num], 'click', function () {
-    if (document.querySelector('.detailView')) {
-      document.querySelector('.detailView').classList.add('open')
-    }
+    state.store.detailToggle(true)
     state.info = infoList[num]
   })
 }

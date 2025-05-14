@@ -6,6 +6,9 @@ import SideDefault from '@/components/side/SideDefault.vue'
 import DetailChart from '@/components/detail/DetailChart.vue'
 import DetailRoadView from '@/components/detail/DetailRoadView.vue'
 import DetailNews from '@/components/detail/DetailNews.vue'
+import { useSideStore } from '@/stores/side'
+
+const store = useSideStore()
 
 // 조회수 증가 후 증가된 조회수 가져오기
 const viewCount = ref(0)
@@ -19,10 +22,10 @@ onMounted(async () => await getViewCount())
 </script>
 
 <template>
-  <SideDefault class="detailView open">
+  <SideDefault class="detailView" @close="store.detailToggle(false)">
     <!-- <div>{{ props.info }}</div> -->
     <div class="info_aptNm">
-      {{ state.info.aptNm }}
+      {{ state.info?.aptNm }}
     </div>
     <div class="info_viewCount">
       <img src="@/assets/img/viewCount.png" />
@@ -38,7 +41,6 @@ onMounted(async () => await getViewCount())
 
 <style scoped>
 .detailView {
-  height: calc(100% - 130px) !important;
   padding: 3vh 0;
 }
 .detailView * {

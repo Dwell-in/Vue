@@ -5,7 +5,6 @@ import HomeInfo from '@/components/home/HomeInfo.vue'
 import Section2 from '@/components/home/Section2.vue'
 import Section3 from '@/components/home/Section3.vue'
 import Section4 from '@/components/home/Section4.vue'
-import SideChat from '@/components/side/SideChat.vue'
 
 // 버튼으로 섹션 이동
 const nextSection = ref(null)
@@ -31,7 +30,6 @@ const scrollX = (e) => {
     <Section3></Section3>
     <Section4></Section4>
   </main>
-  <SideChat />
 </template>
 
 <style>
@@ -58,10 +56,5 @@ body:-webkit-scrollbar {
   height: 100vh;
   flex-shrink: 0;
   scroll-snap-align: start;
-}
-.sideView {
-  position: fixed !important;
-  margin-top: 65px !important;
-  height: calc(100% - 65px) !important;
 }
 </style>

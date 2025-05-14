@@ -4,8 +4,10 @@ import { loadScript } from '@/lib/loadScript'
 import Header from '@/components/header/Header.vue'
 import Footer2 from '@/components/footer/Footer2.vue'
 import KaKaoMap from '@/components/map/KaKaoMap.vue'
-import SideDetail from '@/components/side/SideDetail.vue'
 import { init } from '@/lib/kakao'
+// finia
+import { useSideStore } from '@/stores/side'
+const store = useSideStore()
 
 // fontawesome CDN
 onMounted(() => {
@@ -16,21 +18,20 @@ const loading = ref(true)
 const readyToAPI = ref(false)
 
 onMounted(async () => {
-  await init()
+  await init(store)
   readyToAPI.value = true
 })
 </script>
 
 <template>
   <Header></Header>
-  <main>
+  <main class="map">
     <div id="map">
       <div class="loading" :class="{ 'display-none': !loading }">
         <i class="fa-solid fa-spinner fa-spin fa-fade fa-5x"></i>
       </div>
       <KaKaoMap v-if="readyToAPI" v-model:loading="loading"></KaKaoMap>
     </div>
-    <SideDetail v-if="readyToAPI"></SideDetail>
   </main>
   <Footer2></Footer2>
 </template>

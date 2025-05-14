@@ -3,6 +3,10 @@ import { ref, onMounted } from 'vue'
 import api from '@/lib/api'
 import defaultProfile from '@/assets/img/default_profile.png'
 
+// finia
+import { useSideStore } from '@/stores/side'
+const store = useSideStore()
+
 // 로그인 유저 받아오기
 const loginUser = ref()
 onMounted(async () => {
@@ -13,18 +17,12 @@ onMounted(async () => {
     console.log(error)
   }
 })
-
-// 로그아웃
-const logout = async () => {
-  await api.get('/api/v1/member/logout')
-  loginUser.value = null
-}
 </script>
 
 <template>
   <div class="member">
     <template v-if="loginUser">
-      <a href="#" @click="logout"
+      <a href="#" @click="store.myToggle(true)"
         ><img class="profile" :src="loginUser.profileImg || defaultProfile"
       /></a>
     </template>
