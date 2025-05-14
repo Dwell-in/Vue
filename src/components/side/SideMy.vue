@@ -1,5 +1,6 @@
 <script setup>
 import api from '@/lib/api'
+import auth from '@/lib/auth'
 import { onMounted, reactive } from 'vue'
 import SideDefault from '@/components/side/SideDefault.vue'
 import { useSideStore } from '@/stores/side'
@@ -25,7 +26,7 @@ onMounted(async () => {
 
 // 로그아웃
 const logout = async () => {
-  await api.get('/api/v1/member/logout')
+  auth.removeToken()
   loginUser.value = null
 }
 </script>
