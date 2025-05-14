@@ -46,6 +46,11 @@ const routes = [
     name: 'PostUpdate',
     component: () => import('@/components/board/PostUpdate.vue'),
   },
+  {
+    path: '/email/verify',
+    name: 'EmailVerify',
+    component: () => import('@/components/member/EmailVerify.vue'),
+  },
 ]
 const router = createRouter({
   history: createWebHistory('/'),
