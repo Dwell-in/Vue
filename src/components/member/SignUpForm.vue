@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watchEffect } from 'vue'
 import api from '@/lib/api'
 import { useRouter } from 'vue-router'
 
@@ -11,7 +11,30 @@ const phone = ref('')
 
 const router = useRouter()
 
+const emailVerified = ref(false)
+const requestEmailVerification = async () => {
+  try {
+    await api.post('/api/v1/email/send-token?email=' + email.value)
+    alert('입력하신 이메일로 인증 메일을 보냈습니다. 이메일을 확인해주세요.')
+  } catch (err) {
+    alert('이메일 인증 요청에 실패했습니다.')
+  }
+}
+
+watchEffect(() => {
+  const key = `email_verified_${email.value}`
+  if (sessionStorage.getItem(key) === 'true') {
+    emailVerified.value = true
+  } else {
+    emailVerified.value = false
+  }
+})
+
 const handleSubmit = async () => {
+  if (!emailVerified.value) {
+    alert('이메일 인증이 필요합니다.')
+    return
+  }
   const formData = new FormData()
   const file = imgInput.value?.files[0]
   if (file) {
@@ -45,6 +68,7 @@ const handleSubmit = async () => {
         <input type="text" name="email" id="email" required v-model="email" />
       </div>
       <div>
+        <p><button type="button" @click="requestEmailVerification">인증 요청</button></p>
         <span id="emailMsg"></span>
         <p>- 이메일은 로그인 아이디로 사용됩니다.</p>
       </div>
