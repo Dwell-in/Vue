@@ -1,13 +1,14 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import api from '@/lib/api'
 import auth from '@/lib/auth'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 
 const email = ref('')
 const password = ref('')
 
 const router = useRouter()
+const route = useRoute()
 
 const handleSubmit = async () => {
   try {
@@ -23,6 +24,25 @@ const handleSubmit = async () => {
     console.log(error)
   }
 }
+
+const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${
+  import.meta.env.VITE_KAKAO_REST_API_KEY
+}&redirect_uri=${window.location.origin}${import.meta.env.VITE_KAKAO_REDIRECT_URI}`
+
+onMounted(async () => {
+  const code = route.query.code
+  if (code) {
+    try {
+      const response = await api.get('http://localhost:8080/api/v1/auth/kakao/access-token', {
+        params: { code },
+        withCredentials: true, // 필요한 경우
+      })
+      console.log(response.data)
+    } catch (error) {
+      console.error('카카오 로그인 실패:', error)
+    }
+  }
+})
 </script>
 
 <template>
@@ -45,11 +65,7 @@ const handleSubmit = async () => {
     </div>
     <button type="submit" id="loginBtn">로그인</button>
     <a class="pwFind" href="/member/password-find">비밀번호 찾기</a>
-    <a
-      href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}"
-    >
-      <img id="kakao-login" src="@/assets/img/kakao_login.png"
-    /></a>
+    <a :href="kakaoAuthUrl"> <img id="kakao-login" src="@/assets/img/kakao_login.png" /></a>
   </form>
 </template>
 
