@@ -16,6 +16,10 @@ onMounted(async () => {
   }
   try {
     const res = await api.get(`/api/v1/email/verify?token=${token}`)
+    if (res.data.data.success === true) {
+      const verifiedEmail = res.data.data.email
+      localStorage.setItem('verifiedEmail', verifiedEmail)
+    }
     console.log(res.data.data)
     msg = res.data.data.msg
   } catch (e) {

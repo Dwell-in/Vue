@@ -3,6 +3,7 @@ import HomeView from '@/views/HomeView.vue'
 import MapView from '@/views/MapView.vue'
 import LoginView from './views/LoginView.vue'
 import SignUpView from './views/SignUpView.vue'
+import PasswordFindView from './views/PasswordFindView.vue'
 import BoardView from './views/BoardView.vue'
 
 const routes = [
@@ -25,6 +26,11 @@ const routes = [
     path: '/member/signup',
     name: 'SignUp',
     component: SignUpView,
+  },
+  {
+    path: '/member/password-find',
+    name: 'passwordFine',
+    component: PasswordFindView,
   },
   {
     path: '/board/list',

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watchEffect } from 'vue'
+import { ref, watchEffect, onBeforeUnmount } from 'vue'
 import api from '@/lib/api'
 import { useRouter } from 'vue-router'
 
@@ -11,23 +11,33 @@ const phone = ref('')
 
 const router = useRouter()
 
-const emailVerified = ref(false)
 const requestEmailVerification = async () => {
   try {
-    await api.post('/api/v1/email/send-token?email=' + email.value)
-    alert('입력하신 이메일로 인증 메일을 보냈습니다. 이메일을 확인해주세요.')
+    const res = await api.post('/api/v1/email/send-token?email=' + email.value)
+    console.log(res.data.data)
+    const msg = res.data.data
+    alert(msg)
   } catch (err) {
     alert('이메일 인증 요청에 실패했습니다.')
   }
 }
 
+const emailVerified = ref(false)
+let checkInterval = null
 watchEffect(() => {
-  const key = `email_verified_${email.value}`
-  if (sessionStorage.getItem(key) === 'true') {
-    emailVerified.value = true
-  } else {
-    emailVerified.value = false
-  }
+  checkInterval = setInterval(() => {
+    const stored = localStorage.getItem('verifiedEmail')
+    if (stored === email.value) {
+      emailVerified.value = true
+      clearInterval(checkInterval) // setInterval 멈추기
+    }
+  }, 1000)
+})
+
+// unmount 전에 반복 작업 중단
+onBeforeUnmount(() => {
+  clearInterval(checkInterval)
+  localStorage.removeItem('verifiedEmail')
 })
 
 const handleSubmit = async () => {
@@ -46,6 +56,7 @@ const handleSubmit = async () => {
   formData.append('phone', phone.value)
   try {
     await api.post('/api/v1/member/signup', formData)
+    localStorage.removeItem('verifiedEmail')
     router.push({ name: 'Login' })
   } catch (error) {
     console.log(error)
@@ -68,7 +79,8 @@ const handleSubmit = async () => {
         <input type="text" name="email" id="email" required v-model="email" />
       </div>
       <div>
-        <p><button type="button" @click="requestEmailVerification">인증 요청</button></p>
+        <p v-if="emailVerified">이메일 인증 완료!</p>
+        <p v-else><button type="button" @click="requestEmailVerification">인증 요청</button></p>
         <span id="emailMsg"></span>
         <p>- 이메일은 로그인 아이디로 사용됩니다.</p>
       </div>
