@@ -22,7 +22,7 @@ onMounted(async () => {
 <template>
   <div class="member">
     <template v-if="loginUser">
-      <a href="#" @click="store.myToggle(true)"
+      <a href="#" @click="store.myToggle(!store.my)"
         ><img class="profile" :src="loginUser.profileImg || defaultProfile"
       /></a>
     </template>

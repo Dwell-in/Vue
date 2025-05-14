@@ -2,19 +2,20 @@
 import { onMounted, ref } from 'vue'
 
 const view = ref()
+
+onMounted(() => {
+  setTimeout(() => {
+    view.value.classList.add('open')
+  }, 1)
+})
+
+const emit = defineEmits('close')
 const viewClose = () => {
   view.value.classList.remove('open')
   setTimeout(() => {
     emit('close')
   }, 500)
 }
-
-const emit = defineEmits('close')
-onMounted(() => {
-  setTimeout(() => {
-    view.value.classList.add('open')
-  }, 1)
-})
 </script>
 
 <template>
@@ -32,7 +33,7 @@ body:has(.map) .sideView {
   height: calc(100% - 130px);
 }
 .sideView {
-  width: 45vh;
+  width: 40vh;
   margin-top: 65px;
   position: fixed;
   top: 0;
@@ -58,7 +59,7 @@ body:has(.map) .sideView {
 }
 
 .sideView:is(.open) {
-  left: calc(100% - 45vh) !important;
+  left: calc(100% - 40vh) !important;
 }
 
 .sideView > .close {
