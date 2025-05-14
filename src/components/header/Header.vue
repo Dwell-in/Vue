@@ -1,8 +1,8 @@
 <script setup>
 import { ref } from 'vue'
-import Search from './Search.vue'
-import Menu from './Menu.vue'
-import Member from './Member.vue'
+import SearchForm from './SearchForm.vue'
+import HeaderMenu from './HeaderMenu.vue'
+import HeaderMember from './HeaderMember.vue'
 
 const props = defineProps({
   isMainHeader: Boolean,
@@ -18,10 +18,10 @@ const hovered = ref(false)
     :class="{ mainHeader: props.isMainHeader }"
   >
     <nav>
-      <Menu :hovered="hovered" />
+      <HeaderMenu :hovered="hovered"></HeaderMenu>
       <div>
-        <Search :hovered="hovered" />
-        <Member />
+        <SearchForm :hovered="hovered" />
+        <HeaderMember />
       </div>
     </nav>
   </header>

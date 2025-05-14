@@ -19,6 +19,7 @@ import SignUpForm from '@/components/member/SignUpForm.vue'
 }
 main {
   max-width: 1920px;
+  min-height: calc(100vh - 215px);
   margin: 65px auto 0;
   display: flex;
   flex-direction: column;

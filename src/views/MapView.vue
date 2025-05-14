@@ -4,7 +4,7 @@ import { loadScript } from '@/lib/loadScript'
 import Header from '@/components/header/Header.vue'
 import Footer2 from '@/components/footer/Footer2.vue'
 import KaKaoMap from '@/components/map/KaKaoMap.vue'
-import DetailSide from '@/components/side/DetailSide.vue'
+import SideDetail from '@/components/side/SideDetail.vue'
 import { init } from '@/lib/kakao'
 
 // fontawesome CDN
@@ -30,7 +30,7 @@ onMounted(async () => {
       </div>
       <KaKaoMap v-if="readyToAPI" v-model:loading="loading"></KaKaoMap>
     </div>
-    <DetailSide v-if="readyToAPI"></DetailSide>
+    <SideDetail v-if="readyToAPI"></SideDetail>
   </main>
   <Footer2></Footer2>
 </template>

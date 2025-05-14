@@ -2,7 +2,7 @@
 import { onMounted, ref, watch } from 'vue'
 import { state } from '@/lib/kakao'
 import api from '@/lib/api'
-import Side from '@/components/side/Side.vue'
+import SideDefault from '@/components/side/SideDefault.vue'
 import DetailChart from '@/components/detail/DetailChart.vue'
 import DetailRoadView from '@/components/detail/DetailRoadView.vue'
 import DetailNews from '@/components/detail/DetailNews.vue'
@@ -19,7 +19,7 @@ onMounted(async () => await getViewCount())
 </script>
 
 <template>
-  <Side class="detailView open">
+  <SideDefault class="detailView open">
     <!-- <div>{{ props.info }}</div> -->
     <div class="info_aptNm">
       {{ state.info.aptNm }}
@@ -28,12 +28,12 @@ onMounted(async () => await getViewCount())
       <img src="@/assets/img/viewCount.png" />
       <div class="info_viewCount_count">{{ viewCount }}</div>
     </div>
-    <DetailRoadView class="info-roadview" ></DetailRoadView>
+    <DetailRoadView class="info-roadview"></DetailRoadView>
     <div class="section-title">CHART</div>
     <DetailChart></DetailChart>
     <div class="section-title">BLOG</div>
     <DetailNews class="info-news"></DetailNews>
-  </Side>
+  </SideDefault>
 </template>
 
 <style scoped>

@@ -1,7 +1,7 @@
 <script setup>
 import api from '@/lib/api'
 import { ref, onMounted } from 'vue'
-import Side from '@/components/side/Side.vue'
+import SideDefault from '@/components/side/SideDefault.vue'
 import ChatList from '@/components/chat/ChatList.vue'
 import ChatRoom from '@/components/chat/ChatRoom.vue'
 
@@ -26,7 +26,7 @@ const handleSelectChatRoom = (target) => {
 </script>
 
 <template>
-  <Side class="chatView open">
+  <SideDefault class="chatView open">
     <div class="chat">
       <div class="chat-header">
         <img alt="logo" src="@/assets/img/logo-w.png" />
@@ -41,7 +41,7 @@ const handleSelectChatRoom = (target) => {
         />
       </div>
     </div>
-  </Side>
+  </SideDefault>
 </template>
 
 <style scoped>

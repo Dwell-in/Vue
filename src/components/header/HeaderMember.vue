@@ -10,7 +10,7 @@ onMounted(async () => {
     const res = await api.get('/api/v1/member/user-info')
     loginUser.value = res.data.data
   } catch (error) {
-    console.log('logout')
+    console.log(error)
   }
 })
 

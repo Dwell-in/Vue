@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import AddressSearchEngine from './searchEngine/AddressSearchEngine.vue'
+import SearchEngineAddress from './searchEngine/SearchEngineAddress.vue'
 
 defineProps(['hovered'])
 
@@ -21,7 +21,7 @@ const handleSubmit = () => {
     </select>
     <div class="border-div"></div>
     <div>
-      <AddressSearchEngine v-if="selectedKey === 'add'" ref="engineRef" />
+      <SearchEngineAddress v-if="selectedKey === 'add'" ref="engineRef" />
     </div>
     <button class="searchBtn" type="submit">
       <img alt="search" src="@/assets/img/search.png" />
