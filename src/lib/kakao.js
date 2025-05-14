@@ -110,15 +110,22 @@ const addressSearch = async (addr, infos) => {
 // 각 marker에 이벤트 추가
 const addEvent = async (num) => {
   state.kakao.maps.event.addListener(marker[num], 'mouseover', function () {
-    overlay[num].setMap(map)
+    overlayToggle(num, true)
   })
   state.kakao.maps.event.addListener(marker[num], 'mouseout', function () {
-    overlay[num].setMap(null)
+    overlayToggle(num, false)
   })
   state.kakao.maps.event.addListener(marker[num], 'click', function () {
     state.store.detailToggle(true)
     state.info = infoList[num]
   })
+}
+const overlayToggle = (num, oper) => {
+  if (oper){
+    overlay[num].setMap(map)
+  } else{
+    overlay[num].setMap(null)
+  }
 }
 
 // 각 마커의 오버레이 생성
@@ -208,4 +215,4 @@ const roadviewOn = (roadviewContainer, lat, lng) => {
 }
 //
 
-export { state, init, createMap, addressSearch, localSearchAll, maker_Toggle, roadviewOn }
+export { state, init, createMap, addressSearch, localSearchAll, maker_Toggle, roadviewOn, overlayToggle }

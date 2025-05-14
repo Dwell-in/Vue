@@ -26,13 +26,13 @@ const viewClose = () => {
 </template>
 
 <style scoped>
-body:has(.home) .sideView {
-  height: calc(100% - 65px);
+/* body:has(.home) .sideView {
 }
 body:has(.map) .sideView {
   height: calc(100% - 130px);
-}
+} */
 .sideView {
+  height: calc(100% - 65px);
   width: 40vh;
   margin-top: 65px;
   position: fixed;

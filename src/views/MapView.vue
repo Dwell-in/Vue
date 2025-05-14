@@ -2,7 +2,6 @@
 import { onMounted, ref } from 'vue'
 import { loadScript } from '@/lib/loadScript'
 import Header from '@/components/header/Header.vue'
-import Footer2 from '@/components/footer/Footer2.vue'
 import KaKaoMap from '@/components/map/KaKaoMap.vue'
 import { init } from '@/lib/kakao'
 // finia
@@ -33,14 +32,13 @@ onMounted(async () => {
       <KaKaoMap v-if="readyToAPI" v-model:loading="loading"></KaKaoMap>
     </div>
   </main>
-  <Footer2></Footer2>
 </template>
 
 <style scoped>
 main {
   margin-top: 65px;
   width: 100%;
-  height: calc(100vh - 130px);
+  height: calc(100vh - 65px);
 }
 
 #map {
