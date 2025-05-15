@@ -17,6 +17,7 @@ import makerBtn3 from '@/assets/img/marker_SC4_btn.png'
 import makerBtn4 from '@/assets/img/marker_HP8_btn.png'
 import makerBtn5 from '@/assets/img/marker_BK9_btn.png'
 import makerBtn6 from '@/assets/img/marker_CS2_btn.png'
+import defaultImg from '@/assets/img/loginbg.png'
 
 const store = useSideStore()
 
@@ -29,6 +30,7 @@ let fullAddress
 const emit = defineEmits(['update:loading'])
 
 // 매물 검색 restAPI
+const infos = ref()
 const searchHouseInfo = async () => {
   fullAddress = decodeURIComponent(route.path.split('/')[2] || '')
   const [sido, gugun, dong] = fullAddress.split(' ')
@@ -42,14 +44,31 @@ const searchHouseInfo = async () => {
   return await api.get(`/api/v1/house?${query}`)
 }
 
+// 각 매물 이미지 검색
+const imgs = ref([])
+const searchHouseImg = async (query) => {
+  const res = await api.get(`/api/v1/search/naver/image?query=${query}아파트&display=1`)
+  if (res.data.items == null) {
+    return null
+  }
+  return res.data.items[0]?.link
+}
+
+const searchHouseImgAll = async (infos) => {
+  for (const info of infos) {
+    const img = await searchHouseImg(info.aptNm)
+    imgs.value.push(img || defaultImg)
+  }
+}
+
 // 매물 검색 + 카카오 맵 초기화
-const infos = ref()
 const init = async () => {
   emit('update:loading', true)
   const res = await searchHouseInfo()
   infos.value = res.data.data
   await addressSearch(fullAddress, res.data.data)
   emit('update:loading', false)
+  searchHouseImgAll(res.data.data)
   localSearchAll()
 }
 
@@ -121,11 +140,11 @@ const listSelect = (index) => {
             <div class="aptNm">{{ info.aptNm }}</div>
             <div class="roadNm">
               {{ info.roadNm }}
-              <template v-if="info.roadNmBonbun !== '0'">{{ info.roadNmBonbun }}</template
-              ><template v-if="info.roadNmBubun !== '0'">-{{ info.roadNmBubun }}</template>
+              <template v-if="info.roadNmBonbun !== '0'">{{ info.roadNmBonbun }}</template>
+              <template v-if="info.roadNmBubun !== '0'">-{{ info.roadNmBubun }}</template>
             </div>
           </div>
-          <img class="aptImg" src="@/assets/img/loginbg.png" alt="" />
+          <img class="aptImg" :src="imgs[index]" alt="" />
         </div>
       </template>
     </template>

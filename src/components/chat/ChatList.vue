@@ -34,7 +34,7 @@ watch(
 
 // 채팅방 선택하기
 const selectedTargetId = ref()
-const emit = defineEmits()
+const emit = defineEmits('select-chat-room')
 const selectChatRoom = (target) => {
   selectedTargetId.value = target.id
   emit('select-chat-room', target)
