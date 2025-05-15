@@ -27,7 +27,7 @@ const handleSubmit = async () => {
 
 const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${
   import.meta.env.VITE_KAKAO_REST_API_KEY
-}&redirect_uri=${window.location.origin}${import.meta.env.VITE_KAKAO_REDIRECT_URI}`
+}&redirect_uri=${import.meta.env.VITE_KAKAO_REDIRECT_URI}`
 
 onMounted(async () => {
   const code = route.query.code
