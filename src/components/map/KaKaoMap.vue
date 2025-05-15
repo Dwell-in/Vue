@@ -73,7 +73,7 @@ const markerToggle = (event) => {
 }
 
 // 검색된 리스트
-const toggle = ref(false)
+const toggle = ref(true)
 const listSelect = (index) => {
   state.info = infos.value[index]
   store.detailToggle(true)
