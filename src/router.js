@@ -38,21 +38,6 @@ const routes = [
     component: BoardView,
   },
   {
-    path: '/board/post-detail',
-    name: 'PostDetail',
-    component: () => import('@/components/board/PostDetail.vue'),
-  },
-  {
-    path: '/board/post-write',
-    name: 'PostWrite',
-    component: () => import('@/components/board/PostWrite.vue'),
-  },
-  {
-    path: '/board/post-update',
-    name: 'PostUpdate',
-    component: () => import('@/components/board/PostUpdate.vue'),
-  },
-  {
     path: '/email/verify',
     name: 'EmailVerify',
     component: () => import('@/components/member/EmailVerify.vue'),

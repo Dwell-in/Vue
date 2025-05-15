@@ -1,9 +1,8 @@
 <script setup>
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
 import api from '@/lib/api'
 
-const router = useRouter()
+const emit = defineEmits(['back-to-main'])
 
 const userId = ref(1)
 const userName = ref('')
@@ -24,7 +23,7 @@ const handleSubmit = async () => {
 
     await api.post('/api/v1/board/board-write', payload)
     alert('등록이 완료되었습니다.')
-    router.push('/board/list')
+    emit('back-to-main')
   } catch (error) {
     console.error(error)
     alert('등록 중 오류가 발생했습니다.')
@@ -36,7 +35,6 @@ const handleSubmit = async () => {
   <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
       <h2 class="fw-bold">공지사항 등록</h2>
-      <RouterLink to="/board/list" class="btn btn-secondary">목록</RouterLink>
     </div>
 
     <form @submit.prevent="handleSubmit">
@@ -59,6 +57,7 @@ const handleSubmit = async () => {
 
       <div class="text-end">
         <button type="submit" class="btn btn-primary">등록</button>
+        <button type="button" class="btn btn-secondary" @click="emit('back-to-main')">취소</button>
       </div>
     </form>
   </div>

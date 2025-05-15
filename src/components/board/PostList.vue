@@ -1,13 +1,15 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
 import api from '@/lib/api'
 import BoardToolbar from '@/components/board/BoardToolbar.vue'
 
-defineProps(['categoryId'])
+const emit = defineEmits(['select-post', 'edit-post', 'write-post'])
 
-const router = useRouter()
 const postList = ref([])
+
+const props = defineProps({
+  categoryId: Number,
+})
 
 const fetchPostList = async () => {
   try {
@@ -18,22 +20,20 @@ const fetchPostList = async () => {
   }
 }
 
-const goDetail = async (boardId) => {
-  router.push(`/board/post-detail?board-id=${boardId}`)
-}
-
-onMounted(async () => {
-  await fetchPostList()
-  console.log(postList.value[0])
-})
-
 const handleSearch = (keyword) => {
   fetchPostList(keyword)
 }
+
+const goDetail = (boardId) => {
+  emit('select-post', boardId)
+}
+
+onMounted(fetchPostList)
 </script>
 
 <template>
-  <BoardToolbar @search="handleSearch" />
+  <BoardToolbar @search="handleSearch" @write-click="emit('write-post')" />
+
   <table class="table table-hover table-striped text-center align-middle">
     <thead class="table-light">
       <tr>
@@ -57,5 +57,3 @@ const handleSearch = (keyword) => {
     </tbody>
   </table>
 </template>
-
-<style scoped></style>

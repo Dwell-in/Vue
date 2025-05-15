@@ -1,44 +1,3 @@
-<script setup>
-import { ref, onMounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import api from '@/lib/api'
-
-const route = useRoute()
-const router = useRouter()
-const board = ref(null)
-
-const fetchBoardDetail = async () => {
-  const boardId = route.query['board-id']
-  try {
-    const res = await api.get(`/api/v1/board/board-detail/${boardId}`)
-    board.value = res.data.data.board
-  } catch (e) {
-    console.error('게시글 상세 조회 실패:', e)
-    alert('게시글 정보를 불러오지 못했습니다.')
-  }
-}
-
-onMounted(() => {
-  fetchBoardDetail()
-})
-
-const goToUpdate = () => {
-  router.push({ path: '/board/post-update', query: { boardId: board.value.boardId } })
-}
-
-const handleDelete = async () => {
-  if (!confirm('정말 삭제하시겠습니까?')) return
-  try {
-    await api.post(`/api/v1/board/board-delete/${board.value.boardId}`)
-    alert('삭제되었습니다.')
-    router.push('/board/list')
-  } catch (e) {
-    console.error('삭제 실패:', e)
-    alert('삭제에 실패했습니다.')
-  }
-}
-</script>
-
 <template>
   <div v-if="board" class="board-detail container">
     <h2 class="text-center mb-4">공지사항</h2>
@@ -70,24 +29,55 @@ const handleDelete = async () => {
     <div class="d-flex justify-content-end gap-2">
       <button class="btn btn-warning" @click="goToUpdate">수정</button>
       <button class="btn btn-danger" @click="handleDelete">삭제</button>
-      <router-link to="/board/list" class="btn btn-secondary">목록으로</router-link>
+      <button class="btn btn-secondary" @click="emit('back-to-main')">목록으로</button>
     </div>
+    <PostComment :board-id="board.boardId" />
   </div>
 </template>
+<script setup>
+import { ref, onMounted } from 'vue'
+import api from '@/lib/api'
+import PostComment from './PostComment.vue'
 
+const props = defineProps({
+  postId: Number,
+})
+
+const emit = defineEmits(['back-to-main', 'edit-post'])
+
+const board = ref(null)
+
+const fetchBoardDetail = async () => {
+  try {
+    const res = await api.get(`/api/v1/board/board-detail/${props.postId}`)
+    board.value = res.data.data.board
+  } catch (e) {
+    console.error('게시글 상세 조회 실패:', e)
+    alert('게시글 정보를 불러오지 못했습니다.')
+  }
+}
+
+onMounted(fetchBoardDetail)
+
+const goToUpdate = () => {
+  console.log(board.value.boardId)
+  emit('edit-post', board.value.boardId)
+}
+
+const handleDelete = async () => {
+  if (!confirm('정말 삭제하시겠습니까?')) return
+  try {
+    await api.post(`/api/v1/board/board-delete/${board.value.boardId}`)
+    alert('삭제되었습니다.')
+    emit('back-to-main')
+  } catch (e) {
+    console.error('삭제 실패:', e)
+    alert('삭제에 실패했습니다.')
+  }
+}
+</script>
 <style scoped>
 .board-detail {
   padding: 2rem;
-}
-.meta {
-  display: flex;
-  gap: 2rem;
-  font-size: 0.9rem;
-  color: #666;
-  margin-bottom: 1rem;
-}
-.content {
-  white-space: pre-wrap;
-  line-height: 1.6;
 }
 </style>

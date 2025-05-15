@@ -1,17 +1,15 @@
 <script setup>
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
 
 const keyword = ref('')
-const emit = defineEmits(['search'])
-const router = useRouter()
-
-const goToWrite = () => {
-  router.push({ path: '/board/post-write' })
-}
+const emit = defineEmits(['search', 'write-click'])
 
 const handleSearch = () => {
   emit('search', keyword.value)
+}
+
+const handleWrite = () => {
+  emit('write-click')
 }
 </script>
 
@@ -23,7 +21,7 @@ const handleSearch = () => {
       placeholder="검색어를 입력하세요"
       v-model="keyword"
       @keyup.enter="handleSearch"
-    /><br />
-    <button class="btn btn-primary" @click="goToWrite">등록</button>
+    />
+    <button class="btn btn-primary" @click="handleWrite">등록</button>
   </div>
 </template>
