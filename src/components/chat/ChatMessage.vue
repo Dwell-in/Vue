@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue'
+import DefaultProfile from '@/assets/img/default_profile.png'
 const props = defineProps({
   message: {
     type: Object,
@@ -7,7 +8,7 @@ const props = defineProps({
   },
   profileImg: {
     type: String,
-    default: '/src/assets/img/default_profile.png',
+    default: DefaultProfile,
   },
   profileOn: {
     type: Boolean,
@@ -39,7 +40,7 @@ const formatTime = (time) => {
   <div class="chat-message" v-bind="$attrs">
     <img
       v-if="!$attrs.class.includes('sender') && profileOn"
-      :src="props.profileImg"
+      :src="props.profileImg||DefaultProfile"
       alt="profile"
     />
     <template v-if="$attrs.class.includes('sender')">
