@@ -1,13 +1,27 @@
 <script setup>
 import { ref, onMounted, watch } from 'vue'
-import { state, createMap, addressSearch, localSearchAll, maker_Toggle, overlayToggle } from '@/lib/kakao.js'
+import {
+  state,
+  createMap,
+  addressSearch,
+  localSearchAll,
+  maker_Toggle,
+  overlayToggle,
+} from '@/lib/kakao.js'
 import { useRoute } from 'vue-router'
 import api from '@/lib/api'
 import { useSideStore } from '@/stores/side'
+import makerBtn1 from '@/assets/img/marker_FD6_btn.png'
+import makerBtn2 from '@/assets/img/marker_CE7_btn.png'
+import makerBtn3 from '@/assets/img/marker_SC4_btn.png'
+import makerBtn4 from '@/assets/img/marker_HP8_btn.png'
+import makerBtn5 from '@/assets/img/marker_BK9_btn.png'
+import makerBtn6 from '@/assets/img/marker_CS2_btn.png'
 
 const store = useSideStore()
 
 const markers = ['FD6', 'CE7', 'SC4', 'HP8', 'BK9', 'CS2']
+const markerBtns = [makerBtn1, makerBtn2, makerBtn3, makerBtn4, makerBtn5, makerBtn6]
 const mapContainer = ref()
 const route = useRoute()
 let fullAddress
@@ -60,21 +74,20 @@ const markerToggle = (event) => {
 
 // 검색된 리스트
 const toggle = ref(false)
-const listSelect = (index)=>{
-  state.info=infos.value[index]
+const listSelect = (index) => {
+  state.info = infos.value[index]
   store.detailToggle(true)
 }
-
 </script>
 
 <template>
-  <div class="houseList" :class="{on: toggle}">
+  <div class="houseList" :class="{ on: toggle }">
     <div class="maker-btn">
       <img
-        v-for="marker in markers"
+        v-for="(marker, index) in markers"
         :key="marker"
         class="marker"
-        :src="`/src/assets/img/marker_${marker}_btn.png`"
+        :src="markerBtns[index]"
         :alt="`marker_${marker}_btn`"
         data-makerToggle="false"
         :data-markerName="marker"
@@ -82,35 +95,46 @@ const listSelect = (index)=>{
       />
       <svg
         class="toggleBtn"
-        @click="toggle=!toggle"
+        @click="toggle = !toggle"
         xmlns="http://www.w3.org/2000/svg"
         height="24px"
         viewBox="0 -960 960 960"
         width="24px"
         fill="white"
-        >
+      >
         <!-- fill="#e3e3e3" -->
-        <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm280-80h280v-560H480v560Z"/>
+        <path
+          d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm280-80h280v-560H480v560Z"
+        />
       </svg>
     </div>
     <template v-if="toggle">
-      <template  v-for="(info, index) in infos" :key="info.aptSeq">
-        <div class="house" v-if="info.lat!=0" @click="listSelect(index)" @mouseover="overlayToggle(index, true)" @mouseout="overlayToggle(index, false)">
+      <template v-for="(info, index) in infos" :key="info.aptSeq">
+        <div
+          class="house"
+          v-if="info.lat != 0"
+          @click="listSelect(index)"
+          @mouseover="overlayToggle(index, true)"
+          @mouseout="overlayToggle(index, false)"
+        >
           <div>
             <div class="aptNm">{{ info.aptNm }}</div>
-            <div class="roadNm">{{ info.roadNm }} <template v-if="info.roadNmBonbun!=='0'">{{ info.roadNmBonbun }}</template><template v-if="info.roadNmBubun!=='0'">-{{ info.roadNmBubun }}</template></div>
+            <div class="roadNm">
+              {{ info.roadNm }}
+              <template v-if="info.roadNmBonbun !== '0'">{{ info.roadNmBonbun }}</template
+              ><template v-if="info.roadNmBubun !== '0'">-{{ info.roadNmBubun }}</template>
+            </div>
           </div>
-          <img class="aptImg" src="@/assets/img/loginbg.png" alt="">
+          <img class="aptImg" src="@/assets/img/loginbg.png" alt="" />
         </div>
       </template>
     </template>
   </div>
   <div id="mapBox" ref="mapContainer"></div>
-
 </template>
 
 <style scoped>
-.houseList{
+.houseList {
   width: 30vh;
   height: calc(100% - 65px);
   background-color: #343434ec;
@@ -126,7 +150,7 @@ const listSelect = (index)=>{
   text-align: end;
 }
 
-.houseList:not(.on){
+.houseList:not(.on) {
   height: auto;
   top: calc(65px + 1vh);
   left: 1vh;
@@ -138,7 +162,7 @@ const listSelect = (index)=>{
   display: none;
 }
 
-.house{
+.house {
   height: 10vh;
   background-color: white;
   box-shadow: 0 0 10px #4ab5e6;
@@ -151,20 +175,20 @@ const listSelect = (index)=>{
   display: flex;
   justify-content: space-between;
 }
-.house+.house{
+.house + .house {
   margin-top: 10%;
 }
-.house:hover{
+.house:hover {
   top: -0.5vh;
 }
 
-.house > div{
+.house > div {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-.aptNm{
+.aptNm {
   font-size: 0.8em;
   margin-bottom: 1em;
 }
@@ -174,14 +198,13 @@ const listSelect = (index)=>{
   color: #7e7e7e;
 }
 
-.aptImg{
+.aptImg {
   height: 100%;
   aspect-ratio: 1;
   top: 10%;
   right: 5%;
   border-radius: 5px;
 }
-
 
 .maker-btn {
   display: flex;
@@ -190,7 +213,7 @@ const listSelect = (index)=>{
   align-items: center;
   margin: 2vh 0.5vh;
 }
-.on .maker-btn{
+.on .maker-btn {
   margin: 3vh 0.5vh;
 }
 
@@ -198,7 +221,7 @@ const listSelect = (index)=>{
   height: 100%;
   cursor: pointer;
 }
-.maker-btn > *{
+.maker-btn > * {
   cursor: pointer;
 }
 

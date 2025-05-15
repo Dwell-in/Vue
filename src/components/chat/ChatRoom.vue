@@ -131,7 +131,7 @@ const shouldShowProfile = (message, index) => {
         :key="message.message_id"
         :class="{ sender: message.sender == props.loginUserId }"
         :message="message"
-        :profile="props.target.profile"
+        :profileImg="props.target.profileImg"
         :profileOn="shouldShowProfile(message, index)"
       />
     </div>

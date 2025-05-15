@@ -5,7 +5,7 @@ const props = defineProps({
     type: Object,
     required: true,
   },
-  profile: {
+  profileImg: {
     type: String,
     default: '/src/assets/img/default_profile.png',
   },
@@ -37,7 +37,11 @@ const formatTime = (time) => {
 
 <template>
   <div class="chat-message" v-bind="$attrs">
-    <img v-if="!$attrs.class.includes('sender') && profileOn" :src="props.profile" alt="profile" />
+    <img
+      v-if="!$attrs.class.includes('sender') && profileOn"
+      :src="props.profileImg"
+      alt="profile"
+    />
     <template v-if="$attrs.class.includes('sender')">
       <div class="time">{{ formatTime(props.message.sentAt) }}</div>
       <div v-html="formattedContent"></div>

@@ -1,5 +1,12 @@
 import { reactive } from 'vue'
 import { loadScript } from './loadScript'
+import maker0 from '@/assets/img/marker.png'
+import maker1 from '@/assets/img/marker_FD6.png'
+import maker2 from '@/assets/img/marker_CE7.png'
+import maker3 from '@/assets/img/marker_SC4.png'
+import maker4 from '@/assets/img/marker_HP8.png'
+import maker5 from '@/assets/img/marker_BK9.png'
+import maker6 from '@/assets/img/marker_CS2.png'
 
 const state = reactive({
   kakao: null,
@@ -56,7 +63,7 @@ let markerSize // 마커이미지 크기
 let markerOption // 마커 이미지 좌표 설정
 
 const markerSetting = () => {
-  markerSrc = `/src/assets/img/marker.png`
+  markerSrc = maker0
   markerSize = new state.kakao.maps.Size(30, 41)
   markerOption = { offset: new state.kakao.maps.Point(15, 29) }
 }
@@ -121,9 +128,9 @@ const addEvent = async (num) => {
   })
 }
 const overlayToggle = (num, oper) => {
-  if (oper){
+  if (oper) {
     overlay[num].setMap(map)
-  } else{
+  } else {
     overlay[num].setMap(null)
   }
 }
@@ -180,13 +187,13 @@ const localSearch = (code, latlon, arr, img) => {
 }
 
 const localSearchAll = () => {
-  localSearch('FD6', position, marker_FD6, `/src/assets/img/marker_FD6.png`)
-  localSearch('CE7', position, marker_CE7, `/src/assets/img/marker_CE7.png`)
-  localSearch('HP8', position, marker_HP8, `/src/assets/img/marker_HP8.png`)
-  localSearch('BK9', position, marker_BK9, `/src/assets/img/marker_BK9.png`)
-  localSearch('SC4', position, marker_SC4, `/src/assets/img/marker_SC4.png`)
-  localSearch('CS2', position, marker_CS2, `/src/assets/img/marker_CS2.png`)
-  localSearch('AG2', position, marker_CS2, `/src/assets/img/marker_CS2.png`)
+  localSearch('FD6', position, marker_FD6, maker1)
+  localSearch('CE7', position, marker_CE7, maker2)
+  localSearch('HP8', position, marker_HP8, maker3)
+  localSearch('BK9', position, marker_BK9, maker4)
+  localSearch('SC4', position, marker_SC4, maker5)
+  localSearch('CS2', position, marker_CS2, maker6)
+  localSearch('AG2', position, marker_CS2, maker6)
 }
 
 // 마커 그룹 on/off
@@ -215,4 +222,13 @@ const roadviewOn = (roadviewContainer, lat, lng) => {
 }
 //
 
-export { state, init, createMap, addressSearch, localSearchAll, maker_Toggle, roadviewOn, overlayToggle }
+export {
+  state,
+  init,
+  createMap,
+  addressSearch,
+  localSearchAll,
+  maker_Toggle,
+  roadviewOn,
+  overlayToggle,
+}
