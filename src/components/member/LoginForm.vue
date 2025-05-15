@@ -3,6 +3,8 @@ import { ref, onMounted } from 'vue'
 import api from '@/lib/api'
 import auth from '@/lib/auth'
 import { useRouter, useRoute } from 'vue-router'
+import { useLoginUserStore } from '@/stores/loginUser'
+const user = useLoginUserStore()
 
 const email = ref('')
 const password = ref('')
@@ -18,6 +20,9 @@ const handleSubmit = async () => {
     })
     const token = response.data.token
     auth.setToken(token)
+
+    const res = await api.get(`/api/v1/member/user-info`)
+    user.login(res.data.data)
 
     router.push({ name: 'Home' })
   } catch (error) {

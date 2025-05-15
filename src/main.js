@@ -26,6 +26,7 @@ api.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401) {
       auth.removeToken()
+
       router.push('/member/login')
     }
     return Promise.reject(error)

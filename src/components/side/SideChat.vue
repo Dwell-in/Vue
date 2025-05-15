@@ -1,24 +1,13 @@
 <script setup>
-import api from '@/lib/api'
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import SideDefault from '@/components/side/SideDefault.vue'
 import ChatList from '@/components/chat/ChatList.vue'
 import ChatRoom from '@/components/chat/ChatRoom.vue'
 import { useSideStore } from '@/stores/side'
+import { useLoginUserStore } from '@/stores/loginUser'
+const loginUser = useLoginUserStore()
 
 const store = useSideStore()
-
-const loginUserId = ref()
-
-// 로그인 유저 얻어오기
-const getLoginUser = async () => {
-  const res = await api.get(`/api/v1/member/user-info`)
-  console.log('getLoginUser: ' + res.data)
-  return res.data.data.id
-}
-onMounted(async () => {
-  loginUserId.value = await getLoginUser()
-})
 
 // ChatList에서 'select-chat-room' 이벤트 수신
 // ChatRoom에 'selectedTarget' 전달
@@ -35,12 +24,12 @@ const handleSelectChatRoom = (target) => {
         <img alt="logo" src="@/assets/img/logo-w.png" />
       </div>
       <div class="chat-body">
-        <ChatList :loginUserId="loginUserId" @select-chat-room="handleSelectChatRoom" />
+        <ChatList :loginUserId="loginUser.id" @select-chat-room="handleSelectChatRoom" />
         <ChatRoom
           v-if="selectedTarget"
           :target="selectedTarget"
           :key="selectedTarget.id"
-          :loginUserId="loginUserId"
+          :loginUserId="loginUser.id"
         />
       </div>
     </div>

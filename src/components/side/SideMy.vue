@@ -1,33 +1,20 @@
 <script setup>
-import api from '@/lib/api'
 import auth from '@/lib/auth'
-import { onMounted, reactive } from 'vue'
 import SideDefault from '@/components/side/SideDefault.vue'
 import { useSideStore } from '@/stores/side'
 import defaultProfile from '@/assets/img/default_profile.png'
+import { useLoginUserStore } from '@/stores/loginUser'
+const loginUser = useLoginUserStore()
 
 const store = useSideStore()
-
-const loginUser = reactive({
-  name: '',
-  profileImg: '',
-})
-
-// 로그인 유저 얻어오기
-const getLoginUser = async () => {
-  const res = await api.get(`/api/v1/member/user-info`)
-  const resUser = res.data.data
-  loginUser.name = resUser.name
-  loginUser.profileImg = resUser.profileImg
-}
-onMounted(async () => {
-  await getLoginUser()
-})
 
 // 로그아웃
 const logout = async () => {
   auth.removeToken()
-  loginUser.value = null
+  loginUser.logout()
+  store.myToggle(false)
+  store.detailToggle(false)
+  store.chatToggle(false)
 }
 </script>
 
