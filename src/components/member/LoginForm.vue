@@ -33,11 +33,28 @@ onMounted(async () => {
   const code = route.query.code
   if (code) {
     try {
-      const response = await api.get('http://localhost:8080/api/v1/auth/kakao/access-token', {
+      const res = await api.get('http://localhost:8081/api/v1/auth/kakao/login', {
         params: { code },
         withCredentials: true, // 필요한 경우
       })
-      console.log(response.data)
+      console.log(res.data.data.signup == false)
+      if (res.data?.data?.signup == false) {
+        console.log('로그인 성공')
+        // 로그인 처리
+        const token = res.data.data.token
+        auth.setToken(token)
+        router.push({
+          name: 'Home',
+        })
+      } else {
+        router.push({
+          name: 'SignUp',
+          query: {
+            kakaoId: res.data.data.kakaoId,
+            name: res.data.data.name,
+          },
+        })
+      }
     } catch (error) {
       console.error('카카오 로그인 실패:', error)
     }

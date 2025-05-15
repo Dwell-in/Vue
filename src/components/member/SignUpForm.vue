@@ -1,15 +1,17 @@
 <script setup>
-import { ref, watchEffect, onBeforeUnmount } from 'vue'
+import { ref, watchEffect, onBeforeUnmount, onMounted } from 'vue'
 import api from '@/lib/api'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 
 const imgInput = ref('')
 const email = ref('')
 const name = ref('')
 const password = ref('')
 const phone = ref('')
+const kakaoId = ref('')
 
 const router = useRouter()
+const route = useRoute()
 
 const requestEmailVerification = async () => {
   try {
@@ -34,6 +36,19 @@ watchEffect(() => {
   }, 1000)
 })
 
+onMounted(() => {
+  console.log(route.query)
+  if (route.query.email) {
+    email.value = route.query.email
+  }
+  if (route.query.name) {
+    name.value = route.query.name
+  }
+  if (route.query.kakaoId) {
+    kakaoId.value = route.query.kakaoId
+  }
+})
+
 // unmount 전에 반복 작업 중단
 onBeforeUnmount(() => {
   clearInterval(checkInterval)
@@ -50,6 +65,7 @@ const handleSubmit = async () => {
   if (file) {
     formData.append('img', file)
   }
+  formData.append('kakaoId', kakaoId.value)
   formData.append('email', email.value)
   formData.append('name', name.value)
   formData.append('password', password.value)
@@ -66,7 +82,7 @@ const handleSubmit = async () => {
 
 <template>
   <form enctype="multipart/form-data" @submit.prevent="handleSubmit">
-    <input type="hidden" name="kakaoId" />
+    <input type="hidden" name="kakaoId" :value="kakaoId" />
     <div>
       <div>
         <label for="profile">프로필 사진</label>
