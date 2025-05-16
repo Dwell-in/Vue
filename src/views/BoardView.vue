@@ -5,12 +5,6 @@ import api from '@/lib/api'
 import BaseBoardView from './BaseBoardView.vue'
 import { useRoute } from 'vue-router'
 
-const currentView = ref(1)
-const selectView = (categoryId) => {
-  currentView.value = categoryId
-  getPostList(categoryId)
-}
-
 const postList = ref([])
 const getPostList = async (categoryId) => {
   try {
@@ -22,7 +16,7 @@ const getPostList = async (categoryId) => {
 }
 
 onMounted(() => {
-  getPostList(1)
+  getPostList(route.params.id)
 })
 
 const search = (keyword) => {
@@ -30,12 +24,10 @@ const search = (keyword) => {
 }
 
 const route = useRoute()
-
 watch(
-  () => route.query.page,
+  () => route.params.id,
   (newPage) => {
-    // page 쿼리 파라미터가 바뀌면 실행
-    console.log('페이지 바뀜:', newPage)
+    getPostList(newPage)
   },
 )
 </script>
