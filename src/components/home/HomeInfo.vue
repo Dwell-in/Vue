@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue'
+import ModalBase from '../modal/ModalBase.vue'
 
 // 부모로부터 전달된 moveSection 함수 받아오기
 const props = defineProps({
@@ -35,6 +36,7 @@ onMounted(() => {
 </script>
 
 <template>
+  <ModalBase></ModalBase>
   <section>
     <div class="title-sub" ref="titleSub">부제</div>
     <div class="title">{{ title }}</div>
