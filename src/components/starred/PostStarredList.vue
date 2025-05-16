@@ -1,6 +1,6 @@
 <template>
   <main class="card-container">
-    <StarredCard v-for="apt in postList" :key="apt.aptSeq" :apt="apt" />
+    <StarredCard v-for="apt in postList" :key="apt.aptSeq" :apt="apt" @remove="removeFromList" />
   </main>
 </template>
 
@@ -18,6 +18,10 @@ const fetchStarredList = async () => {
   } catch (e) {
     console.error(e)
   }
+}
+
+const removeFromList = (aptSeq) => {
+  postList.value = postList.value.filter((apt) => apt.aptSeq !== aptSeq)
 }
 
 onMounted(fetchStarredList)

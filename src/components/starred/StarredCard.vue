@@ -19,8 +19,30 @@
     </div>
 
     <div class="apt-meta">
-      <p class="apt-label">{{ apt.sidoName }} {{ apt.gugunName }}</p>
-      <h3>{{ apt.aptNm }}</h3>
+      <div class="apt-title-row">
+        <div>
+          <p class="apt-label">{{ apt.sidoName }} {{ apt.gugunName }}</p>
+          <h3>{{ apt.aptNm }}</h3>
+        </div>
+        <svg
+          class="heart-toggle"
+          @click="toggleStarred"
+          xmlns="http://www.w3.org/2000/svg"
+          width="26"
+          height="26"
+          viewBox="0 0 24 24"
+          :fill="isStarred ? '#ff69b4' : 'none'"
+          stroke="#ff69b4"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path
+            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 
+             7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+          />
+        </svg>
+      </div>
       <p class="apt-desc">
         {{ apt.roadNm }} {{ apt.roadNmBonbun }} <br />
         {{ apt.buildYear }}년 준공
@@ -52,10 +74,79 @@ const fetchSearchHouseImg = async () => {
   img.value = res.data.items[0]?.link
 }
 
-onMounted(fetchSearchHouseImg)
+//즐겨찾기 확인하는 코드
+const isStarred = ref(false)
+const fetchStarredStatus = async () => {
+  try {
+    const res = await api.get(`/api/v1/house/view/starred/${apt.aptSeq}`)
+    isStarred.value = res.data.data.isStarred
+  } catch (e) {
+    console.error('즐겨찾기 조회 실패', e)
+  }
+}
+
+//즐겨찾기 추가 삭제하는 코드
+const emit = defineEmits(['remove'])
+
+const toggleStarred = async () => {
+  try {
+    const url = `/api/v1/starred/${apt.aptSeq}`
+
+    if (isStarred.value) {
+      const confirmDelete = confirm('정말 관심지역에서 삭제하시겠습니까?')
+      if (!confirmDelete) return
+
+      await api.delete(url)
+      emit('remove', apt.aptSeq)
+    } else {
+      await api.post(url)
+      //TODO 추가 코드 필요함!!
+    }
+  } catch (e) {
+    console.error('즐겨찾기 처리 중 오류:', e)
+    alert('에러가 발생했습니다.')
+  }
+}
+
+onMounted(() => {
+  fetchSearchHouseImg()
+  fetchStarredStatus()
+})
 </script>
 
 <style scoped>
+.apt-title-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.apt-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.heart-img {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.heart-toggle {
+  margin-right: 5px;
+}
+
+.heart-img:hover {
+  transform: scale(1.1);
+}
+
+.star-toggle {
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px 12px 0 0;
+}
+
 .image-wrapper {
   position: relative;
 }
