@@ -1,4 +1,5 @@
 <script setup>
+import { useRoute } from 'vue-router'
 import BoardToolbar from './BoardToolbar.vue'
 defineProps({
   boards: Object,
@@ -8,10 +9,20 @@ const emit = defineEmits('search')
 const search = (keyword) => {
   emit('search', keyword)
 }
+const route = useRoute()
 </script>
 
 <template>
-  <BoardToolbar @search="search"></BoardToolbar>
+  <div class="header">
+    <BoardToolbar @search="search"></BoardToolbar>
+    <router-link
+      v-if="route.params.categoryId != 1"
+      class="writeBtn"
+      :to="`/board/write/${route.params.categoryId}`"
+    >
+      글쓰기
+    </router-link>
+  </div>
   <table>
     <thead>
       <tr>
@@ -24,7 +35,7 @@ const search = (keyword) => {
       <tr v-for="(board, index) in boards" :key="index">
         <td>{{ board.boardId }}</td>
         <td>
-          <router-link :to="`board/detail?category=${board.categoryId}&boardId=${board.boardId}`">
+          <router-link :to="`/board/detail/${board.boardId}/${board.categoryId}`">
             {{ board.title }}
           </router-link>
         </td>
@@ -35,11 +46,29 @@ const search = (keyword) => {
 </template>
 
 <style scoped>
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+.writeBtn {
+  background: #3c90e2;
+  color: #fff;
+  border: none;
+  padding: 5px 15px;
+  cursor: pointer;
+  position: absolute;
+  bottom: 10px;
+  right: 0;
+  font-size: 0.8em;
+}
 table {
   width: 100%;
   border-top: 1px solid #24282b;
   border-collapse: collapse;
   font-size: 0.8em;
+  margin-bottom: 60px;
 }
 * {
   font-size: 1em;

@@ -1,12 +1,28 @@
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
-const selectedMenu = ref(1)
-const emit = defineEmits('selectView')
+const route = useRoute()
+const router = useRouter()
+const selectedMenu = ref(0)
+
 const selectView = (categoryId) => {
-  emit('selectView', categoryId)
-  selectedMenu.value = categoryId
+  router.replace({
+    name: 'Board',
+    params: { categoryId: categoryId },
+  })
 }
+
+onMounted(() => {
+  selectedMenu.value = route.params.categoryId
+})
+
+watch(
+  () => route.params.categoryId,
+  () => {
+    selectedMenu.value = route.params.categoryId
+  },
+)
 </script>
 
 <template>
