@@ -33,7 +33,7 @@ const routes = [
     component: PasswordFindView,
   },
   {
-    path: '/board/list',
+    path: '/board/:id',
     name: 'Board',
     component: BoardView,
   },
