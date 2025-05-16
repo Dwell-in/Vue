@@ -2,12 +2,16 @@
   <main class="card-container">
     <StarredCard v-for="apt in postList" :key="apt.aptSeq" :apt="apt" @remove="removeFromList" />
   </main>
+  <div>
+    <AiChatbot />
+  </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
 import api from '@/lib/api'
 import StarredCard from '@/components/starred/StarredCard.vue'
+import AiChatbot from '@/components/ai/ChatbotAi.vue'
 
 const postList = ref([])
 
