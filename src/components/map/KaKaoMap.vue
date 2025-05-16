@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import {
   state,
   createMap,
@@ -8,80 +9,69 @@ import {
   maker_Toggle,
   overlayToggle,
 } from '@/lib/kakao.js'
-import { useRoute } from 'vue-router'
 import api from '@/lib/api'
 import { useSideStore } from '@/stores/side'
+
 import makerBtn1 from '@/assets/img/marker_FD6_btn.png'
 import makerBtn2 from '@/assets/img/marker_CE7_btn.png'
-import makerBtn3 from '@/assets/img/marker_SC4_btn.png'
-import makerBtn4 from '@/assets/img/marker_HP8_btn.png'
-import makerBtn5 from '@/assets/img/marker_BK9_btn.png'
-import makerBtn6 from '@/assets/img/marker_CS2_btn.png'
+import makerBtn3 from '@/assets/img/marker_SC4.png'
+import makerBtn4 from '@/assets/img/marker_HP8.png'
+import makerBtn5 from '@/assets/img/marker_BK9.png'
+import makerBtn6 from '@/assets/img/marker_CS2.png'
 import defaultImg from '@/assets/img/loginbg.png'
 
+const emit = defineEmits(['update:loading'])
+defineProps(['loading'])
+
 const store = useSideStore()
+const route = useRoute()
+const mapContainer = ref()
+let fullAddress = ''
+
+const infos = ref([])
+const imgs = ref([])
+const visibleInfos = ref([])
+const visibleCount = ref(10)
+const toggle = ref(true)
 
 const markers = ['FD6', 'CE7', 'SC4', 'HP8', 'BK9', 'CS2']
 const markerBtns = [makerBtn1, makerBtn2, makerBtn3, makerBtn4, makerBtn5, makerBtn6]
-const mapContainer = ref()
-const route = useRoute()
-let fullAddress
 
-const emit = defineEmits(['update:loading'])
-
-// 매물 검색 restAPI
-const infos = ref()
 const searchHouseInfo = async () => {
   fullAddress = decodeURIComponent(route.path.split('/')[2] || '')
   const [sido, gugun, dong] = fullAddress.split(' ')
-
-  const query = new URLSearchParams({
-    sido,
-    gugun,
-    dong,
-  }).toString()
-
+  const query = new URLSearchParams({ sido, gugun, dong }).toString()
   return await api.get(`/api/v1/house?${query}`)
 }
 
-// 각 매물 이미지 검색
-const imgs = ref([])
 const searchHouseImg = async (query) => {
   const res = await api.get(`/api/v1/search/naver/image?query=${query}아파트&display=1`)
-  if (res.data.items == null) {
-    return null
-  }
+  if (res.data.items == null) return null
   return res.data.items[0]?.link
 }
 
-const searchHouseImgAll = async (infos) => {
-  for (const info of infos) {
+const searchHouseImgAll = async (data) => {
+  imgs.value = []
+  for (const info of data) {
     const img = await searchHouseImg(info.aptNm)
     imgs.value.push(img || defaultImg)
   }
 }
 
-// 매물 검색 + 카카오 맵 초기화
-const init = async () => {
-  emit('update:loading', true)
-  const res = await searchHouseInfo()
-  infos.value = res.data.data
-  await addressSearch(fullAddress, res.data.data)
-  emit('update:loading', false)
-  searchHouseImgAll(res.data.data)
-  localSearchAll()
+// 무한스크롤
+const loadMore = () => {
+  if (visibleCount.value >= infos.value.length) return
+  visibleCount.value += 10
+  visibleInfos.value = infos.value.slice(0, visibleCount.value)
 }
 
-onMounted(async () => {
-  await createMap(mapContainer.value)
-  await init()
-})
-watch(
-  () => route.fullPath,
-  async () => {
-    await init()
-  },
-)
+const onScroll = (event) => {
+  const el = event.target
+  if (el.scrollTop + el.clientHeight >= el.scrollHeight - 10) {
+    console.log('hi')
+    loadMore()
+  }
+}
 
 const markerToggle = (event) => {
   const mk = event.currentTarget
@@ -91,16 +81,57 @@ const markerToggle = (event) => {
   maker_Toggle(mk.getAttribute('data-markerName'), next)
 }
 
-// 검색된 리스트
-const toggle = ref(true)
 const listSelect = (index) => {
   state.info = infos.value[index]
   store.detailToggle(true)
 }
+
+const init = async () => {
+  emit('update:loading', true)
+  const res = await searchHouseInfo()
+  infos.value = res.data.data
+  await addressSearch(fullAddress, infos.value)
+  emit('update:loading', false)
+  searchHouseImgAll(infos.value)
+  localSearchAll()
+}
+
+onMounted(async () => {
+  await createMap(mapContainer.value)
+  await init()
+})
+
+// 경로 변경 시 재검색
+watch(
+  () => route.fullPath,
+  async () => {
+    await init()
+  },
+)
+
+// 카카오 idle 이벤트로 넘어온 infoList 처리
+watch(
+  () => state.infoList,
+  async (newVal) => {
+    infos.value = newVal
+    if (!newVal || newVal.length === 0) return
+    visibleCount.value = 10
+    visibleInfos.value = newVal.slice(0, visibleCount.value)
+    emit('update:loading', true)
+    emit('update:loading', false)
+    searchHouseImgAll(newVal)
+    localSearchAll()
+  },
+)
+
+watch(infos, () => {
+  visibleCount.value = 7
+  visibleInfos.value = infos.value.slice(0, visibleCount.value)
+})
 </script>
 
 <template>
-  <div class="houseList" :class="{ on: toggle }">
+  <div class="houseList" :class="{ on: toggle }" @scroll.passive="onScroll">
     <div class="maker-btn">
       <img
         v-for="(marker, index) in markers"
@@ -128,7 +159,7 @@ const listSelect = (index) => {
       </svg>
     </div>
     <template v-if="toggle">
-      <template v-for="(info, index) in infos" :key="info.aptSeq">
+      <template v-for="(info, index) in visibleInfos" :key="info.aptSeq">
         <div
           class="house"
           v-if="info.lat != 0"
@@ -162,9 +193,9 @@ const listSelect = (index) => {
   left: 0;
   z-index: 30;
   overflow-y: scroll;
-  -ms-overflow-style: none;
+  -ms-overflow-style: auto;
   /* 인터넷 익스플로러 */
-  scrollbar-width: none;
+  scrollbar-width: thin;
   /* 파이어폭스 */
   text-align: end;
 }
@@ -174,11 +205,25 @@ const listSelect = (index) => {
   top: calc(65px + 1vh);
   left: 1vh;
   border-radius: 10px;
+  -ms-overflow-style: none;
+  /* 인터넷 익스플로러 */
+  scrollbar-width: none;
+  /* 파이어폭스 */
 }
 
 /* ( 크롬, 사파리, 오페라, 엣지 ) 동작 */
 .houseList:-webkit-scrollbar {
-  display: none;
+  display: block;
+  width: 6px;
+}
+
+.houseList:not(.on)::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 4px;
+}
+
+.houseList:not(.on)::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 .house {
