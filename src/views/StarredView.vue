@@ -16,7 +16,7 @@ import Footer from '@/components/footer/Footer1.vue'
 import PostStarredList from '@/components/starred/PostStarredList.vue'
 </script>
 
-<style>
+<style scoped>
 main {
   max-width: 1920px;
   min-height: calc(100vh - 215px);

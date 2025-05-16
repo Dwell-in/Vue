@@ -5,6 +5,8 @@ import LoginView from './views/LoginView.vue'
 import SignUpView from './views/SignUpView.vue'
 import PasswordFindView from './views/PasswordFindView.vue'
 import BoardView from './views/BoardView.vue'
+import BoardDetailView from './views/BoardDetailView.vue'
+import BoardWriteView from './views/BoardWriteView.vue'
 import StarredView from './views/StarredView.vue'
 
 const routes = [
@@ -34,9 +36,19 @@ const routes = [
     component: PasswordFindView,
   },
   {
-    path: '/board/:id',
+    path: '/board/:categoryId',
     name: 'Board',
     component: BoardView,
+  },
+  {
+    path: '/board/detail/:boardId/:categoryId',
+    name: 'BoardDetail',
+    component: BoardDetailView,
+  },
+  {
+    path: '/board/write/:categoryId',
+    name: 'BoardWrite',
+    component: BoardWriteView,
   },
   {
     path: '/email/verify',

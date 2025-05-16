@@ -8,45 +8,34 @@ import { useRoute } from 'vue-router'
 const postList = ref([])
 const getPostList = async (categoryId) => {
   try {
-    const res = await api.get(`/api/v1/board/post-list?categoryId=${categoryId}`)
+    const res = await api.get(`/api/v1/board/post-list?categoryId=${categoryId}&page=1&size=30`)
     postList.value = res.data.data.data
   } catch (e) {
     console.error(e)
   }
 }
 
-onMounted(() => {
-  getPostList(route.params.id)
-})
-
 const search = (keyword) => {
   console.log(keyword)
 }
 
+onMounted(() => {
+  getPostList(route.params.categoryId)
+})
+
 const route = useRoute()
 watch(
-  () => route.params.id,
-  (newPage) => {
-    getPostList(newPage)
+  () => route.params.categoryId,
+  () => {
+    getPostList(route.params.categoryId)
   },
 )
 </script>
 
 <template>
   <BaseBoardView>
-    <main>
-      <BoardList :boards="postList" @search="search"></BoardList>
-    </main>
+    <BoardList :boards="postList" @search="search"></BoardList>
   </BaseBoardView>
 </template>
 
-<style scoped>
-main {
-  max-width: 1200px;
-  margin: 20px auto 0;
-  min-height: calc(100vh - 65px - 210px - 150px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-</style>
+<style scoped></style>
