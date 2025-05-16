@@ -4,7 +4,7 @@ import MapView from '@/views/MapView.vue'
 import LoginView from './views/LoginView.vue'
 import SignUpView from './views/SignUpView.vue'
 import PasswordFindView from './views/PasswordFindView.vue'
-import BoardView from './views/BoardView.vue'
+import BoardListView from './views/BoardListView.vue'
 import BoardDetailView from './views/BoardDetailView.vue'
 import BoardWriteView from './views/BoardWriteView.vue'
 import StarredView from './views/StarredView.vue'
@@ -36,9 +36,9 @@ const routes = [
     component: PasswordFindView,
   },
   {
-    path: '/board/:categoryId',
+    path: '/board/list/:categoryId',
     name: 'Board',
-    component: BoardView,
+    component: BoardListView,
   },
   {
     path: '/board/detail/:boardId/:categoryId',

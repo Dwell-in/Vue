@@ -14,10 +14,10 @@ import { useSideStore } from '@/stores/side'
 
 import makerBtn1 from '@/assets/img/marker_FD6_btn.png'
 import makerBtn2 from '@/assets/img/marker_CE7_btn.png'
-import makerBtn3 from '@/assets/img/marker_SC4.png'
-import makerBtn4 from '@/assets/img/marker_HP8.png'
-import makerBtn5 from '@/assets/img/marker_BK9.png'
-import makerBtn6 from '@/assets/img/marker_CS2.png'
+import makerBtn3 from '@/assets/img/marker_SC4_btn.png'
+import makerBtn4 from '@/assets/img/marker_HP8_btn.png'
+import makerBtn5 from '@/assets/img/marker_BK9_btn.png'
+import makerBtn6 from '@/assets/img/marker_CS2_btn.png'
 import defaultImg from '@/assets/img/loginbg.png'
 
 const emit = defineEmits(['update:loading'])

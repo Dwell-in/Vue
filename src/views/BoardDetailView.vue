@@ -26,7 +26,7 @@ onMounted(async () => {
   <BaseBoardView>
     <div class="detail-header">
       <div class="title">{{ board?.title }}</div>
-      <div class="userId">{{ board?.userId }}</div>
+      <div class="userId">{{ board?.userName }}</div>
       <div class="regTime">{{ board?.regTime }}</div>
     </div>
     <div class="detail-main">
