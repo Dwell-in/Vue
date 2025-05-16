@@ -1,68 +1,50 @@
-<template>
-  <Header />
-  <main>
-    <component
-      :is="currentComponent"
-      :postId="selectedPostId"
-      @view-detail="handleViewDetail"
-      @write-post="handleWritePost"
-      @edit-post="handleEditPost"
-      @back-to-main="handleBackToMain"
-    />
-  </main>
-
-  <Footer />
-</template>
-
 <script setup>
-import { ref, computed } from 'vue'
-import Header from '@/components/header/Header.vue'
-import Footer from '@/components/footer/Footer1.vue'
-import BoardMain from '@/components/board/BoardMain.vue'
-import PostDetail from '@/components/board/PostDetail.vue'
-import PostWrite from '@/components/board/PostWrite.vue'
-import PostUpdate from '@/components/board/PostUpdate.vue'
+import { onMounted, ref, watch } from 'vue'
+import BoardList from '@/components/board/BoardList.vue'
+import api from '@/lib/api'
+import BaseBoardView from './BaseBoardView.vue'
+import { useRoute } from 'vue-router'
 
-const currentView = ref('main')
-const selectedPostId = ref(null)
-
-const currentComponent = computed(() => {
-  switch (currentView.value) {
-    case 'detail':
-      return PostDetail
-    case 'write':
-      return PostWrite
-    case 'update':
-      return PostUpdate
-    default:
-      return BoardMain
+const postList = ref([])
+const getPostList = async (categoryId) => {
+  try {
+    const res = await api.get(`/api/v1/board/post-list?categoryId=${categoryId}`)
+    postList.value = res.data.data.data
+  } catch (e) {
+    console.error(e)
   }
+}
+
+onMounted(() => {
+  getPostList(route.params.id)
 })
 
-const handleViewDetail = (id) => {
-  selectedPostId.value = id
-  currentView.value = 'detail'
+const search = (keyword) => {
+  console.log(keyword)
 }
 
-const handleWritePost = () => {
-  currentView.value = 'write'
-}
-
-const handleEditPost = (id) => {
-  selectedPostId.value = id
-  currentView.value = 'update'
-}
-
-const handleBackToMain = () => {
-  currentView.value = 'main'
-  selectedPostId.value = null
-}
+const route = useRoute()
+watch(
+  () => route.params.id,
+  (newPage) => {
+    getPostList(newPage)
+  },
+)
 </script>
+
+<template>
+  <BaseBoardView>
+    <main>
+      <BoardList :boards="postList" @search="search"></BoardList>
+    </main>
+  </BaseBoardView>
+</template>
+
 <style scoped>
 main {
-  max-width: 1920px;
-  min-height: calc(100vh - 215px);
-  margin-top: 65px;
+  max-width: 1200px;
+  margin: 20px auto 0;
+  min-height: calc(100vh - 65px - 210px - 150px);
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -17,15 +17,68 @@ const getViewCount = async () => {
   viewCount.value = res.data.data.viewCount
 }
 
-watch(state, async () => await getViewCount())
-onMounted(async () => await getViewCount())
+const isStarred = ref(false)
+// 관심지역 여부 조회
+const fetchStarredStatus = async () => {
+  const res = await api.get(`/api/v1/house/view/starred/${state.info.aptSeq}`)
+  isStarred.value = res.data.data.isStarred
+}
+
+const toggleStarred = async () => {
+  const url = `/api/v1/starred/${state.info.aptSeq}`
+  try {
+    if (isStarred.value) {
+      const confirmed = confirm('정말 관심지역에서 삭제하시겠습니까?')
+      if (!confirmed) return
+
+      await api.delete(url)
+      isStarred.value = false
+    } else {
+      await api.post(url)
+      isStarred.value = true
+    }
+  } catch (e) {
+    alert('처리 중 오류가 발생했습니다.')
+    console.error(e)
+  }
+}
+
+watch(state, async () => {
+  await getViewCount()
+  await fetchStarredStatus()
+})
+
+onMounted(async () => {
+  await getViewCount()
+  await fetchStarredStatus()
+})
 </script>
 
 <template>
   <SideDefault class="detailView" @close="store.detailToggle(false)">
     <!-- <div>{{ props.info }}</div> -->
     <div class="info_aptNm">
-      {{ state.info?.aptNm }}
+      <div>
+        {{ state.info?.aptNm }}
+        <svg
+          class="heart-toggle"
+          @click="toggleStarred"
+          xmlns="http://www.w3.org/2000/svg"
+          width="26"
+          height="26"
+          viewBox="0 0 24 24"
+          :fill="isStarred ? '#ff69b4' : 'none'"
+          stroke="#ff69b4"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path
+            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 
+        7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+          />
+        </svg>
+      </div>
     </div>
     <div class="info_viewCount">
       <img src="@/assets/img/viewCount.png" />
@@ -55,7 +108,16 @@ onMounted(async () => await getViewCount())
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+}
+
+.info_aptNm > div {
+  position: relative;
+}
+
+.heart-toggle {
+  position: absolute;
+  top: calc(50% - 13px);
+  right: -40px;
 }
 
 .info-stared {
@@ -69,7 +131,7 @@ onMounted(async () => await getViewCount())
   font-size: 1.2em;
 }
 
-.info_aptNm {
+.info_aptNm > div {
   font-size: 1.5em;
   text-align: center;
   line-height: 3em;

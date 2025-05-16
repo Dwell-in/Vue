@@ -5,6 +5,7 @@ import LoginView from './views/LoginView.vue'
 import SignUpView from './views/SignUpView.vue'
 import PasswordFindView from './views/PasswordFindView.vue'
 import BoardView from './views/BoardView.vue'
+import StarredView from './views/StarredView.vue'
 
 const routes = [
   {
@@ -33,7 +34,7 @@ const routes = [
     component: PasswordFindView,
   },
   {
-    path: '/board/list',
+    path: '/board/:id',
     name: 'Board',
     component: BoardView,
   },
@@ -41,6 +42,11 @@ const routes = [
     path: '/email/verify',
     name: 'EmailVerify',
     component: () => import('@/components/member/EmailVerify.vue'),
+  },
+  {
+    path: '/starred/list',
+    name: 'Starred',
+    component: StarredView,
   },
 ]
 const router = createRouter({

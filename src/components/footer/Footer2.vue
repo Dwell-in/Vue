@@ -20,9 +20,11 @@ footer {
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 0.8em;
 }
 footer * {
   color: white;
+  font-size: 1em;
 }
 footer > div::before {
   position: absolute;
