@@ -11,7 +11,7 @@ defineProps(['hovered'])
     <router-link class="" to="/">메뉴</router-link>
     <router-link class="" to="/">메뉴</router-link>
     <router-link class="" to="/">메뉴</router-link>
-    <router-link class="" to="/starred">수정중</router-link>
+    <router-link class="" to="/starred/list">수정중</router-link>
   </div>
 </template>
 
