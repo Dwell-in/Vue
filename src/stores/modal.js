@@ -5,6 +5,7 @@ export const useModalStore = defineStore('modal', {
     zIndex: 100,
     favorite: false,
     recently: false,
+    detail: true,
   }),
   actions: {
     favoriteToggle(oper) {
@@ -13,9 +14,13 @@ export const useModalStore = defineStore('modal', {
     recentlyToggle(oper) {
       this.recently = oper
     },
+    detailToggle(oper) {
+      this.detail = oper
+    },
     closeAll(){
       this.favorite = false;
       this.recently = false;
+      this.detail = false;
       this.zIndex = 0;
     }
   },

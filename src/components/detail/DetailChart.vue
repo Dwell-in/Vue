@@ -1,7 +1,10 @@
 <script setup>
 import { onMounted, watch } from 'vue'
 import { Chart, registerables } from 'chart.js'
-import { state } from '@/lib/kakao'
+
+const props = defineProps({
+  info: Object
+})
 
 Chart.register(...registerables)
 Chart.defaults.font.family = 'Pretendard'
@@ -65,8 +68,8 @@ const drawChart = (houseInfo) => {
   })
 }
 
-watch(state, async () => drawChart(state.info))
-onMounted(async () => drawChart(state.info))
+watch(()=>props.info, async (newInfo) => drawChart(newInfo))
+onMounted(async () => drawChart(props.info))
 </script>
 
 <template>

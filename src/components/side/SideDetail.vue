@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref, toRef, watch } from 'vue'
 import { state } from '@/lib/kakao'
 import api from '@/lib/api'
 import SideDefault from '@/components/side/SideDefault.vue'
@@ -52,6 +52,14 @@ onMounted(async () => {
   await getViewCount()
   await fetchStarredStatus()
 })
+
+const clonedInfo = computed(() => {
+  // info 자체가 바뀌면 레퍼런스도 바뀜 → 자식 재렌더링 유도
+  return state.info ? { ...state.info } : null
+})
+watch(clonedInfo, (newVal) => {
+  console.log('clonedInfo changed:', newVal)
+})
 </script>
 
 <template>
@@ -74,7 +82,7 @@ onMounted(async () => {
           stroke-linejoin="round"
         >
           <path
-            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 
+            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78
         7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
           />
         </svg>
@@ -84,11 +92,11 @@ onMounted(async () => {
       <img src="@/assets/img/viewCount.png" />
       <div class="info_viewCount_count">{{ viewCount }}</div>
     </div>
-    <DetailRoadView class="info-roadview"></DetailRoadView>
+    <DetailRoadView class="info-roadview" :info="clonedInfo"></DetailRoadView>
     <div class="section-title">CHART</div>
-    <DetailChart></DetailChart>
+    <DetailChart :info="clonedInfo"></DetailChart>
     <div class="section-title">BLOG</div>
-    <DetailNews class="info-news"></DetailNews>
+    <DetailNews class="info-news" :info="clonedInfo"></DetailNews>
   </SideDefault>
 </template>
 

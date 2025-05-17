@@ -1,7 +1,10 @@
 <script setup>
 import api from '@/lib/api'
 import { onMounted, ref, watch } from 'vue'
-import { state } from '@/lib/kakao'
+
+const props = defineProps({
+  info: Object
+})
 
 let previews = ref([])
 
@@ -39,8 +42,9 @@ const getOG2Link = async (link) => {
   return res.data['og:image']
 }
 
-watch(state, async () => searchBlog(state.info.aptNm))
-onMounted(async () => searchBlog(state.info.aptNm))
+
+watch(()=>props.info, async (newInfo) => searchBlog(newInfo.aptNm))
+onMounted(async () => searchBlog(props.info.aptNm))
 </script>
 <template>
   <div>

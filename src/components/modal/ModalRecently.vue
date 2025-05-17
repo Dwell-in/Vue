@@ -41,9 +41,3 @@ const close = () => {
     </template>
   </ModalBase>
 </template>
-
-<style scoped>
-:deep(.main) {
-  position: relative;
-}
-</style>

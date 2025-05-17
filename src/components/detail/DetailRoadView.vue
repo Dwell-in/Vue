@@ -1,12 +1,14 @@
 <script setup>
-import { ref, watch, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { roadviewOn } from '@/lib/kakao'
-import { state } from '@/lib/kakao'
 
+const props = defineProps({
+  info: Object
+})
 const roadviewContainer = ref()
 
-watch(state, async () => roadviewOn(roadviewContainer.value, state.info.lat, state.info.lon))
-onMounted(async () => roadviewOn(roadviewContainer.value, state.info.lat, state.info.lon))
+watch(()=>props.info, async (newInfo) => roadviewOn(roadviewContainer.value, newInfo.lat, newInfo.lon))
+onMounted(async () => roadviewOn(roadviewContainer.value, props.info.lat, props.info.lon))
 </script>
 <template>
   <div ref="roadviewContainer"></div>
