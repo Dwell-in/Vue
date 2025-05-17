@@ -8,6 +8,7 @@ import BoardListView from './views/BoardListView.vue'
 import BoardDetailView from './views/BoardDetailView.vue'
 import BoardWriteView from './views/BoardWriteView.vue'
 import StarredView from './views/StarredView.vue'
+import ErrorPage from './views/ErrorView.vue';
 
 const routes = [
   {
@@ -60,6 +61,18 @@ const routes = [
     name: 'Starred',
     component: StarredView,
   },
+
+  {
+    path: '/error/:code',
+    name: 'ErrorPage',
+    component: ErrorPage,
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    redirect: '/error/404',
+  }
+
 ]
 const router = createRouter({
   history: createWebHashHistory(),

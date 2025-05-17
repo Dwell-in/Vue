@@ -24,10 +24,15 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
+    const status = error.response?.status;
+    if (status === 401) {
       auth.removeToken()
-
       router.push('/member/login')
+    } else if ([403, 404, 405, 500].includes(status)) {
+      router.push({ name: 'ErrorPage', params: { code: status } });
+    } else {
+      // 지정된 에러를 제외하면 default로 처리
+      router.push({ name: 'ErrorPage', params: { code: 'default' } });
     }
     return Promise.reject(error)
   },
