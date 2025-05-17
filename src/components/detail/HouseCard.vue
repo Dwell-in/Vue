@@ -50,7 +50,7 @@
           {{ apt.buildYear }}년 준공
         </div>
       </div>
-      <button class="arrow-button">➜</button>
+      <button class="arrow-button" @click="selectApt(apt.aptSeq)">➜</button>
     </div>
   </div>
 </template>
@@ -115,6 +115,13 @@ onMounted(() => {
   fetchSearchHouseImg()
   fetchStarredStatus()
 })
+
+
+import { useModalStore } from '@/stores/modal';
+const modalStore = useModalStore()
+const selectApt = (aptSeq) => {
+  modalStore.setAptSeq(aptSeq)
+}
 </script>
 
 <style scoped>

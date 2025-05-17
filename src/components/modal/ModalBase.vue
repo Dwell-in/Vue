@@ -51,13 +51,13 @@ onMounted(()=>{
 }
 .header{
   width: 100%;
-  height: 10%;
+  height: 7%;
   display: flex;
   gap: 1%;
   flex-shrink: 0;
 }
 .header *{
-  height: 50%;
+  height: 70%;
   color: white;
   fill: white;
   font-size: 1.5rem;

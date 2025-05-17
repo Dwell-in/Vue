@@ -13,7 +13,7 @@ const { chat, detail, my } = storeToRefs(sideStore)
 watch(
   () => route.fullPath,
   () => {
-    sideStore.closeAll
+    sideStore.closeAll()
   },
 )
 </script>

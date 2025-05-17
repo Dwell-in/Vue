@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, ref, toRef, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { state } from '@/lib/kakao'
 import api from '@/lib/api'
 import SideDefault from '@/components/side/SideDefault.vue'

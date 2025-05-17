@@ -5,7 +5,8 @@ export const useModalStore = defineStore('modal', {
     zIndex: 100,
     favorite: false,
     recently: false,
-    detail: true,
+    detail: false,
+    aptSeq: null,
   }),
   actions: {
     favoriteToggle(oper) {
@@ -16,6 +17,10 @@ export const useModalStore = defineStore('modal', {
     },
     detailToggle(oper) {
       this.detail = oper
+    },
+    setAptSeq(aptSeq) {
+      this.aptSeq = aptSeq
+      this.detail = true
     },
     closeAll(){
       this.favorite = false;
