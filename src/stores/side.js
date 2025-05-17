@@ -25,5 +25,10 @@ export const useSideStore = defineStore('side', {
         document.querySelector('.sideView').scrollTop = 0
       }
     },
+    closeAll(){
+      this.chat = false;
+      this.detail = false;
+      this.my = false;
+    }
   },
 })

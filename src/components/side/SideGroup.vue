@@ -8,14 +8,12 @@ import { useRoute } from 'vue-router'
 import { watch } from 'vue'
 const route = useRoute()
 
-const store = useSideStore()
-const { chat, detail, my } = storeToRefs(store)
+const sideStore = useSideStore()
+const { chat, detail, my } = storeToRefs(sideStore)
 watch(
   () => route.fullPath,
   () => {
-    store.chatToggle(false)
-    store.detailToggle(false)
-    store.myToggle(false)
+    sideStore.closeAll
   },
 )
 </script>

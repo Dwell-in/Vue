@@ -28,7 +28,7 @@ const loadKakaoAPI = async () => {
 
 const init = async (s) => {
   state.kakao = await loadKakaoAPI()
-  state.store = s
+  state.store = s||null
 }
 
 let position = { y: 37.5665, x: 126.978 }
@@ -199,7 +199,10 @@ const maker_Toggle = (code, flag) => {
   target.forEach((mk) => mk.setMap(flag ? map : null))
 }
 
-const roadviewOn = (roadviewContainer, lat, lng) => {
+const roadviewOn = async (roadviewContainer, lat, lng) => {
+  if (state.kakao == null){
+    await init()
+  }
   const roadview = new state.kakao.maps.Roadview(roadviewContainer)
   const roadviewClient = new state.kakao.maps.RoadviewClient()
   const pos = new state.kakao.maps.LatLng(lat, lng)

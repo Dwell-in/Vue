@@ -14,7 +14,7 @@ const moveSection = () => {
 
 // 마우스 스크롤 가로방향
 const scrollX = (e) => {
-  const isSideView = e.target.closest('.sideView')
+  const isSideView = e.target.closest(['.sideView', '.modal'])
   if (isSideView) return
   if (e.deltaY !== 0) {
     window.scrollBy(e.deltaY, 0) // 가로 방향으로만 스크롤
