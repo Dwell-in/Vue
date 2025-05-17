@@ -2,7 +2,6 @@ import { defineStore } from 'pinia'
 
 export const useModalStore = defineStore('modal', {
   state: () => ({
-    zIndex: 100,
     favorite: false,
     recently: false,
     detail: false,
@@ -26,7 +25,6 @@ export const useModalStore = defineStore('modal', {
       this.favorite = false;
       this.recently = false;
       this.detail = false;
-      this.zIndex = 0;
     }
   },
 })

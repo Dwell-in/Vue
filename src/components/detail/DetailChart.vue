@@ -1,7 +1,8 @@
 <script setup>
-import { onMounted, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { Chart, registerables } from 'chart.js'
 
+const chartId = ref(`chart-${Math.random().toString(36)}`)
 const props = defineProps({
   info: Object,
   chartType: {
@@ -78,8 +79,7 @@ const drawChart = (houseInfo) => {
     }
   }
 
-  const ctx = document.getElementById('priceChart').getContext('2d')
-  chart = new Chart(ctx, {
+  chart = new Chart(chartId.value, {
     type: props.chartType,
     data: {
       labels: labels,
@@ -104,5 +104,5 @@ onMounted(async () => drawChart(props.info))
 </script>
 
 <template>
-  <canvas id="priceChart" height="280" width="280"></canvas>
+  <canvas :id="chartId" height="280" width="280"></canvas>
 </template>

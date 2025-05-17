@@ -1,21 +1,14 @@
 <script setup>
-import { useModalStore } from '@/stores/modal'
-import { onMounted } from 'vue'
-const modalStore = useModalStore()
 
-let zIndex;
 const emit = defineEmits('close')
 const viewClose = () => {
   emit('close')
 }
 
-onMounted(()=>{
-  zIndex = modalStore.zIndex
-})
 </script>
 
 <template>
-  <div class="modal" :style="{ zIndex: zIndex }">
+  <div class="modal">
     <img class="close" src="@/assets/img/closeIcon.png" @click="viewClose" />
     <div class="header">
       <slot name="header"></slot>
@@ -41,6 +34,9 @@ onMounted(()=>{
   display: flex;
   flex-direction: column;
 }
+body:has(.map) .modal{
+  background-color: #111111ed;
+}
 .modal > .close {
   width: auto !important;
   height: 2.5vh;
@@ -55,6 +51,7 @@ onMounted(()=>{
   display: flex;
   gap: 1%;
   flex-shrink: 0;
+  position: relative;
 }
 .header *{
   height: 70%;

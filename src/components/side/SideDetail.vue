@@ -8,7 +8,7 @@ import DetailRoadView from '@/components/detail/DetailRoadView.vue'
 import DetailNews from '@/components/detail/DetailNews.vue'
 import { useSideStore } from '@/stores/side'
 
-const store = useSideStore()
+const sideStore = useSideStore()
 
 // 조회수 증가 후 증가된 조회수 가져오기
 const viewCount = ref(0)
@@ -60,11 +60,18 @@ const clonedInfo = computed(() => {
 watch(clonedInfo, (newVal) => {
   console.log('clonedInfo changed:', newVal)
 })
+
+import { useModalStore } from '@/stores/modal';
+const modalStore = useModalStore()
+const selectApt = (aptSeq) => {
+  modalStore.setAptSeq(aptSeq)
+  sideStore.detailToggle(false)
+}
 </script>
 
 <template>
-  <SideDefault class="detailView" @close="store.detailToggle(false)">
-    <!-- <div>{{ props.info }}</div> -->
+  <SideDefault class="detailView" @close="sideStore.detailToggle(false)">
+    <svg class="fullBtn" @click="selectApt(state.info?.aptSeq)" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ffffff"><path d="M120-120v-200h80v120h120v80H120Zm520 0v-80h120v-120h80v200H640ZM120-640v-200h200v80H200v120h-80Zm640 0v-120H640v-80h200v200h-80Z"/></svg>
     <div class="info_aptNm">
       <div>
         {{ state.info?.aptNm }}
@@ -110,6 +117,15 @@ watch(clonedInfo, (newVal) => {
 
 .detailView > * {
   width: 90% !important;
+}
+
+.fullBtn{
+  width: auto !important;
+  height: 3vh;
+  position: absolute;
+  top: 1.5vh;
+  right: 1.5vh;
+  cursor: pointer;
 }
 
 .info_aptNm {

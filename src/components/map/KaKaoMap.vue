@@ -32,7 +32,7 @@ const infos = ref([])
 const imgs = ref([])
 const visibleInfos = ref([])
 const visibleCount = ref(10)
-const toggle = ref(true)
+const toggle = ref(false)
 
 const markers = ['FD6', 'CE7', 'SC4', 'HP8', 'BK9', 'CS2']
 const markerBtns = [makerBtn1, makerBtn2, makerBtn3, makerBtn4, makerBtn5, makerBtn6]

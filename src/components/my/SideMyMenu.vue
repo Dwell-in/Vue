@@ -18,7 +18,6 @@ const handelSelectMenu = (menu) => {
     modalStore.recentlyToggle(true)
     modalStore.favoriteToggle(false)
   }
-  modalStore.zIndex += 100
 }
 const selectChat = (menu) => {
   handelSelectMenu(menu)
