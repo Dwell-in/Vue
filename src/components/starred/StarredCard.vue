@@ -100,7 +100,6 @@ const toggleStarred = async () => {
       emit('remove', apt.aptSeq)
     } else {
       await api.post(url)
-      //TODO 추가 코드 필요함!!
     }
   } catch (e) {
     console.error('즐겨찾기 처리 중 오류:', e)
@@ -197,12 +196,6 @@ onMounted(() => {
   background-color: #0056b3;
   color: #fff;
   transform: translateY(-5px);
-}
-
-.apt-image {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
 }
 
 .apt-meta {
