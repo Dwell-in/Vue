@@ -8,16 +8,54 @@ const route = useRoute()
 const router = useRouter()
 
 const board = ref()
+const boardId = route.params.boardId;
+const categoryId = route.params.categoryId;
 const getBoard = async () => {
   try {
-    const res = await api.get(`/api/v1/board/board-detail/${route.params.boardId}`)
+    const res = await api.get(`/api/v1/board/board-detail/${boardId}`)
     return res.data.data.board
   } catch (e) {
     console.error(e)
   }
 }
 
+const loginUser = ref(null)
+const getUserInfo = async () => {
+  try {
+    const res = await api.get('/api/v1/member/user-info')
+    loginUser.value = res.data.data
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+const deleteBoard = async () => {
+    const confirmed = window.confirm('정말 삭제하시겠습니까?');
+    if (!confirmed) return;
+    try {
+    await api.post(`/api/v1/board/board-delete/${route.params.boardId}`)
+    moveToList()
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+const moveToUpdate = () => {
+    router.push({
+    name: 'BoardUpdate',
+    params: { boardId, categoryId }
+  });
+}
+
+const moveToList = () => {
+  router.push({
+    name: 'Board',
+    params: { categoryId: route.params.categoryId }
+  })
+}
+
 onMounted(async () => {
+  await getUserInfo()
   board.value = await getBoard()
 })
 </script>
@@ -34,8 +72,11 @@ onMounted(async () => {
       <img v-if="board?.content == ''" src="@/assets/img/detail_temp.png" alt="" />
     </div>
     <div class="detail-footer">
-      <button @click="router.back">수정</button>
-      <button @click="router.back">목록</button>
+      <div class="detail-footer" v-if="loginUser && (loginUser?.id === board?.userId || loginUser?.role === 'ADMIN')">
+        <button @click="moveToUpdate">수정</button>
+        <button @click="deleteBoard">삭제</button>
+      </div>
+      <button @click="moveToList">목록</button>
     </div>
   </BaseBoardView>
 </template>

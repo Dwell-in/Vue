@@ -42,6 +42,11 @@ const routes = [
     name: 'BoardWrite',
     component: () => import('@/views/BoardWriteView.vue'),
   },
+    {
+    path: '/board/update/:boardId/:categoryId',
+    name: 'BoardUpdate',
+    component: () => import('@/views/BoardUpdateView.vue'),
+  },
   {
     path: '/email/verify',
     name: 'EmailVerify',
