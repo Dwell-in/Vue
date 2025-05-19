@@ -19,6 +19,7 @@ const fullClose = () => {
   sideStore.detailToggle(true)
 }
 
+
 const isStarred = ref(false)
 // 관심지역 여부 조회
 const fetchStarredStatus = async () => {
@@ -47,6 +48,7 @@ const toggleStarred = async () => {
   }
 }
 
+
 // TODO getInfo() 선택한 아파트로 변경하기
 const info = ref(null)
 const getInfo = async () => {
@@ -64,9 +66,9 @@ onMounted(async () => {
 })
 watch(
   () => modalStore.aptSeq,
-  async () => {
-    await setInfo()
-  },
+
+  async () => await setInfo(),
+
 )
 
 const searchCategory = ref('blog')
@@ -79,6 +81,7 @@ const changeSearchCategory = (category) => {
   <ModalBase @close="close">
     <template #header>
       <svg
+
         class="heart-toggle"
         @click="toggleStarred"
         xmlns="http://www.w3.org/2000/svg"
@@ -94,6 +97,7 @@ const changeSearchCategory = (category) => {
         <path
           d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78
         7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+
         />
       </svg>
       <div class="title">{{ info?.aptNm }}</div>

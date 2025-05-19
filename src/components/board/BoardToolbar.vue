@@ -2,20 +2,29 @@
 import { ref } from 'vue'
 
 const keyword = ref('')
+const selectedKey = ref('title')  // 기본값은 title로
 
-const emit = defineEmits('search')
+const emit = defineEmits(['search'])
 const handleSearch = () => {
-  emit('search', keyword.value)
+  if (!keyword.value.trim()) return
+  emit('search', { key: selectedKey.value, value: keyword.value.trim() })
   keyword.value = ''
 }
 </script>
 
 <template>
   <div class="search">
-    <input type="text" placeholder="제목, 내용" v-model="keyword" @keyup.enter="handleSearch" />
-    <button class="" @click="handleSearch">검색</button>
+    <select v-model="selectedKey">
+      <option value="title">제목</option>
+      <option value="content">내용</option>
+      <option value="userName">작성자</option>
+    </select>
+
+    <input type="text" placeholder="검색어 입력" v-model="keyword" @keyup.enter="handleSearch" />
+    <button @click="handleSearch">검색</button>
   </div>
 </template>
+
 
 <style scoped>
 .search {

@@ -14,7 +14,6 @@ const writeBoard = async () => {
     {
       title: form.value.title.value,
       content: form.value.content.value,
-      userId: 32,
       categoryId: route.params.categoryId,
     },
     {
@@ -23,7 +22,7 @@ const writeBoard = async () => {
       },
     },
   )
-  router.push(`/board/${route.params.categoryId}`)
+  router.push(`/board/list/${route.params.categoryId}`)
 }
 </script>
 

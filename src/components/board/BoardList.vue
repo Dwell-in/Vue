@@ -1,22 +1,37 @@
 <script setup>
 import { useRoute } from 'vue-router'
 import BoardToolbar from './BoardToolbar.vue'
+import { onMounted, ref } from 'vue'
+import api from '@/lib/api'
 defineProps({
   boards: Object,
+  offset: Number,
 })
 
-const emit = defineEmits('search')
-const search = (keyword) => {
-  emit('search', keyword)
+const emit = defineEmits(['search'])
+const search = ({ key, value }) => {
+  emit('search', { key, value })
 }
 const route = useRoute()
+
+const loginUser = ref(null)
+const getUserInfo = async () => {
+  try {
+    const res = await api.get('/api/v1/member/user-info')
+    loginUser.value = res.data.data
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+onMounted(()=>getUserInfo())
 </script>
 
 <template>
   <div class="header">
     <BoardToolbar @search="search"></BoardToolbar>
     <router-link
-      v-if="route.params.categoryId != 1"
+      v-if="loginUser && (route.params.categoryId != 1 || loginUser.role === 'ADMIN')"
       class="writeBtn"
       :to="`/board/write/${route.params.categoryId}`"
     >
@@ -33,7 +48,7 @@ const route = useRoute()
     </thead>
     <tbody>
       <tr v-for="(board, index) in boards" :key="index">
-        <td>{{ board.boardId }}</td>
+        <td>{{ offset + index + 1 }}</td>
         <td>
           <router-link :to="`/board/detail/${board.boardId}/${board.categoryId}`">
             {{ board.title }}

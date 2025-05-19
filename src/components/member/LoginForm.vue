@@ -38,7 +38,7 @@ onMounted(async () => {
   const code = route.query.code
   if (code) {
     try {
-      const res = await api.get('http://localhost:8081/api/v1/auth/kakao/login', {
+      const res = await api.get('/api/v1/auth/kakao/login', {
         params: { code },
         withCredentials: true, // 필요한 경우
       })

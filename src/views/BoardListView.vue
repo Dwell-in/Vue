@@ -6,21 +6,40 @@ import BaseBoardView from './BaseBoardView.vue'
 import { useRoute } from 'vue-router'
 
 const postList = ref([])
-const getPostList = async (categoryId) => {
+const pageInfo = ref({})
+const getPostList = async (params = {}) => {
   try {
-    const res = await api.get(`/api/v1/board/post-list?categoryId=${categoryId}&page=1&size=30`)
+    const defaultParams = {
+      categoryId: route.params.categoryId,
+      page: 1,
+      size: 10,
+    }
+    const query = { ...defaultParams, ...params }
+
+    const queryString = new URLSearchParams(query).toString()
+    const res = await api.get(`/api/v1/board/post-list?${queryString}`)
+
     postList.value = res.data.data.data
+    pageInfo.value = res.data.data.pageInfo
   } catch (e) {
     console.error(e)
   }
 }
 
-const search = (keyword) => {
-  console.log(keyword)
+const changePage = (newPage) => {
+  getPostList({ page: newPage })
+}
+
+const search = ({ key, value }) => {
+  const params = {
+    page: 1,
+    [key]: value,
+  }
+  getPostList(params)
 }
 
 onMounted(() => {
-  getPostList(route.params.categoryId)
+  getPostList()
 })
 
 const route = useRoute()
@@ -34,8 +53,38 @@ watch(
 
 <template>
   <BaseBoardView>
-    <BoardList :boards="postList" @search="search"></BoardList>
+    <BoardList :boards="postList" :offset="pageInfo.offset" @search="search"></BoardList>
+        <div class="pagination">
+      <button
+        v-for="n in pageInfo.totalPages"
+        :key="n"
+        @click="changePage(n)"
+        :class="{ active: pageInfo.page === n }"
+      >
+        {{ n }}
+      </button>
+    </div>
   </BaseBoardView>
 </template>
 
-<style scoped></style>
+<style scoped>
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 30px 0;
+  gap: 8px;
+}
+
+.pagination button {
+  padding: 8px 12px;
+  border: none;
+  background-color: #ddd;
+  cursor: pointer;
+  font-size: 0.9em;
+}
+
+.pagination button.active {
+  background-color: #3c90e2;
+  color: white;
+}
+</style>

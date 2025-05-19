@@ -1,14 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
-import MapView from '@/views/MapView.vue'
-import LoginView from './views/LoginView.vue'
-import SignUpView from './views/SignUpView.vue'
-import PasswordFindView from './views/PasswordFindView.vue'
-import BoardListView from './views/BoardListView.vue'
-import BoardDetailView from './views/BoardDetailView.vue'
-import BoardWriteView from './views/BoardWriteView.vue'
-import StarredView from './views/StarredView.vue'
-import ErrorPage from './views/ErrorView.vue';
 
 const routes = [
   {
@@ -19,37 +10,42 @@ const routes = [
   {
     path: '/map/:address',
     name: 'Map',
-    component: MapView,
+    component: () => import('@/views/MapView.vue'),
   },
   {
     path: '/member/login',
     name: 'Login',
-    component: LoginView,
+    component: () => import('@/views/LoginView.vue'),
   },
   {
     path: '/member/signup',
     name: 'SignUp',
-    component: SignUpView,
+    component: () => import('@/views/SignUpView.vue'),
   },
   {
     path: '/member/password-find',
     name: 'passwordFine',
-    component: PasswordFindView,
+    component: () => import('@/views/PasswordFindView.vue'),
   },
   {
     path: '/board/list/:categoryId',
     name: 'Board',
-    component: BoardListView,
+    component: () => import('@/views/BoardListView.vue'),
   },
   {
     path: '/board/detail/:boardId/:categoryId',
     name: 'BoardDetail',
-    component: BoardDetailView,
+    component: () => import('@/views/BoardDetailView.vue'),
   },
   {
     path: '/board/write/:categoryId',
     name: 'BoardWrite',
-    component: BoardWriteView,
+    component: () => import('@/views/BoardWriteView.vue'),
+  },
+    {
+    path: '/board/update/:boardId/:categoryId',
+    name: 'BoardUpdate',
+    component: () => import('@/views/BoardUpdateView.vue'),
   },
   {
     path: '/email/verify',
@@ -59,20 +55,19 @@ const routes = [
   {
     path: '/starred/list',
     name: 'Starred',
-    component: StarredView,
+    component: () => import('@/views/StarredView.vue'),
   },
 
   {
     path: '/error/:code',
     name: 'ErrorPage',
-    component: ErrorPage,
+    component: () => import('@/views/ErrorView.vue'),
   },
   {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
     redirect: '/error/404',
-  }
-
+  },
 ]
 const router = createRouter({
   history: createWebHashHistory(),

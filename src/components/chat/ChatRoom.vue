@@ -37,7 +37,7 @@ const getMessagesHistory = async () => {
 // 웹 소켓 연결
 const stompClient = ref(null)
 const connect = () => {
-  const socket = new SockJS('http://localhost:8081/ws') // 서버의 WebSocket endpoint
+  const socket = new SockJS('https://dwell-in.onrender.com/ws') // 서버의 WebSocket endpoint
   const client = new Client({
     webSocketFactory: () => socket,
     reconnectDelay: 5000,
