@@ -19,11 +19,42 @@ const fullClose = () => {
   sideStore.detailToggle(true)
 }
 
+
+const isStarred = ref(false)
+// 관심지역 여부 조회
+const fetchStarredStatus = async () => {
+  const res = await api.get(`/api/v1/house/view/starred/${modalStore.aptSeq}`)
+  isStarred.value = res.data.data.isStarred
+  console.log(isStarred.value)
+}
+
+const toggleStarred = async () => {
+  const url = `/api/v1/starred/${modalStore.aptSeq}`
+  console.log(isStarred.value)
+  try {
+    if (isStarred.value) {
+      const confirmed = confirm('정말 관심지역에서 삭제하시겠습니까?')
+      if (!confirmed) return
+
+      await api.delete(url)
+      isStarred.value = false
+    } else {
+      await api.post(url)
+      isStarred.value = true
+    }
+  } catch (e) {
+    alert('처리 중 오류가 발생했습니다.')
+    console.error(e)
+  }
+}
+
+
 // TODO getInfo() 선택한 아파트로 변경하기
 const info = ref(null)
 const getInfo = async () => {
   if (modalStore.aptSeq == null) return
   const res = await api.get(`/api/v1/house/${modalStore.aptSeq}`)
+  await fetchStarredStatus()
   console.log(res.data.data)
   return res.data.data
 }
@@ -35,7 +66,9 @@ onMounted(async () => {
 })
 watch(
   () => modalStore.aptSeq,
+
   async () => await setInfo(),
+
 )
 
 const searchCategory = ref('blog')
@@ -48,14 +81,23 @@ const changeSearchCategory = (category) => {
   <ModalBase @close="close">
     <template #header>
       <svg
+
+        class="heart-toggle"
+        @click="toggleStarred"
         xmlns="http://www.w3.org/2000/svg"
-        height="24px"
-        viewBox="0 -960 960 960"
-        width="35px"
-        fill="#a7a7a7"
+        :fill="isStarred ? '#ff69b4' : 'none'"
+        width="26"
+        height="26"
+        viewBox="0 0 24 24"
+        stroke="#ff69b4"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
       >
         <path
-          d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z"
+          d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78
+        7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+
         />
       </svg>
       <div class="title">{{ info?.aptNm }}</div>

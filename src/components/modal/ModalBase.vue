@@ -1,10 +1,8 @@
 <script setup>
-
 const emit = defineEmits('close')
 const viewClose = () => {
   emit('close')
 }
-
 </script>
 
 <template>
@@ -20,7 +18,7 @@ const viewClose = () => {
 </template>
 
 <style scoped>
-.modal{
+.modal {
   width: calc(100vw - 50vh);
   height: calc(90vh - 65px);
   background-color: #111111;
@@ -29,12 +27,12 @@ const viewClose = () => {
   top: calc(5vh + 65px);
   left: 5vh;
   z-index: 100;
-  border: 1px solid #C9D6DF;
+  border: 1px solid #c9d6df;
   padding: 5vh;
   display: flex;
   flex-direction: column;
 }
-body:has(.map) .modal{
+body:has(.map) .modal {
   background-color: #111111ed;
 }
 .modal > .close {
@@ -45,7 +43,7 @@ body:has(.map) .modal{
   left: 1vh;
   cursor: pointer;
 }
-.header{
+.header {
   width: 100%;
   height: 7%;
   display: flex;
@@ -53,15 +51,14 @@ body:has(.map) .modal{
   flex-shrink: 0;
   position: relative;
 }
-.header *{
+.header * {
   height: 70%;
   color: white;
-  fill: white;
   font-size: 1.5rem;
   display: flex;
   align-items: center;
 }
-.main{
+.main {
   width: 100%;
   height: 100%;
   overflow: hidden;
