@@ -35,7 +35,7 @@ onMounted(async () => {
     </div>
     <div class="detail-footer">
       <button @click="router.back">수정</button>
-      <button @click="router.back">목록</button>
+      <button @click="router.back">취소</button>
     </div>
   </BaseBoardView>
 </template>
