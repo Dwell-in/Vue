@@ -1,5 +1,3 @@
-# 타이핑 애니메이션
-
 ## 화면 예시
 
 | ![](https://velog.velcdn.com/images/ksj0314/post/e98635e2-d763-448f-903d-7ca31daf50f9/image.gif) |

@@ -1,5 +1,3 @@
-# [Spring Boot] [Vue3] STOMP를 이용한 웹 소켓 실시간 채팅
-
 > `STOMP`는 Simple Text Oriented Messaging Protocol의 약자입니다.
 > 간단한 메시지를 전송하기 위한 프로토콜로 웹 소켓 채팅을 쉽게 구현할 수 있게 도와줍니다.
 

@@ -3,7 +3,7 @@ import Header from '@/components/header/Header.vue'
 import BaseNav from '@/components/board/BaseNav.vue'
 import Footer from '@/components/footer/Footer1.vue'
 
-const titles = ['공지사항', 'FAQ', '커뮤니티', '1:1 문의']
+const titles = ['공지사항', '커뮤니티', 'FAQ', '1:1 문의']
 </script>
 
 <template>
