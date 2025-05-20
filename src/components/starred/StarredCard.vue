@@ -1,6 +1,86 @@
+<script setup>
+import { ref, onMounted } from 'vue'
+import api from '@/lib/api'
+
+const props = defineProps({
+  apt: Object,
+  img: String,
+  mode: {
+    type: String,
+    default: 'list',
+  },
+})
+
+const emit = defineEmits(['remove'])
+
+const isStarred = ref(false)
+const img = ref(null)
+
+// 즐겨찾기 확인
+const fetchStarredStatus = async () => {
+  try {
+    const res = await api.get(`/api/v1/house/view/starred/${props.apt.aptSeq}`)
+    isStarred.value = res.data.data.isStarred
+  } catch (e) {
+    console.error('즐겨찾기 조회 실패', e)
+  }
+}
+
+// 즐겨찾기 토글
+const toggleStarred = async () => {
+  try {
+    const url = `/api/v1/starred/${props.apt.aptSeq}`
+    if (isStarred.value) {
+      const confirmDelete = confirm('정말 관심지역에서 삭제하시겠습니까?')
+      if (!confirmDelete) return
+      await api.delete(url)
+      emit('remove', props.apt.aptSeq)
+    } else {
+      await api.post(url)
+    }
+  } catch (e) {
+    console.error('즐겨찾기 처리 중 오류:', e)
+    alert('에러가 발생했습니다.')
+  }
+}
+
+// 이미지 검색
+const fetchSearchHouseImg = async () => {
+  const query = `${props.apt.aptNm} 아파트`
+  const res = await api.get(`/api/v1/search/naver/image`, {
+    params: { query, display: 1 },
+  })
+  img.value = res.data.items?.[0]?.link ?? null
+}
+
+// 드래그 시작
+const onDragStart = (event) => {
+  console.log(props.apt)
+  if (props.mode === 'chat') return
+  const dragData = {
+    ...props.apt,
+    imgSrc: img.value || null,
+  }
+  event.dataTransfer.setData('application/json', JSON.stringify(dragData))
+}
+
+onMounted(() => {
+  if (props.mode === 'list') {
+    fetchSearchHouseImg()
+    fetchStarredStatus()
+  }
+})
+</script>
+
 <template>
-  <div class="apt-card">
-    <div class="image-wrapper">
+  <div
+    class="apt-card"
+    :class="{ 'chat-style': mode === 'chat' }"
+    :draggable="mode !== 'chat'"
+    @dragstart="onDragStart"
+  >
+    <!-- 이미지: list 모드에서만 -->
+    <div v-if="mode === 'list'" class="image-wrapper">
       <img class="apt-image" :src="img" alt="아파트 이미지" />
       <div class="overlay-icon">
         <svg
@@ -24,6 +104,7 @@
           <p class="apt-label">{{ apt.sidoName }} {{ apt.gugunName }}</p>
           <h3>{{ apt.aptNm }}</h3>
         </div>
+
         <svg
           class="heart-toggle"
           @click="toggleStarred"
@@ -44,75 +125,13 @@
         </svg>
       </div>
       <p class="apt-desc">
-        {{ apt.roadNm }} {{ apt.roadNmBonbun }} <br />
+        {{ apt.roadNm }} {{ apt.roadNmBonbun }}<br />
         {{ apt.buildYear }}년 준공
       </p>
-      <button class="arrow-button">➜</button>
+      <button v-if="mode === 'list'" class="arrow-button">➜</button>
     </div>
   </div>
 </template>
-
-<script setup>
-const { apt } = defineProps({
-  apt: Object,
-})
-import { ref, onMounted } from 'vue'
-import api from '@/lib/api'
-const img = ref({})
-
-const fetchSearchHouseImg = async () => {
-  const query = `${apt.aptNm} 아파트`
-  const res = await api.get(`/api/v1/search/naver/image`, {
-    params: {
-      query,
-      display: 1,
-    },
-  })
-  if (res.data.items == null) {
-    img.value = null
-  }
-  img.value = res.data.items[0]?.link
-}
-
-//즐겨찾기 확인하는 코드
-const isStarred = ref(false)
-const fetchStarredStatus = async () => {
-  try {
-    const res = await api.get(`/api/v1/house/view/starred/${apt.aptSeq}`)
-    isStarred.value = res.data.data.isStarred
-  } catch (e) {
-    console.error('즐겨찾기 조회 실패', e)
-  }
-}
-
-//즐겨찾기 추가 삭제하는 코드
-const emit = defineEmits(['remove'])
-
-const toggleStarred = async () => {
-  try {
-    const url = `/api/v1/starred/${apt.aptSeq}`
-
-    if (isStarred.value) {
-      const confirmDelete = confirm('정말 관심지역에서 삭제하시겠습니까?')
-      if (!confirmDelete) return
-
-      await api.delete(url)
-      emit('remove', apt.aptSeq)
-    } else {
-      await api.post(url)
-      //TODO 추가 코드 필요함!!
-    }
-  } catch (e) {
-    console.error('즐겨찾기 처리 중 오류:', e)
-    alert('에러가 발생했습니다.')
-  }
-}
-
-onMounted(() => {
-  fetchSearchHouseImg()
-  fetchStarredStatus()
-})
-</script>
 
 <style scoped>
 .apt-title-row {
@@ -199,12 +218,6 @@ onMounted(() => {
   transform: translateY(-5px);
 }
 
-.apt-image {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-}
-
 .apt-meta {
   padding: 20px;
   position: relative;
@@ -239,5 +252,21 @@ onMounted(() => {
 
 .arrow-button:hover {
   background: #ddd;
+}
+.chat-style {
+  border: 1px solid #999;
+  background: #f2f2f2;
+  box-shadow: none;
+  max-width: 250px;
+  padding: 12px;
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.chat-style .apt-image,
+.chat-style .heart-toggle,
+.chat-style .arrow-button,
+.chat-style .overlay-icon {
+  display: none;
 }
 </style>
