@@ -3,9 +3,12 @@ import { onMounted, ref } from 'vue'
 import BaseBoardView from './BaseBoardView.vue'
 import api from '@/lib/api'
 import { useRoute, useRouter } from 'vue-router'
+import { useLoginUserStore } from '@/stores/loginUser'
 
 const route = useRoute()
 const router = useRouter()
+
+const loginUser = useLoginUserStore()
 
 const board = ref()
 const boardId = route.params.boardId
@@ -14,16 +17,6 @@ const getBoard = async () => {
   try {
     const res = await api.get(`/api/v1/board/board-detail/${boardId}`)
     return res.data.data.board
-  } catch (e) {
-    console.error(e)
-  }
-}
-
-const loginUser = ref(null)
-const getUserInfo = async () => {
-  try {
-    const res = await api.get('/api/v1/member/user-info')
-    loginUser.value = res.data.data
   } catch (e) {
     console.error(e)
   }
@@ -55,7 +48,6 @@ const moveToList = () => {
 }
 
 onMounted(async () => {
-  await getUserInfo()
   board.value = await getBoard()
 })
 </script>

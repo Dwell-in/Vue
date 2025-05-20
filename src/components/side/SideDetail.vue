@@ -15,6 +15,8 @@ const viewCount = ref(0)
 const getViewCount = async () => {
   const res = await api.patch(`/api/v1/house/view/${state.info.aptSeq}`)
   viewCount.value = res.data.data.viewCount
+
+  window.reloadRecentViewedList?.()
 }
 
 const isStarred = ref(false)
