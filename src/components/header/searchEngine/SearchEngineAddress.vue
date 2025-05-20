@@ -88,7 +88,6 @@ const handleInput = (e) => {
 // 스페이스바, 엔터 입력으로 자동 완성
 const handleKeypress = (e) => {
   if (e.key === ' ' || (inputValue.value.split(' ').length <= 3 && e.key === 'Enter')) {
-    e.preventDefault()
     listElement.value.firstElementChild.click()
     setTimeout(() => {
       autocompleteOn()
@@ -116,7 +115,7 @@ onMounted(() => {
     ref="inputElement"
     v-model="inputValue"
     @input="handleInput"
-    @keypress="handleKeypress"
+    @keypress.prevent="handleKeypress"
     @focus="autocompleteOn"
     @focusout="handleFocusout"
   />

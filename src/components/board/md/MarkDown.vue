@@ -1,15 +1,13 @@
 <script setup>
 import { onMounted, ref, watch } from 'vue'
-import { marked } from 'marked'
-import { markedHighlight } from 'marked-highlight'
-import hljs from 'highlight.js'
-import 'highlight.js/styles/github.css'
+import { marked } from '@/lib/markedSetup'
+
 
 const props = defineProps({
   url: String,
 })
 
-const markdown = ref('# h')
+const markdown = ref('# hello')
 const html = ref()
 const markdownToHtml = async () => {
   const output = marked(markdown.value, {
@@ -29,15 +27,6 @@ const mdParsing = async () => {
 }
 
 onMounted(async () => {
-  marked.use(
-    markedHighlight({
-      langPrefix: 'hljs language-',
-      highlight(code, lang) {
-        const language = hljs.getLanguage(lang) ? lang : 'plaintext'
-        return hljs.highlight(code, { language }).value
-      },
-    }),
-  )
   await mdParsing()
 })
 
@@ -75,5 +64,15 @@ code:not(pre > code) {
 <style scoped>
 :deep(img) {
   max-width: 100%;
+}
+:deep(table){
+  border-collapse: collapse;
+}
+:deep(th), :deep(td){
+  border: 1px solid #ADB5BD;
+  padding: 20px;
+}
+:deep(thead){
+  border-bottom: 3px solid #ADB5BD;
 }
 </style>

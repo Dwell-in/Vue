@@ -29,10 +29,10 @@ const formattedContent = computed(() => props.message.content.replace(/\n/g, '<b
     />
     <template v-if="$attrs.class.includes('sender')">
       <div class="time">{{ formatTime(props.message.sentAt) }}</div>
-      <div v-html="formattedContent"></div>
+      <div class="msg" v-html="formattedContent"></div>
     </template>
     <template v-else>
-      <div v-html="formattedContent"></div>
+      <div class="msg" v-html="formattedContent"></div>
       <div class="time">{{ formatTime(props.message.sentAt) }}</div>
     </template>
   </div>
@@ -58,16 +58,16 @@ const formattedContent = computed(() => props.message.content.replace(/\n/g, '<b
   align-self: end;
 }
 
-.chat-message > div:not(.time) {
+.chat-message > .msg {
   padding: 0.5vh 1vh;
   border-radius: 0.4vh;
 }
-.chat-message:not(.sender) > div:not(.time) {
+.chat-message:not(.sender) > .msg {
   background-color: #f0f5f9;
   margin-left: 4vh;
 }
 
-.chat-message:is(.sender) > div:not(.time) {
+.chat-message:is(.sender) > .msg {
   background-color: #bbe9fd;
 }
 

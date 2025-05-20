@@ -60,7 +60,12 @@ const routes = [
   {
     path: '/dwellog/:categoryId',
     name: 'Dwellog',
-    component: () => import('./views/DwellogView.vue'),
+    component: () => import('./views/DwellogListView.vue'),
+  },
+  {
+    path: '/dwellog/:categoryId/:link',
+    name: 'DwellogDetail',
+    component: () => import('./views/DwellogDetailView.vue'),
   },
 
   {

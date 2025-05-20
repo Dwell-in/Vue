@@ -4,6 +4,7 @@ import { useRoute, useRouter } from 'vue-router'
 
 const props = defineProps({
   titles: Object,
+  name: String
 })
 
 const route = useRoute()
@@ -11,7 +12,8 @@ const router = useRouter()
 const selectedMenu = ref(0)
 
 const selectView = (categoryId) => {
-  router.replace({
+  router.push({
+    name: props.name,
     params: { categoryId: categoryId },
   })
 }

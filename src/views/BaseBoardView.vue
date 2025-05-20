@@ -8,7 +8,7 @@ const titles = ['공지사항', '커뮤니티', 'FAQ', '1:1 문의']
 
 <template>
   <Header></Header>
-  <BaseNav :titles="titles" />
+  <BaseNav :titles="titles" :name="'Board'"/>
   <main>
     <slot></slot>
   </main>
