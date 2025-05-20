@@ -12,13 +12,17 @@
         {{ apt.roadNm }} {{ apt.roadNmBonbun }}<br />
         {{ apt.buildYear }}년 준공
       </p>
-      <button class="delte-button">x</button>
+      <button class="delete-button" @click="deleteAptChat">✖</button>
     </div>
   </div>
 </template>
 
 <script setup>
-defineProps({ apt: Object })
+const prop = defineProps({ apt: Object })
+const emit = defineEmits(['remove'])
+const deleteAptChat = () => {
+  emit('remove', prop.apt.aptSeq)
+}
 </script>
 
 <style scoped>
@@ -70,14 +74,16 @@ defineProps({ apt: Object })
   line-height: 1.4;
 }
 
-.delte-button {
-  background: transparent;
+.delete-button {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background: #eee;
   border: none;
-  color: #999;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
   font-size: 16px;
   cursor: pointer;
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
 }
 </style>

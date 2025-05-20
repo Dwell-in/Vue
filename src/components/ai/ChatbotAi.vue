@@ -14,25 +14,41 @@
         </div>
 
         <div id="chatForm">
-          <div
-            v-if="droppedApts.length"
-            class="card-input-multi"
-            tabindex="0"
-            @keydown.enter.prevent="sendMessage"
-          >
-            <div class="card-list">
-              <ChatCard v-for="(apt, index) in droppedApts" :key="index" :apt="apt" mode="chat" />
-            </div>
-            <p class="hint">Enter 키를 눌러 AI에게 비교 요청</p>
+          <div v-if="droppedApts.length" class="card-list">
+            <ChatCard
+              v-for="apt in droppedApts"
+              :key="apt.aptSeq"
+              :apt="apt"
+              mode="chat"
+              @remove="removeFromList"
+            />
           </div>
 
-          <input
-            v-else
-            v-model="message"
-            @keyup.enter="sendMessage"
-            id="message"
-            placeholder="카드를 드래그하거나 메시지를 입력하세요"
-          />
+          <div class="input-wrapper">
+            <input
+              v-if="!droppedApts.length"
+              v-model="message"
+              @keyup.enter="sendMessage"
+              placeholder="입력하세요"
+              class="input"
+            />
+            <button class="send-button" @click="sendMessage">
+              <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36">
+                <!-- 노란 원 -->
+                <circle cx="18" cy="18" r="18" fill="#FEE500" />
+
+                <!-- 검은 화살표 -->
+                <path
+                  d="M18 10 L18 26 M18 10 L12 16 M18 10 L24 16"
+                  stroke="#000"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  fill="none"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -47,6 +63,10 @@ import ChatCard from '@/components/ai/ChatCart.vue'
 const message = ref('')
 const chatHistory = ref([])
 const droppedApts = ref([])
+
+const removeFromList = (aptSeq) => {
+  droppedApts.value = droppedApts.value.filter((apt) => apt.aptSeq != aptSeq)
+}
 
 const sendMessage = async () => {
   if (droppedApts.value.length > 0) {
@@ -138,7 +158,6 @@ const scrollToBottom = () => {
 }
 .card-list {
   display: flex;
-  flex-wrap: wrap;
   max-width: 100%;
   justify-content: flex-start;
 }
@@ -230,5 +249,46 @@ const scrollToBottom = () => {
   font-size: 14px;
   background-color: #444;
   color: white;
+}
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  background-color: #2f2f2f;
+  border-radius: 24px;
+  padding: 8px 12px;
+  gap: 10px;
+  margin-top: 10px;
+  width: 100%;
+  height: 100;
+}
+
+.input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  color: white;
+  font-size: 15px;
+}
+
+.input::placeholder {
+  color: #aaa;
+}
+
+.send-button {
+  background-color: #fee500;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.send-button:hover {
+  background-color: #ffdf00;
 }
 </style>
