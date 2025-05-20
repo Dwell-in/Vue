@@ -2,13 +2,11 @@
 import { ref } from 'vue'
 
 const keyword = ref('')
-const selectedKey = ref('title')  // 기본값은 title로
+const selectedKey = ref('title') // 기본값은 title로
 
 const emit = defineEmits(['search'])
 const handleSearch = () => {
-  if (!keyword.value.trim()) return
   emit('search', { key: selectedKey.value, value: keyword.value.trim() })
-  keyword.value = ''
 }
 </script>
 
@@ -24,7 +22,6 @@ const handleSearch = () => {
     <button @click="handleSearch">검색</button>
   </div>
 </template>
-
 
 <style scoped>
 .search {

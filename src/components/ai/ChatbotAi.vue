@@ -79,14 +79,18 @@ const sendMessage = async () => {
       text: compareText,
     })
 
-    const aptNames = droppedApts.value.map((apt) => apt.aptNm).join(', ')
-    const compareMessage = `아래 아파트들을 자세하게 비교해줘: ${aptNames} 그리고 이중에 하나만 뽑아줘`
+    //const aptNames = droppedApts.value.map((apt) => apt.aptNm).join(', ')
+    //const compareMessage = `아래 아파트들을 자세하게 비교해줘: ${aptNames} 그리고 이중에 하나만 뽑아줘`
+    const requestPayload = {
+      aptList: droppedApts.value.map((apt) => ({
+        aptSeq: apt.aptSeq,
+      })),
+      promptType: 'pricePredict',
+    }
 
     try {
       droppedApts.value = []
-      const res = await api.post('/api/v1/ai/simple', {
-        message: compareMessage,
-      })
+      const res = await api.post('/api/v1/ai/price', requestPayload)
 
       chatHistory.value.push({
         type: 'text',

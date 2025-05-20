@@ -42,7 +42,7 @@ const routes = [
     name: 'BoardWrite',
     component: () => import('@/views/BoardWriteView.vue'),
   },
-    {
+  {
     path: '/board/update/:boardId/:categoryId',
     name: 'BoardUpdate',
     component: () => import('@/views/BoardUpdateView.vue'),
@@ -56,6 +56,11 @@ const routes = [
     path: '/starred/list',
     name: 'Starred',
     component: () => import('@/views/StarredView.vue'),
+  },
+  {
+    path: '/dwellog/:categoryId',
+    name: 'Dwellog',
+    component: () => import('./views/DwellogView.vue'),
   },
 
   {

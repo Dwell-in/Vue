@@ -1,12 +1,14 @@
 <script setup>
 import Header from '@/components/header/Header.vue'
+import BaseNav from '@/components/board/BaseNav.vue'
 import Footer from '@/components/footer/Footer1.vue'
-import NavBoard from '@/components/board/NavBoard.vue'
+
+const titles = ['공지사항', '커뮤니티', 'FAQ', '1:1 문의']
 </script>
 
 <template>
   <Header></Header>
-  <NavBoard></NavBoard>
+  <BaseNav :titles="titles" />
   <main>
     <slot></slot>
   </main>

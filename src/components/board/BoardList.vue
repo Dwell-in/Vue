@@ -1,8 +1,8 @@
 <script setup>
 import { useRoute } from 'vue-router'
 import BoardToolbar from './BoardToolbar.vue'
-import { onMounted, ref } from 'vue'
-import api from '@/lib/api'
+import { useLoginUserStore } from '@/stores/loginUser'
+
 defineProps({
   boards: Object,
   offset: Number,
@@ -14,17 +14,7 @@ const search = ({ key, value }) => {
 }
 const route = useRoute()
 
-const loginUser = ref(null)
-const getUserInfo = async () => {
-  try {
-    const res = await api.get('/api/v1/member/user-info')
-    loginUser.value = res.data.data
-  } catch (e) {
-    console.error(e)
-  }
-}
-
-onMounted(()=>getUserInfo())
+const loginUser = useLoginUserStore()
 </script>
 
 <template>

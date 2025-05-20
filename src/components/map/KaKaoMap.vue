@@ -11,6 +11,8 @@ import {
 } from '@/lib/kakao.js'
 import api from '@/lib/api'
 import { useSideStore } from '@/stores/side'
+import RecentViewedList from './RecentViewedList.vue'
+import { useRecentViewedStore } from '@/stores/recentViewed'
 
 import makerBtn1 from '@/assets/img/marker_FD6_btn.png'
 import makerBtn2 from '@/assets/img/marker_CE7_btn.png'
@@ -83,7 +85,13 @@ const markerToggle = (event) => {
 
 const listSelect = (index) => {
   state.info = infos.value[index]
-  store.detailToggle(true)
+  state.store.detailToggle(true)
+}
+
+const recentSelect = (info) => {
+  console.log(info)
+  state.info = info
+  state.store.detailToggle(true)
 }
 
 const init = async () => {
@@ -99,6 +107,12 @@ const init = async () => {
 onMounted(async () => {
   await createMap(mapContainer.value)
   await init()
+  window.reloadRecentViewedList = () => {
+    const store = useRecentViewedStore()
+    store.triggerReload()
+  }
+  window.reloadRecentViewedList?.()
+  console.log(window.reloadRecentViewedList)
 })
 
 // 경로 변경 시 재검색
@@ -180,6 +194,7 @@ watch(infos, () => {
       </template>
     </template>
   </div>
+  <RecentViewedList @select="recentSelect" />
   <div id="mapBox" ref="mapContainer"></div>
 </template>
 

@@ -12,13 +12,13 @@ const getPostList = async (params = {}) => {
     const defaultParams = {
       categoryId: route.params.categoryId,
       page: 1,
-      size: 10,
+      size: 15,
     }
     const query = { ...defaultParams, ...params }
 
     const queryString = new URLSearchParams(query).toString()
     const res = await api.get(`/api/v1/board/post-list?${queryString}`)
-
+    console.log(res.data.data.data)
     postList.value = res.data.data.data
     pageInfo.value = res.data.data.pageInfo
   } catch (e) {
@@ -54,7 +54,7 @@ watch(
 <template>
   <BaseBoardView>
     <BoardList :boards="postList" :offset="pageInfo.offset" @search="search"></BoardList>
-        <div class="pagination">
+    <div class="pagination">
       <button
         v-for="n in pageInfo.totalPages"
         :key="n"

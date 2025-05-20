@@ -1,5 +1,3 @@
-# [Spring Boot] [Vue3] STOMP를 이용한 웹 소켓 실시간 채팅
-
 > `STOMP`는 Simple Text Oriented Messaging Protocol의 약자입니다.
 > 간단한 메시지를 전송하기 위한 프로토콜로 웹 소켓 채팅을 쉽게 구현할 수 있게 도와줍니다.
 
@@ -32,12 +30,12 @@
 @EnableWebSocketMessageBroker
 public class ChatConfig implements WebSocketMessageBrokerConfigurer {
 
-	@Override
-	public void registerStompEndpoints(StompEndpointRegistry registry) {
-		registry.addEndpoint("/ws").setAllowedOrigins("http://localhost:8080").withSockJS();
-	}
+    @Override
+    public void registerStompEndpoints(StompEndpointRegistry registry) {
+      registry.addEndpoint("/ws").setAllowedOrigins("http://localhost:8080").withSockJS();
+    }
 
-	@Override
+    @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         registry.enableSimpleBroker("/sub");
         registry.setApplicationDestinationPrefixes("/pub");
@@ -57,13 +55,13 @@ public class ChatConfig implements WebSocketMessageBrokerConfigurer {
 @Controller
 @RequiredArgsConstructor
 public class ChatController {
-	private final SimpMessageSendingOperations smso;
+    private final SimpMessageSendingOperations smso;
 
-	// 채팅 리스트 반환
+    // 채팅 리스트 반환
     @ResponseBody
     @GetMapping("/chat/{id}")
     public List<ChatMessage> getChatMessages(@PathVariable Long id){
-    	~~~
+      ~~~
     }
 
     //메시지 송신 및 수신, 클라이언트 단에선 /pub/message로 요청

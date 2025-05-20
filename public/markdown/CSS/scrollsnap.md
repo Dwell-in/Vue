@@ -1,5 +1,3 @@
-# 영역에 맞게 스크롤 맞추기 (스크롤 스냅)
-
 ## 화면 예시
 
 ![](https://velog.velcdn.com/images/ksj0314/post/def71d4f-ea44-4312-a607-fccfa221ec3e/image.gif)

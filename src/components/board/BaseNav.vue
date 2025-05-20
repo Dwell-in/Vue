@@ -2,13 +2,16 @@
 import { onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
+const props = defineProps({
+  titles: Object,
+})
+
 const route = useRoute()
 const router = useRouter()
 const selectedMenu = ref(0)
 
 const selectView = (categoryId) => {
   router.replace({
-    name: 'Board',
     params: { categoryId: categoryId },
   })
 }
@@ -27,23 +30,17 @@ watch(
 
 <template>
   <nav>
-    <div class="title">
-      {{
-        selectedMenu == 1
-          ? '공지사항'
-          : selectedMenu == 2
-            ? 'FAQ'
-            : selectedMenu == 3
-              ? '커뮤니티'
-              : '1:1 문의'
-      }}
-    </div>
+    <div class="title">{{ props.titles[route.params.categoryId] }}</div>
     <div class="navBtnsDiv">
       <div class="navBtns">
-        <div :class="{ selected: selectedMenu == 1 }" @click="selectView(1)">공지사항</div>
-        <div :class="{ selected: selectedMenu == 3 }" @click="selectView(3)">커뮤니티</div>
-        <div :class="{ selected: selectedMenu == 2 }" @click="selectView(2)">FAQ</div>
-        <div :class="{ selected: selectedMenu == 4 }" @click="selectView(4)">1:1 문의</div>
+        <div
+          v-for="(title, index) in titles"
+          :key="index"
+          :class="{ selected: selectedMenu == index }"
+          @click="selectView(index)"
+        >
+          {{ title }}
+        </div>
       </div>
     </div>
   </nav>
@@ -94,7 +91,7 @@ nav {
 .navBtns > div + div {
   border-left: none;
 }
-.navBtns .selected {
+.selected {
   background-color: #3c90e2;
 }
 </style>
