@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import BaseBoardView from './BaseBoardView.vue'
+import BoardComment from '@/components/board/BoardComment.vue'
 import api from '@/lib/api'
 import { useRoute, useRouter } from 'vue-router'
 import { useLoginUserStore } from '@/stores/loginUser'
@@ -73,6 +74,7 @@ onMounted(async () => {
       </div>
       <button @click="moveToList">목록</button>
     </div>
+    <BoardComment :boardId="boardId" />
   </BaseBoardView>
 </template>
 
