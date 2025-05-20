@@ -79,7 +79,6 @@ onMounted(() => {
     :draggable="mode !== 'chat'"
     @dragstart="onDragStart"
   >
-    <!-- 이미지: list 모드에서만 -->
     <div v-if="mode === 'list'" class="image-wrapper">
       <img class="apt-image" :src="img" alt="아파트 이미지" />
       <div class="overlay-icon">
@@ -146,17 +145,11 @@ onMounted(() => {
   margin: 0;
 }
 
-.heart-img {
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
 .heart-toggle {
   margin-right: 5px;
 }
 
-.heart-img:hover {
+.heart-toggle:hover {
   transform: scale(1.1);
 }
 

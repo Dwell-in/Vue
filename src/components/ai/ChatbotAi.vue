@@ -2,15 +2,14 @@
   <div id="main">
     <div class="chatbot-drop-area" @dragover.prevent @drop="onDrop">
       <div id="chatSection">
-        <!-- 대화 내역 -->
         <div id="chatHistory">
           <div v-for="(msg, index) in chatHistory" :key="index" class="message-wrapper">
             <div v-if="msg.type === 'text'" :class="['message', msg.from]">
-              {{ msg.from === 'user' ? '사용자: ' : '봇: ' }}{{ msg.text }}
+              {{ msg.text }}
             </div>
-            <div v-else-if="msg.type === 'card'" class="message user">
+            <!-- <div v-else-if="msg.type === 'card'" class="message user">
               <ChatCard :apt="msg.apt" mode="chat" />
-            </div>
+            </div> -->
           </div>
         </div>
 
@@ -51,12 +50,13 @@ const droppedApts = ref([])
 
 const sendMessage = async () => {
   if (droppedApts.value.length > 0) {
-    droppedApts.value.forEach((apt) => {
-      chatHistory.value.push({
-        type: 'card',
-        from: 'user',
-        apt,
-      })
+    const aptNamesInUser = droppedApts.value.map((apt) => apt.aptNm).join(', ')
+    const compareText = `${aptNamesInUser}을 비교해줘`
+
+    chatHistory.value.push({
+      type: 'text',
+      from: 'user',
+      text: compareText,
     })
 
     const aptNames = droppedApts.value.map((apt) => apt.aptNm).join(', ')
@@ -85,12 +85,10 @@ const sendMessage = async () => {
 
   if (message.value.trim()) {
     chatHistory.value.push({ type: 'text', from: 'user', text: message.value })
-
     try {
       const res = await api.post('/api/v1/ai/simple', {
         message: message.value,
       })
-
       chatHistory.value.push({
         type: 'text',
         from: 'bot',
@@ -137,6 +135,16 @@ const scrollToBottom = () => {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
+}
+.card-list {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 100%;
+  justify-content: flex-start;
+}
+.chat-card {
+  width: 180px;
+  flex-shrink: 0;
 }
 
 #chatSection {
