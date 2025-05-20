@@ -1,6 +1,7 @@
 import { reactive } from 'vue'
 import { loadScript } from './loadScript'
 import api from '@/lib/api'
+
 import maker0 from '@/assets/img/marker.png'
 import maker1 from '@/assets/img/marker_FD6.png'
 import maker2 from '@/assets/img/marker_CE7.png'
@@ -28,7 +29,7 @@ const loadKakaoAPI = async () => {
 
 const init = async (s) => {
   state.kakao = await loadKakaoAPI()
-  state.store = s||null
+  state.store = s || null
 }
 
 let position = { y: 37.5665, x: 126.978 }
@@ -200,7 +201,7 @@ const maker_Toggle = (code, flag) => {
 }
 
 const roadviewOn = async (roadviewContainer, lat, lng) => {
-  if (state.kakao == null){
+  if (state.kakao == null) {
     await init()
   }
   const roadview = new state.kakao.maps.Roadview(roadviewContainer)
