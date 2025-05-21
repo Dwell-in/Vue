@@ -8,7 +8,6 @@ import HouseCard from '@/components/house/HouseCard.vue'
 
 const modalStore = useModalStore()
 
-// TODO getFavorite() 즐겨찾기 목록 가져오는걸로 변경하기
 const favorites = ref()
 const getFavorite = async () => {
   const res = await api.get('/api/v1/starred')
@@ -16,7 +15,9 @@ const getFavorite = async () => {
 }
 
 onMounted(async () => {
-  favorites.value = await getFavorite()
+  const res = await getFavorite()
+  if (res) return
+  favorites.value = res
 })
 
 const close = () => {
@@ -40,8 +41,8 @@ const close = () => {
       </svg>
       <div>Favorite</div>
     </template>
-    <template #main>
-      <template v-if="favorites">
+    <template #main v-if="favorites">
+      <template>
         <UseCarousel :width="'17%'" :height="'50%'" :gap="'10vh'">
           <HouseCard v-for="apt in favorites" :key="apt.id" :apt="apt"></HouseCard>
         </UseCarousel>

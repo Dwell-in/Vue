@@ -9,7 +9,7 @@ import Cookies from 'js-cookie'
 
 const modalStore = useModalStore()
 
-const favorites = ref()
+const recently = ref()
 const loadRecentViewed = async () => {
   const recentViewed = Cookies.get('recentViewed')
   if (!recentViewed) {
@@ -26,7 +26,7 @@ const loadRecentViewed = async () => {
 }
 
 onMounted(async () => {
-  favorites.value = await loadRecentViewed()
+  recently.value = await loadRecentViewed()
 })
 
 const close = () => {
@@ -41,9 +41,9 @@ const close = () => {
       <div>Recently View</div>
     </template>
     <template #main>
-      <template v-if="favorites">
+      <template v-if="recently">
         <UseCarousel :width="'17%'" :height="'50%'" :gap="'10vh'">
-          <HouseCard v-for="apt in favorites" :key="apt.id" :apt="apt"></HouseCard>
+          <HouseCard v-for="apt in recently" :key="apt.id" :apt="apt"></HouseCard>
         </UseCarousel>
       </template>
     </template>
