@@ -16,7 +16,7 @@ const getFavorite = async () => {
 
 onMounted(async () => {
   const res = await getFavorite()
-  if (res) return
+  if (res.length == 0) return
   favorites.value = res
 })
 
@@ -41,8 +41,8 @@ const close = () => {
       </svg>
       <div>Favorite</div>
     </template>
-    <template #main v-if="favorites">
-      <template>
+    <template #main>
+      <template v-if="favorites">
         <UseCarousel :width="'17%'" :height="'50%'" :gap="'10vh'">
           <HouseCard v-for="apt in favorites" :key="apt.id" :apt="apt"></HouseCard>
         </UseCarousel>
