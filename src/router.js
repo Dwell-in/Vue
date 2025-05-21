@@ -15,37 +15,37 @@ const routes = [
   {
     path: '/member/login',
     name: 'Login',
-    component: () => import('@/views/LoginView.vue'),
+    component: () => import('@/views/member/LoginView.vue'),
   },
   {
     path: '/member/signup',
     name: 'SignUp',
-    component: () => import('@/views/SignUpView.vue'),
+    component: () => import('@/views/member/SignUpView.vue'),
   },
   {
     path: '/member/password-find',
     name: 'passwordFine',
-    component: () => import('@/views/PasswordFindView.vue'),
+    component: () => import('@/views/member/PasswordFindView.vue'),
   },
   {
     path: '/board/list/:categoryId',
     name: 'Board',
-    component: () => import('@/views/BoardListView.vue'),
+    component: () => import('@/views/board/BoardListView.vue'),
   },
   {
     path: '/board/detail/:boardId/:categoryId',
     name: 'BoardDetail',
-    component: () => import('@/views/BoardDetailView.vue'),
+    component: () => import('@/views/board/BoardDetailView.vue'),
   },
   {
     path: '/board/write/:categoryId',
     name: 'BoardWrite',
-    component: () => import('@/views/BoardWriteView.vue'),
+    component: () => import('@/views/board/BoardWriteView.vue'),
   },
   {
     path: '/board/update/:boardId/:categoryId',
     name: 'BoardUpdate',
-    component: () => import('@/views/BoardUpdateView.vue'),
+    component: () => import('@/views/board/BoardUpdateView.vue'),
   },
   {
     path: '/email/verify',
@@ -60,12 +60,12 @@ const routes = [
   {
     path: '/dwellog/:categoryId',
     name: 'Dwellog',
-    component: () => import('./views/DwellogListView.vue'),
+    component: () => import('./views/dwellog/DwellogListView.vue'),
   },
   {
     path: '/dwellog/:categoryId/:link',
     name: 'DwellogDetail',
-    component: () => import('./views/DwellogDetailView.vue'),
+    component: () => import('./views/dwellog/DwellogDetailView.vue'),
   },
 
   {
