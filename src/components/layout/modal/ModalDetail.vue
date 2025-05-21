@@ -150,7 +150,7 @@ const changeSearchCategory = (category) => {
       </div>
 
       <div class="grid-ai">
-        <PricePredictAi :apt-seq="info.aptSeq"></PricePredictAi>
+        <PricePredictAi v-if="info" :aptSeq="info.aptSeq"></PricePredictAi>
       </div>
       <HouseRoadView v-if="info" :info="info" class="grid-road-view"></HouseRoadView>
       <div class="grid-chart">

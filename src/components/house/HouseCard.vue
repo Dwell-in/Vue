@@ -20,7 +20,7 @@
     <div class="apt-meta">
       <div class="apt-title-row">
         <div>
-          <p class="apt-label">{{ apt.sidoName }} {{ apt.gugunName }}서울특별시 강북구</p>
+          <p class="apt-label">{{ apt.sidoName }} {{ apt.gugunName }}</p>
           <h3>{{ apt.aptNm }}</h3>
         </div>
         <svg

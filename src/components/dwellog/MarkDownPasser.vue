@@ -62,6 +62,7 @@ blockquote {
   border-left: 5px solid #20c997;
 }
 code:not(pre > code) {
+  color: #333333;
   background-color: #e9ecef;
   padding: 3px 5px;
   border-radius: 5px;

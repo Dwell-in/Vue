@@ -20,11 +20,7 @@ const props = defineProps({
 const result = ref('')
 
 onMounted(async () => {
-  console.log(props.aptSeq)
-  if (!props.aptSeq) return
-
   try {
-    console.log(props.aptSeq)
     const res = await api.post('/api/v1/predict/price', { aptSeq: props.aptSeq })
     result.value = res.data.data.message
   } catch (err) {
@@ -38,7 +34,6 @@ onMounted(async () => {
 .loading {
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.384);
   z-index: 10;
   display: flex;
   justify-content: center;
