@@ -10,7 +10,6 @@ import {
   overlayToggle,
 } from '@/lib/kakao.js'
 import api from '@/lib/api'
-import { useSideStore } from '@/stores/side'
 import RecentViewedList from './RecentViewedList.vue'
 import { useRecentViewedStore } from '@/stores/recentViewed'
 
@@ -25,7 +24,6 @@ import defaultImg from '@/assets/img/loginbg.png'
 const emit = defineEmits(['update:loading'])
 defineProps(['loading'])
 
-const store = useSideStore()
 const route = useRoute()
 const mapContainer = ref()
 let fullAddress = ''

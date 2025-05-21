@@ -1,5 +1,5 @@
 <template>
-  <Header />
+  <LayoutHeader />
   <main>
     <div>
       <h2>관심지역 페이지 입니다</h2>
@@ -10,12 +10,12 @@
     </div>
   </main>
 
-  <Footer />
+  <LayoutFooter1 />
 </template>
 
 <script setup>
-import Header from '@/components/header/Header.vue'
-import Footer from '@/components/footer/Footer1.vue'
+import LayoutHeader from '@/components/layout/header/LayoutHeader.vue'
+import LayoutFooter1 from '@/components/layout/footer/LayoutFooter1.vue'
 import PostStarredList from '@/components/starred/PostStarredList.vue'
 import AiChatbot from '@/components/ai/ChatbotAi.vue'
 </script>

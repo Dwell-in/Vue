@@ -1,10 +1,10 @@
 <script setup>
 import { ref } from 'vue'
-import Header from '@/components/header/Header.vue'
 import HomeInfo from '@/components/home/HomeInfo.vue'
 import Section2 from '@/components/home/Section2.vue'
 import Section3 from '@/components/home/Section3.vue'
 import Section4 from '@/components/home/Section4.vue'
+import LayoutHeader from '@/components/layout/header/LayoutHeader.vue'
 
 // 버튼으로 섹션 이동
 const nextSection = ref(null)
@@ -23,7 +23,7 @@ const scrollX = (e) => {
 </script>
 
 <template>
-  <Header :isMainHeader="true"></Header>
+  <LayoutHeader :isMainHeader="true"></LayoutHeader>
   <main class="home" @wheel="scrollX">
     <HomeInfo :moveSection="moveSection"></HomeInfo>
     <Section2 ref="nextSection"></Section2>
