@@ -2,6 +2,22 @@
   <div class="property-register">
     <h1 class="title">매물 등록</h1>
     <form @submit.prevent="submitProperty" class="form">
+      <button @click.prevent="showPopup = true">아파트 검색</button>
+      <ApartmentSearchPopup v-if="showPopup" @selectApt="handleSelect" @close="showPopup = false" />
+
+      <div v-if="selectedApt" class="selected-apt">
+        {{ selectedApt.sidoName }} {{ selectedApt.gugunName }} {{ selectedApt.dongName || '' }}
+        {{ selectedApt.jibun }}
+        {{ selectedApt.aptNm }}
+        <br />
+        (
+        {{ selectedApt.roadNm }}
+        {{ selectedApt.roadNmBonbun }}
+        <template v-if="selectedApt.roadNmBubun && selectedApt.roadNmBubun !== '0'">
+          -{{ selectedApt.roadNmBubun }}
+        </template>
+        )
+      </div>
       <div class="form-group">
         <label class="label">제목</label>
         <input type="text" v-model="form.title" class="input" />
@@ -125,11 +141,20 @@
 import { ref } from 'vue'
 import api from '@/lib/api'
 import { useLoginUserStore } from '@/stores/loginUser'
+import ApartmentSearchPopup from '@/components/house/ApartmentSearchPopup.vue'
 
 const loginUser = useLoginUserStore()
 
+const showPopup = ref(false)
+const selectedApt = ref(null)
+
+const handleSelect = (apt) => {
+  selectedApt.value = apt
+  form.value.aptSeq = apt.aptSeq
+}
+
 const form = ref({
-  aptSeq: '28170-174',
+  aptSeq: '',
   title: '',
   type: '전세',
   netArea: null,
