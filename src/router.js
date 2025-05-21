@@ -67,6 +67,11 @@ const routes = [
     name: 'DwellogDetail',
     component: () => import('./views/dwellog/DwellogDetailView.vue'),
   },
+  {
+    path: '/property/regist',
+    name: 'PropertyRegist',
+    component: () => import('./views/PropertyRegisterView.vue'),
+  },
 
   {
     path: '/error/:code',
