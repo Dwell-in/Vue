@@ -1,11 +1,11 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { loadScript } from '@/lib/loadScript'
-import Header from '@/components/header/Header.vue'
 import KaKaoMap from '@/components/map/KaKaoMap.vue'
 import { init } from '@/lib/kakao'
 // finia
 import { useSideStore } from '@/stores/side'
+import LayoutHeader from '@/components/layout/header/LayoutHeader.vue'
 const store = useSideStore()
 
 // fontawesome CDN
@@ -23,7 +23,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <Header></Header>
+  <LayoutHeader></LayoutHeader>
   <main class="map">
     <div id="map">
       <div class="loading" :class="{ 'display-none': !loading }">

@@ -1,9 +1,9 @@
 <script setup>
-import BaseNav from '@/components/board/BaseNav.vue'
-import MarkDown from '@/components/board/md/MarkDown.vue'
-import Footer from '@/components/footer/Footer1.vue'
-import Header from '@/components/header/Header.vue'
-import DwellogLinkBox from '@/components/board/md/DwellogLinkBox.vue'
+import NavBase from '@/components/layout/nav/NavBase.vue'
+import MarkDownPasser from '@/components/dwellog/MarkDownPasser.vue'
+import LayoutHeader from '@/components/layout/header/LayoutHeader.vue'
+import LayoutFooter1 from '@/components/layout/footer/LayoutFooter1.vue'
+import DwellogLinkBox from '@/components/dwellog/DwellogLinkBox.vue'
 import md from '@/assets/data/md.json'
 import { onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
@@ -14,7 +14,10 @@ const url = ref()
 const route = useRoute()
 
 const getUrl = () => {
-  url.value = md.baseURL + md.data[route.params.categoryId].middleURL + md.data[route.params.categoryId].data[route.params.link].link
+  url.value =
+    md.baseURL +
+    md.data[route.params.categoryId].middleURL +
+    md.data[route.params.categoryId].data[route.params.link].link
 }
 onMounted(() => getUrl())
 
@@ -28,8 +31,8 @@ watch(
 
 <template>
   <div class="mdDetail">
-    <Header></Header>
-    <BaseNav :titles="titles" :name="'Dwellog'" />
+    <LayoutHeader></LayoutHeader>
+    <NavBase :titles="titles" :name="'Dwellog'" />
     <div class="title">
       <div>
         {{ md.data[route.params.categoryId].data[route.params.link].title }}
@@ -37,9 +40,9 @@ watch(
     </div>
     <DwellogLinkBox></DwellogLinkBox>
     <main>
-      <MarkDown v-if="url" :url="url"></MarkDown>
+      <MarkDownPasser v-if="url" :url="url"></MarkDownPasser>
     </main>
-    <Footer></Footer>
+    <LayoutFooter1></LayoutFooter1>
   </div>
 </template>
 
@@ -48,7 +51,7 @@ watch(
   width: 1200px;
   margin: 100px auto;
 
-  & div{
+  & div {
     font-size: 2em;
     font-weight: bold;
     padding: 10px 20px;

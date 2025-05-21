@@ -1,18 +1,18 @@
 <script setup>
-import Header from '@/components/header/Header.vue'
-import BaseNav from '@/components/board/BaseNav.vue'
-import Footer from '@/components/footer/Footer1.vue'
+import NavBase from '@/components/layout/nav/NavBase.vue'
+import LayoutHeader from '@/components/layout/header/LayoutHeader.vue'
+import LayoutFooter1 from '@/components/layout/footer/LayoutFooter1.vue'
 
 const titles = ['공지사항', '커뮤니티', 'FAQ', '1:1 문의']
 </script>
 
 <template>
-  <Header></Header>
-  <BaseNav :titles="titles" :name="'Board'"/>
+  <LayoutHeader></LayoutHeader>
+  <NavBase :titles="titles" :name="'Board'" />
   <main>
     <slot></slot>
   </main>
-  <Footer></Footer>
+  <LayoutFooter1></LayoutFooter1>
 </template>
 
 <style scoped>

@@ -1,19 +1,18 @@
 <script setup>
-import BaseNav from '@/components/board/BaseNav.vue'
-import Footer from '@/components/footer/Footer1.vue'
-import Header from '@/components/header/Header.vue'
-import DwellogLinkBox from '@/components/board/md/DwellogLinkBox.vue'
+import NavBase from '@/components/layout/nav/NavBase.vue'
+import DwellogLinkBox from '@/components/dwellog/DwellogLinkBox.vue'
+import LayoutHeader from '@/components/layout/header/LayoutHeader.vue'
+import LayoutFooter1 from '@/components/layout/footer/LayoutFooter1.vue'
 
 const titles = ['BackEnd', 'FrontEnd']
-
 </script>
 
 <template>
-  <Header></Header>
-  <BaseNav :titles="titles" :name="'Dwellog'"/>
+  <LayoutHeader></LayoutHeader>
+  <NavBase :titles="titles" :name="'Dwellog'" />
   <DwellogLinkBox></DwellogLinkBox>
   <main></main>
-  <Footer></Footer>
+  <LayoutFooter1></LayoutFooter1>
 </template>
 
 <style scoped>

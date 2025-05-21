@@ -2,11 +2,12 @@
 import { computed, onMounted, ref, watch } from 'vue'
 import { state } from '@/lib/kakao'
 import api from '@/lib/api'
-import SideDefault from '@/components/side/SideDefault.vue'
-import DetailChart from '@/components/detail/DetailChart.vue'
-import DetailRoadView from '@/components/detail/DetailRoadView.vue'
-import DetailNews from '@/components/detail/DetailNews.vue'
+import SideBase from './SideBase.vue'
 import { useSideStore } from '@/stores/side'
+import { useModalStore } from '@/stores/modal'
+import HouseRoadView from '@/components/house/HouseRoadView.vue'
+import HouseChart from '@/components/house/HouseChart.vue'
+import HouseNews from '@/components/house/HouseNews.vue'
 
 const sideStore = useSideStore()
 
@@ -63,7 +64,6 @@ watch(clonedInfo, (newVal) => {
   console.log('clonedInfo changed:', newVal)
 })
 
-import { useModalStore } from '@/stores/modal'
 const modalStore = useModalStore()
 const selectApt = (aptSeq) => {
   modalStore.setAptSeq(aptSeq)
@@ -72,7 +72,7 @@ const selectApt = (aptSeq) => {
 </script>
 
 <template>
-  <SideDefault class="detailView" @close="sideStore.detailToggle(false)">
+  <SideBase class="detailView" @close="sideStore.detailToggle(false)">
     <svg
       class="fullBtn"
       @click="selectApt(state.info?.aptSeq)"
@@ -113,12 +113,12 @@ const selectApt = (aptSeq) => {
       <img src="@/assets/img/viewCount.png" />
       <div class="info_viewCount_count">{{ viewCount }}</div>
     </div>
-    <DetailRoadView class="info-roadview" :info="clonedInfo"></DetailRoadView>
+    <HouseRoadView class="info-roadview" :info="clonedInfo"></HouseRoadView>
     <div class="section-title">CHART</div>
-    <DetailChart :info="clonedInfo"></DetailChart>
+    <HouseChart :info="clonedInfo"></HouseChart>
     <div class="section-title">BLOG</div>
-    <DetailNews class="info-news" :info="clonedInfo"></DetailNews>
-  </SideDefault>
+    <HouseNews class="info-news" :info="clonedInfo"></HouseNews>
+  </SideBase>
 </template>
 
 <style scoped>

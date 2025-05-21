@@ -43,12 +43,8 @@
         </svg>
       </div>
       <div class="apt-desc">
-        <div>
-          {{ apt.roadNm }} {{ apt.roadNmBonbun }}
-        </div>
-        <div>
-          {{ apt.buildYear }}년 준공
-        </div>
+        <div>{{ apt.roadNm }} {{ apt.roadNmBonbun }}</div>
+        <div>{{ apt.buildYear }}년 준공</div>
       </div>
       <button class="arrow-button" @click="selectApt(apt.aptSeq)">➜</button>
     </div>
@@ -116,8 +112,7 @@ onMounted(() => {
   fetchStarredStatus()
 })
 
-
-import { useModalStore } from '@/stores/modal';
+import { useModalStore } from '@/stores/modal'
 const modalStore = useModalStore()
 const selectApt = (aptSeq) => {
   modalStore.setAptSeq(aptSeq)
@@ -206,22 +201,13 @@ const selectApt = (aptSeq) => {
   transition: transform 0.2s ease;
 }
 
-.apt-card:hover {
-  background-color: #49B4E6;
-  transform: translateY(-5px);
-  color: #fff;
-}
-.apt-card:hover .apt-desc *{
-  color: #fff;
-}
-
 .apt-meta {
   padding: 20px;
   position: relative;
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;;
+  justify-content: space-between;
 }
 
 .apt-label {
@@ -251,6 +237,7 @@ const selectApt = (aptSeq) => {
 }
 
 .arrow-button:hover {
-  background: #ddd;
+  background-color: #49b4e6;
+  color: #fff;
 }
 </style>

@@ -2,7 +2,6 @@
 import { onMounted, ref, watch } from 'vue'
 import { marked } from '@/lib/markedSetup'
 
-
 const props = defineProps({
   url: String,
 })
@@ -20,6 +19,7 @@ const markdownToHtml = async () => {
 }
 
 const mdParsing = async () => {
+  if (!props.url) return
   const res = await fetch(props.url)
   const text = await res.text()
   markdown.value = text
@@ -65,14 +65,15 @@ code:not(pre > code) {
 :deep(img) {
   max-width: 100%;
 }
-:deep(table){
+:deep(table) {
   border-collapse: collapse;
 }
-:deep(th), :deep(td){
-  border: 1px solid #ADB5BD;
+:deep(th),
+:deep(td) {
+  border: 1px solid #adb5bd;
   padding: 20px;
 }
-:deep(thead){
-  border-bottom: 3px solid #ADB5BD;
+:deep(thead) {
+  border-bottom: 3px solid #adb5bd;
 }
 </style>

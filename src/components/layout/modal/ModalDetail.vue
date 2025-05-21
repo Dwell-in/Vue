@@ -3,10 +3,10 @@ import { onMounted, ref, watch } from 'vue'
 import ModalBase from './ModalBase.vue'
 import api from '@/lib/api'
 import { useModalStore } from '@/stores/modal'
-import DetailChart from '../detail/DetailChart.vue'
-import DetailNews from '../detail/DetailNews.vue'
-import DetailRoadView from '../detail/DetailRoadView.vue'
 import { useSideStore } from '@/stores/side'
+import HouseChart from '@/components/house/HouseChart.vue'
+import HouseNews from '@/components/house/HouseNews.vue'
+import HouseRoadView from '@/components/house/HouseRoadView.vue'
 
 const sideStore = useSideStore()
 
@@ -18,7 +18,6 @@ const fullClose = () => {
   modalStore.detailToggle(false)
   sideStore.detailToggle(true)
 }
-
 
 const isStarred = ref(false)
 // 관심지역 여부 조회
@@ -48,7 +47,6 @@ const toggleStarred = async () => {
   }
 }
 
-
 // TODO getInfo() 선택한 아파트로 변경하기
 const info = ref(null)
 const getInfo = async () => {
@@ -68,7 +66,6 @@ watch(
   () => modalStore.aptSeq,
 
   async () => await setInfo(),
-
 )
 
 const searchCategory = ref('blog')
@@ -81,7 +78,6 @@ const changeSearchCategory = (category) => {
   <ModalBase @close="close">
     <template #header>
       <svg
-
         class="heart-toggle"
         @click="toggleStarred"
         xmlns="http://www.w3.org/2000/svg"
@@ -97,7 +93,6 @@ const changeSearchCategory = (category) => {
         <path
           d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78
         7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
-
         />
       </svg>
       <div class="title">{{ info?.aptNm }}</div>
@@ -157,20 +152,20 @@ const changeSearchCategory = (category) => {
         </table>
       </div>
       <div class="grid-chat"></div>
-      <DetailRoadView v-if="info" :info="info" class="grid-road-view"></DetailRoadView>
-      <DetailChart
+      <HouseRoadView v-if="info" :info="info" class="grid-road-view"></HouseRoadView>
+      <HouseChart
         v-if="info"
         :info="info"
         class="grid-chart"
         :fontSize="40"
         :chartType="'doughnut'"
-      ></DetailChart>
-      <DetailNews
+      ></HouseChart>
+      <HouseNews
         v-if="info"
         :info="info"
         class="grid-blog"
         :searchCategory="searchCategory"
-      ></DetailNews>
+      ></HouseNews>
     </template>
   </ModalBase>
 </template>

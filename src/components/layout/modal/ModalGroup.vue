@@ -1,11 +1,11 @@
 <script setup>
-import ModalFavorite from '@/components/modal/ModalFavorite.vue';
-import ModalRecently from './ModalRecently.vue';
-import ModalDetail from './ModalDetail.vue';
 import { storeToRefs } from 'pinia'
 import { useModalStore } from '@/stores/modal'
 import { useRoute } from 'vue-router'
 import { watch } from 'vue'
+import ModalFavorite from './ModalFavorite.vue'
+import ModalRecently from './ModalRecently.vue'
+import ModalDetail from './ModalDetail.vue'
 
 const route = useRoute()
 const modalStore = useModalStore()
@@ -25,5 +25,4 @@ watch(
   <ModalDetail v-if="detail"></ModalDetail>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

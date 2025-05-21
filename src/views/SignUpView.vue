@@ -1,16 +1,16 @@
 <script setup>
-import Footer1 from '@/components/footer/Footer1.vue'
-import Header from '@/components/header/Header.vue'
+import LayoutFooter1 from '@/components/layout/footer/LayoutFooter1.vue'
+import LayoutHeader from '@/components/layout/header/LayoutHeader.vue'
 import SignUpForm from '@/components/member/SignUpForm.vue'
 </script>
 
 <template>
-  <Header></Header>
+  <LayoutHeader></LayoutHeader>
   <main>
     <p class="hi">Dwell-In에 오신걸 환영합니다!!</p>
     <SignUpForm></SignUpForm>
   </main>
-  <Footer1></Footer1>
+  <LayoutFooter1></LayoutFooter1>
 </template>
 
 <style scoped>

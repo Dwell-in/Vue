@@ -1,10 +1,10 @@
 <script setup>
 import { ref } from 'vue'
-import SideDefault from '@/components/side/SideDefault.vue'
 import ChatList from '@/components/chat/ChatList.vue'
 import ChatRoom from '@/components/chat/ChatRoom.vue'
 import { useSideStore } from '@/stores/side'
 import { useLoginUserStore } from '@/stores/loginUser'
+import SideBase from './SideBase.vue'
 const loginUser = useLoginUserStore()
 
 const store = useSideStore()
@@ -18,7 +18,7 @@ const handleSelectChatRoom = (target) => {
 </script>
 
 <template>
-  <SideDefault class="chatView" @close="store.chatToggle(false)">
+  <SideBase class="chatView" @close="store.chatToggle(false)">
     <div class="chat">
       <div class="chat-header">
         <img alt="logo" src="@/assets/img/logo-w.png" />
@@ -33,7 +33,7 @@ const handleSelectChatRoom = (target) => {
         />
       </div>
     </div>
-  </SideDefault>
+  </SideBase>
 </template>
 
 <style scoped>

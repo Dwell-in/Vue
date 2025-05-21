@@ -1,15 +1,15 @@
 <script setup>
-import Footer2 from '@/components/footer/Footer2.vue'
-import Header from '@/components/header/Header.vue'
+import LayoutFooter2 from '@/components/layout/footer/LayoutFooter2.vue'
+import LayoutHeader from '@/components/layout/header/LayoutHeader.vue'
 import LoginForm from '@/components/member/LoginForm.vue'
 </script>
 
 <template>
-  <Header></Header>
+  <LayoutHeader></LayoutHeader>
   <main>
     <LoginForm></LoginForm>
   </main>
-  <Footer2></Footer2>
+  <LayoutFooter2></LayoutFooter2>
 </template>
 
 <style scoped>
