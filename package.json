@@ -14,9 +14,11 @@
     "deploy": "gh-pages -d dist -r https://github.com/Dwell-in/Dwell-in.github.io.git"
   },
   "dependencies": {
+    "-": "^0.0.1",
     "@stomp/stompjs": "^7.1.1",
     "axios": "^1.9.0",
     "chart.js": "^4.4.9",
+    "embedded": "^1.1.0",
     "highlight.js": "^11.11.1",
     "js-cookie": "^3.0.5",
     "marked-highlight": "^2.2.1",

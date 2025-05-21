@@ -14,6 +14,10 @@ const getFavorite = async () => {
   return res.data.data.data
 }
 
+const removeFavorite = (aptSeq) => {
+  favorites.value = favorites.value.filter((apt) => apt.aptSeq !== aptSeq)
+}
+
 onMounted(async () => {
   const res = await getFavorite()
   if (res.length == 0) return
@@ -44,7 +48,12 @@ const close = () => {
     <template #main>
       <template v-if="favorites">
         <UseCarousel :width="'17%'" :height="'50%'" :gap="'10vh'">
-          <HouseCard v-for="apt in favorites" :key="apt.id" :apt="apt"></HouseCard>
+          <HouseCard
+            v-for="apt in favorites"
+            :key="apt.id"
+            :apt="apt"
+            @remove="removeFavorite"
+          ></HouseCard>
         </UseCarousel>
       </template>
     </template>
