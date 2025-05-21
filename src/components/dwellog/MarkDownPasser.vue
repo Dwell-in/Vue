@@ -4,6 +4,7 @@ import { marked } from '@/lib/markedSetup'
 
 const props = defineProps({
   url: String,
+  text: String,
 })
 
 const markdown = ref('# hello')
@@ -18,22 +19,30 @@ const markdownToHtml = async () => {
   return output
 }
 
-const mdParsing = async () => {
-  if (!props.url) return
+const urlMdParsing = async () => {
+  if (!props.url) {
+    await textMdParsing()
+    return
+  }
   const res = await fetch(props.url)
   const text = await res.text()
   markdown.value = text
   html.value = await markdownToHtml()
 }
 
+const textMdParsing = async () => {
+  markdown.value = props.text
+  html.value = await markdownToHtml()
+}
+
 onMounted(async () => {
-  await mdParsing()
+  await urlMdParsing()
 })
 
 watch(
   () => props.url,
   async () => {
-    await mdParsing()
+    await urlMdParsing()
   },
 )
 </script>

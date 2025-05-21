@@ -112,7 +112,7 @@ const changeSearchCategory = (category) => {
     </template>
     <template #main>
       <div class="grid-chart-title title">CHART</div>
-      <div class="grid-chat-title title">CHAT</div>
+      <div class="grid-ai-title title">AI</div>
       <div class="grid-road-view-title title">ROAD VIEW</div>
       <div class="grid-info-title title">INFO</div>
       <div class="grid-blog-title">
@@ -151,15 +151,11 @@ const changeSearchCategory = (category) => {
           </tr>
         </table>
       </div>
-      <div class="grid-chat"></div>
+      <div class="grid-ai"></div>
       <HouseRoadView v-if="info" :info="info" class="grid-road-view"></HouseRoadView>
-      <HouseChart
-        v-if="info"
-        :info="info"
-        class="grid-chart"
-        :fontSize="40"
-        :chartType="'doughnut'"
-      ></HouseChart>
+      <div class="grid-chart">
+        <HouseChart v-if="info" :info="info" :fontSize="15" :chartType="'line'"></HouseChart>
+      </div>
       <HouseNews
         v-if="info"
         :info="info"
@@ -176,10 +172,12 @@ const changeSearchCategory = (category) => {
   grid-template-areas:
     'infoTitle chartTitle .    roadViewTitle'
     'info      chart      .    road         '
-    'chatTitle blogTitle  .    road         '
-    'chat      blog       blog blog         ';
+    'aiTitle   chart      .    road         '
+    'ai        chart      .    road         '
+    'ai        blogTitle  .    road         '
+    'ai        blog       blog blog         ';
   grid-template-columns: 3.5fr 3fr 0.5fr 4fr;
-  grid-template-rows: 1fr 4fr 1fr 4fr;
+  grid-template-rows: 1fr 2fr 1fr 1fr 1fr 4fr;
   color: white;
 }
 :deep(.main) > *:not(.grid-chart) {
@@ -190,8 +188,8 @@ const changeSearchCategory = (category) => {
 .grid-chart-title {
   grid-area: chartTitle;
 }
-.grid-chat-title {
-  grid-area: chatTitle;
+.grid-ai-title {
+  grid-area: aiTitle;
 }
 .grid-road-view-title {
   grid-area: roadViewTitle;
@@ -206,8 +204,8 @@ const changeSearchCategory = (category) => {
 .grid-chart {
   grid-area: chart;
 }
-.grid-chat {
-  grid-area: chat;
+.grid-ai {
+  grid-area: ai;
 }
 .grid-road-view {
   grid-area: road;
