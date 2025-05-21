@@ -173,7 +173,7 @@ const changeSearchCategory = (category) => {
 
 ### 2. 향후 가격 추세 예측
 - **개포래미안포레스트**는 신축 아파트로, 이미 높은 가격대를 형성하고 있습니다. 2023년부터 가격이 안정화되면서도 약간의 상승세를 보이고 있어, 향후에도 안정적인 상승이 예상됩니다. 최신 시설과 좋은 입지를 고려할 때, 수요가 지속될 가능성이 높습니다.
-  
+
 - **개포현대200동**은 오래된 아파트임에도 불구하고 최근 몇 년간 급격한 가격 상승을 보였습니다. 이는 재개발 혹은 리모델링에 대한 기대감 때문일 수도 있습니다. 하지만 건축 연도가 오래된 만큼, 향후 시설 유지 및 관리 비용이 증가할 가능성이 있으며, 가격의 지속적 상승을 보장하기 어려울 수 있습니다.
 
 ### 3. 추천 아파트 및 이유
@@ -200,7 +200,7 @@ const changeSearchCategory = (category) => {
   </ModalBase>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 :deep(.main) {
   display: grid;
   grid-template-areas:
@@ -285,6 +285,33 @@ const changeSearchCategory = (category) => {
 .grid-road-view > * {
   position: relative !important;
   border-radius: 20px;
+}
+
+.grid-ai {
+  padding: 0 2vh 0 0 !important;
+
+  & .md {
+    height: 100%;
+    overflow-y: scroll;
+    padding-right: 2vh;
+  }
+  & .md {
+    scrollbar-width: thin;
+    scrollbar-color: #333 #555;
+  }
+
+  & .md::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  & .md::-webkit-scrollbar-track {
+    background: #555;
+  }
+
+  & .md::-webkit-scrollbar-thumb {
+    background-color: #333;
+    border-radius: 3px;
+  }
 }
 
 .grid-blog-title {
