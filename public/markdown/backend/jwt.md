@@ -74,6 +74,7 @@ http.logout(t -> t.logoutUrl("/api/v1/member/logout")
   - JwtAuthenticationFilter는 이후 직접 생성할 필터
 - AuthenticationManager 등록
   컨트롤러에서 로그인 요청 처리를 위해 사용할 예정
+
 ```java
 @Bean
 AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
@@ -90,6 +91,7 @@ JwtTokenProvider 클래스 생성
 ### 의존성 추가
 
 - 코드
+
 ```xml
   <dependency>
     <groupId>io.jsonwebtoken</groupId>
@@ -347,7 +349,7 @@ axios.interceptors.response.use(
   err => {
     if (err.response?.status === 401) {
       localStorage.removeItem("token");
-      router.push("/login");
+      router.push({name: 'Login'});
     }
     return Promise.reject(err);
   }

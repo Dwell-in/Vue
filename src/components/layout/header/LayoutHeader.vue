@@ -33,16 +33,18 @@ const loginUserStore = useLoginUserStore()
   >
     <nav>
       <div class="menu" :class="{ hovered: hovered }">
-        <router-link to="/" class="logo">
+        <router-link :to="{ name: 'Home' }" class="logo">
           <img src="@/assets/img/logo.png" alt="logo" />
         </router-link>
-        <router-link class="noti" to="/board/list/1">게시판</router-link>
-        <router-link class="" :to="{ name: 'Dwellog', params: { categoryId: 0 } }"
-          >Dwellog</router-link
-        >
+        <router-link class="noti" :to="{ name: 'Board', params: { categoryId: 0 } }">
+          게시판
+        </router-link>
+        <router-link class="" :to="{ name: 'Dwellog', params: { categoryId: 0 } }">
+          Dwellog
+        </router-link>
         <router-link class="" to="/">메뉴</router-link>
         <router-link class="" to="/">메뉴</router-link>
-        <router-link class="" to="/starred/list">수정중</router-link>
+        <router-link class="" :to="{ name: 'Starred' }">수정중</router-link>
       </div>
       <div>
         <form class="search" :class="{ hovered: hovered }" @submit.prevent="handleSubmit">
@@ -66,8 +68,8 @@ const loginUserStore = useLoginUserStore()
             />
           </template>
           <template v-else>
-            <router-link to="/member/login" class="link">로그인</router-link>
-            <router-link to="/member/signup" class="link">회원가입</router-link>
+            <router-link :to="{ name: 'Login' }" class="link">로그인</router-link>
+            <router-link :to="{ name: 'SignUp' }" class="link">회원가입</router-link>
           </template>
         </div>
       </div>

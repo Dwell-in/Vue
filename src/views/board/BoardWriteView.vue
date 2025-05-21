@@ -22,7 +22,7 @@ const writeBoard = async () => {
       },
     },
   )
-  router.push(`/board/list/${route.params.categoryId}`)
+  router.push({ name: 'Board', params: { categoryId: route.params.categoryId } })
 }
 </script>
 

@@ -23,7 +23,7 @@ const loginUser = useLoginUserStore()
     <router-link
       v-if="loginUser && (route.params.categoryId != 1 || loginUser.role === 'ADMIN')"
       class="writeBtn"
-      :to="`/board/write/${route.params.categoryId}`"
+      :to="{ name: 'BoardWrite', params: { categoryId: route.params.categoryId } }"
     >
       글쓰기
     </router-link>
@@ -40,7 +40,12 @@ const loginUser = useLoginUserStore()
       <tr v-for="(board, index) in boards" :key="index">
         <td>{{ offset + index + 1 }}</td>
         <td>
-          <router-link :to="`/board/detail/${board.boardId}/${board.categoryId}`">
+          <router-link
+            :to="{
+              name: 'BoardDetail',
+              params: { boardId: board.boardId, categoryId: board.categoryId },
+            }"
+          >
             {{ board.title }}
           </router-link>
         </td>

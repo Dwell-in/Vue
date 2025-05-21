@@ -95,7 +95,7 @@ const selectChat = (menu) => {
       <div class="menu" @click="handelSelectMenu('?')" :class="{ selected: selected == '?' }"></div>
     </div>
     <div class="my-footer">
-      <router-link class="settings" to="/member/my">
+      <router-link class="settings" to="마이페이지">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           height="24px"

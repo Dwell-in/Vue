@@ -156,7 +156,7 @@ const handleSubmit = async () => {
     </div>
 
     <div class="btns">
-      <router-link to="/member/login" class="btn lb" type="button" id="loginBtn">
+      <router-link :to="{ name: 'Login' }" class="btn lb" type="button" id="loginBtn">
         로그인 이동
       </router-link>
       <button class="btn sb" type="submit" id="signupBtn">회원가입</button>
