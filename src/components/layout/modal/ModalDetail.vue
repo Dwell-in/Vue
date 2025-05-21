@@ -7,7 +7,6 @@ import { useSideStore } from '@/stores/side'
 import HouseChart from '@/components/house/HouseChart.vue'
 import HouseNews from '@/components/house/HouseNews.vue'
 import HouseRoadView from '@/components/house/HouseRoadView.vue'
-import MarkDownPasser from '@/components/dwellog/MarkDownPasser.vue'
 import PricePredictAi from '@/components/ai/PricePredictAi.vue'
 
 const sideStore = useSideStore()
@@ -151,36 +150,7 @@ const changeSearchCategory = (category) => {
       </div>
 
       <div class="grid-ai">
-        <MarkDownPasser
-          text="두 아파트의 거래 내역을 분석하여 각각의 특징과 향후 가격 추세를 예측해보겠습니다.
-
-### 1. 가격, 거래량, 연식 비교
-- **개포래미안포레스트**
-  - **건축년도**: 2020년
-  - **최근 거래 가격**: 2025년 2월 28일 기준, 112.73㎡가 389,000만원에 거래됨.
-  - **가격 추이**: 2020년에서 2025년까지 전반적으로 상승, 특히 2023년부터 가격이 안정화되면서 조금씩 상승하는 추세.
-  - **거래량**: 다양한 면적대에서 안정적으로 거래가 이루어짐.
-
-- **개포현대200동**
-  - **건축년도**: 1986년
-  - **최근 거래 가격**: 2025년 2월 1일 기준, 82.2㎡가 205,000만원에 거래됨.
-  - **가격 추이**: 2012년부터 꾸준한 상승세, 특히 2018년 이후 급격히 상승하는 경향.
-  - **거래량**: 과거 거래 내역이 더 적고, 최근 거래는 많지 않음.
-
-### 2. 향후 가격 추세 예측
-- **개포래미안포레스트**는 신축 아파트로, 이미 높은 가격대를 형성하고 있습니다. 2023년부터 가격이 안정화되면서도 약간의 상승세를 보이고 있어, 향후에도 안정적인 상승이 예상됩니다. 최신 시설과 좋은 입지를 고려할 때, 수요가 지속될 가능성이 높습니다.
-
-- **개포현대200동**은 오래된 아파트임에도 불구하고 최근 몇 년간 급격한 가격 상승을 보였습니다. 이는 재개발 혹은 리모델링에 대한 기대감 때문일 수도 있습니다. 하지만 건축 연도가 오래된 만큼, 향후 시설 유지 및 관리 비용이 증가할 가능성이 있으며, 가격의 지속적 상승을 보장하기 어려울 수 있습니다.
-
-### 3. 추천 아파트 및 이유
-**개포래미안포레스트**를 추천합니다. 이유는 다음과 같습니다:
-- **신축 아파트**로서 최신 시설과 안정적인 관리가 가능하며, 향후 유지보수 비용이 상대적으로 적습니다.
-- **위치와 입지**: 강남권에 위치하여 교통과 생활 편의성 측면에서 우수합니다.
-- **가격 안정성**: 최근 몇 년간 거래 가격이 안정화되고 있으며, 지속적인 수요 증가가 예상됩니다.
-
-결론적으로, 개포래미안포레스트는 안정적인 가격 상승을 기대할 수 있으며, 투자가치가 높은 아파트로 판단됩니다."
-        >
-        </MarkDownPasser>
+        <PricePredictAi :apt-seq="info.aptSeq"></PricePredictAi>
       </div>
       <HouseRoadView v-if="info" :info="info" class="grid-road-view"></HouseRoadView>
       <div class="grid-chart">
@@ -284,7 +254,7 @@ const changeSearchCategory = (category) => {
   border-radius: 20px;
 }
 
-.grid-ai {
+:deep(.grid-ai) {
   padding: 0 3vh 0 0 !important;
 
   & .md {

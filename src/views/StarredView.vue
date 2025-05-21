@@ -2,6 +2,9 @@
   <LayoutHeader />
   <main>
     <div>
+      <PricePredictAi />
+    </div>
+    <div>
       <h2>관심지역 페이지 입니다</h2>
       <PostStarredList />
     </div>
@@ -18,6 +21,7 @@ import LayoutHeader from '@/components/layout/header/LayoutHeader.vue'
 import LayoutFooter1 from '@/components/layout/footer/LayoutFooter1.vue'
 import PostStarredList from '@/components/starred/PostStarredList.vue'
 import AiChatbot from '@/components/ai/ChatbotAi.vue'
+import PricePredictAi from '@/components/ai/PricePredictAi.vue'
 </script>
 
 <style scoped>
