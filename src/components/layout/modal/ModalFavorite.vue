@@ -11,9 +11,8 @@ const modalStore = useModalStore()
 // TODO getFavorite() 즐겨찾기 목록 가져오는걸로 변경하기
 const favorites = ref()
 const getFavorite = async () => {
-  const res = await api.get(`/api/v1/house?sido=서울특별시&gugun=강남구&dong=개포동`)
-  console.log(res.data.data)
-  return res.data.data
+  const res = await api.get('/api/v1/starred')
+  return res.data.data.data
 }
 
 onMounted(async () => {
