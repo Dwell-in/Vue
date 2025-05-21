@@ -97,7 +97,11 @@ const changeSearchCategory = (category) => {
         7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
         />
       </svg>
-      <div class="title">{{ info?.aptNm }}</div>
+      <div class="title">
+        {{ info?.aptNm }}
+        <div class="active">INFO</div>
+        <div>MENU2</div>
+      </div>
       <svg
         class="side"
         @click="fullClose"
@@ -117,19 +121,11 @@ const changeSearchCategory = (category) => {
       <div class="grid-ai-title title">AI</div>
       <div class="grid-road-view-title title">ROAD VIEW</div>
       <div class="grid-info-title title">INFO</div>
-      <div class="grid-blog-title">
-        <div
-          class="title"
-          :class="{ active: searchCategory == 'blog' }"
-          @click="changeSearchCategory('blog')"
-        >
+      <div class="grid-blog-title title">
+        <div :class="{ active: searchCategory == 'blog' }" @click="changeSearchCategory('blog')">
           BLOG
         </div>
-        <div
-          class="title"
-          :class="{ active: searchCategory == 'news' }"
-          @click="changeSearchCategory('news')"
-        >
+        <div :class="{ active: searchCategory == 'news' }" @click="changeSearchCategory('news')">
           NEWS
         </div>
       </div>
@@ -256,6 +252,7 @@ const changeSearchCategory = (category) => {
   display: flex;
   align-items: center;
   font-weight: bold;
+  gap: 20px;
 }
 .title * {
   font-size: 1.5rem;
@@ -288,7 +285,7 @@ const changeSearchCategory = (category) => {
 }
 
 .grid-ai {
-  padding: 0 2vh 0 0 !important;
+  padding: 0 3vh 0 0 !important;
 
   & .md {
     height: 100%;
@@ -318,10 +315,10 @@ const changeSearchCategory = (category) => {
   display: flex;
   gap: 2vh;
 }
-.grid-blog-title .title {
+.grid-blog-title.title {
   cursor: pointer;
 }
-.grid-blog-title .title.active {
+.title .active {
   background-color: #3b3b3b;
   border-radius: 10px;
   padding: 5px 10px;
@@ -336,6 +333,7 @@ const changeSearchCategory = (category) => {
   flex-shrink: 0;
   -ms-overflow-style: none;
   scrollbar-width: none;
+  padding: 3vh 0;
 }
 
 .grid-blog:-webkit-scrollbar {

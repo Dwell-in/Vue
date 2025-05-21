@@ -4,6 +4,9 @@ import Cookies from 'js-cookie'
 import api from '@/lib/api'
 import { useRecentViewedStore } from '@/stores/recentViewed'
 
+import { useSideStore } from '@/stores/side'
+
+const sideStore = useSideStore()
 const emit = defineEmits(['select'])
 
 const store = useRecentViewedStore()
@@ -37,7 +40,7 @@ const handleClick = (houseInfo) => {
 </script>
 
 <template>
-  <div class="recent-viewed-wrapper">
+  <div class="recent-viewed-wrapper" v-show="!sideStore.detail">
     <h2 class="title">최근 본 매물</h2>
     <div class="list-box">
       <ul>
@@ -73,6 +76,7 @@ const handleClick = (houseInfo) => {
 }
 
 .list-box {
+  scrollbar-width: thin;
   max-height: 250px;
   overflow-y: auto;
 }

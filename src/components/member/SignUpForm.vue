@@ -20,7 +20,7 @@ const requestEmailVerification = async () => {
     const msg = res.data.data
     alert(msg)
   } catch (err) {
-    alert('이메일 인증 요청에 실패했습니다.')
+    alert(err, '이메일 인증 요청에 실패했습니다.')
   }
 }
 

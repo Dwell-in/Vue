@@ -45,13 +45,13 @@ body:has(.map) .modal {
 }
 .header {
   width: 100%;
-  height: 7%;
+  height: 5%;
   display: flex;
   gap: 1%;
   flex-shrink: 0;
   position: relative;
 }
-.header * {
+.header > * {
   height: 70%;
   color: white;
   font-size: 1.5rem;
