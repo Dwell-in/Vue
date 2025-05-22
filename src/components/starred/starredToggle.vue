@@ -9,7 +9,7 @@
 
 <script setup>
 import { onMounted, ref, watch } from 'vue'
-import { useStarredStore } from '@/components/stores/starred'
+import { useStarredStore } from '@/stores/starred'
 
 const props = defineProps({
   apt: {
@@ -39,7 +39,7 @@ const toggle = async () => {
 }
 
 const isStarredSetting = () => {
-  isStarred.value = starredStore.starredes.some((item) => item.aptSeq === props.apt?.aptSeq)
+  isStarred.value = starredStore.starredes?.some((item) => item.aptSeq === props.apt?.aptSeq)
 }
 onMounted(async () => {
   // 최초에 관심 목록이 비어있으면 서버에서 가져오기

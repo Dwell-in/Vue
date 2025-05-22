@@ -27,12 +27,12 @@ api.interceptors.response.use(
     const status = error.response?.status
     if (status === 401) {
       auth.removeToken()
-      router.push({ name: 'Login' })
+      router.replace({ name: 'Login' })
     } else if ([403, 404, 405, 500].includes(status)) {
-      router.push({ name: 'ErrorPage', params: { code: status } })
+      router.replace({ name: 'ErrorPage', params: { code: status } })
     } else {
       // 지정된 에러를 제외하면 default로 처리
-      router.push({ name: 'ErrorPage', params: { code: 'default' } })
+      router.replace({ name: 'ErrorPage', params: { code: 'default' } })
     }
     return Promise.reject(error)
   },

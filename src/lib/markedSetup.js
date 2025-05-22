@@ -1,7 +1,8 @@
 import { marked } from 'marked'
 import { markedHighlight } from 'marked-highlight'
 import hljs from 'highlight.js'
-import 'highlight.js/styles/github.css'
+// import 'highlight.js/styles/github.css'
+import 'highlight.js/styles/github-dark.css'
 
 let initialized = false
 

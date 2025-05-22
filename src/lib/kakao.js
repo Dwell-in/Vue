@@ -212,6 +212,18 @@ const roadviewOn = async (roadviewContainer, lat, lng) => {
   })
 }
 
+const mapImgOn = async (imgContainer, lat, lng) => {
+  if (state.kakao == null) {
+    await init()
+  }
+  const staticMapOption = {
+    center: new state.kakao.maps.LatLng(lat, lng),
+    level: 3
+  };
+
+  new state.kakao.maps.StaticMap(imgContainer, staticMapOption);
+}
+
 export {
   state,
   init,
@@ -221,4 +233,5 @@ export {
   maker_Toggle,
   roadviewOn,
   overlayToggle,
+  mapImgOn
 }

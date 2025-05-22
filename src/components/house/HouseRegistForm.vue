@@ -3,15 +3,34 @@ import ApartmentSearchPopup from '@/components/house/ApartmentSearchPopup.vue'
 import { ref } from 'vue'
 import api from '@/lib/api'
 import { useLoginUserStore } from '@/stores/loginUser'
+import { mapImgOn } from '@/lib/kakao'
+import fileDefaultImg from '@/assets/img/fileDefault.png'
 
 const loginUser = useLoginUserStore()
 
 const showPopup = ref(false)
 const selectedApt = ref(null)
+const mapBox = ref()
+const fileInput = ref()
 
 const handleSelect = (apt) => {
   selectedApt.value = apt
   form.value.aptSeq = apt.aptSeq
+  mapImgOn(mapBox.value, apt.lat, apt.lon)
+}
+
+const imgFile = ref()
+const setImgFile = ()=> {
+  const file = fileInput.value.files[0]
+  if (!file){
+    imgFile.value = null
+    return
+  }
+  const reader = new FileReader()
+  reader.readAsDataURL(file)
+  reader.onloadend = () => {
+    imgFile.value = reader.result
+  }
 }
 
 const form = ref({
@@ -75,31 +94,44 @@ const submitProperty = async () => {
 
 <template>
   <form @submit.prevent="submitProperty" class="form">
-    <button @click.prevent="showPopup = true">아파트 검색</button>
     <ApartmentSearchPopup v-if="showPopup" @selectApt="handleSelect" @close="showPopup = false" />
-
-    <div v-if="selectedApt" class="selected-apt">
-      {{ selectedApt.sidoName }} {{ selectedApt.gugunName }} {{ selectedApt.dongName || '' }}
-      {{ selectedApt.jibun }}
-      {{ selectedApt.aptNm }}
-      <br />
-      (
-      {{ selectedApt.roadNm }}
-      {{ selectedApt.roadNmBonbun }}
-      <template v-if="selectedApt.roadNmBubun && selectedApt.roadNmBubun !== '0'">
-        -{{ selectedApt.roadNmBubun }}
-      </template>
-      )
-    </div>
-
     <div class="section">
       <div class="title">매물 정보</div>
       <div class="inputs">
-        <div class="form-group">
+        <div class="form-group addr">
           <label class="label">매물 주소</label>
-          <div class="block">
-            <div>주소 검색</div>
-            <input type="text" v-model.number="form.netArea" class="input" />
+          <div class="block" style="flex-shrink: 0; display: flex; flex-direction: column; justify-content: center;">
+            <div style="margin: 10px 0;">주소 검색</div>
+            <div class="searchDiv">
+              <input type="text" v-model.number="form.netArea" class="input" />
+              <button @click.prevent="showPopup = true" class="search-button">검색</button>
+            </div>
+            <div class="selected-apt">
+              <template v-if="selectedApt">
+                {{ selectedApt.sidoName }} {{ selectedApt.gugunName }} {{ selectedApt.dongName || '' }}
+                {{ selectedApt.jibun }}
+                {{ selectedApt.aptNm }}
+              </template>
+              <br />
+              <template v-if="selectedApt">
+                (
+                {{ selectedApt.roadNm }}
+                {{ selectedApt.roadNmBonbun }}
+                <template v-if="selectedApt.roadNmBubun && selectedApt.roadNmBubun !== '0'">
+                  -{{ selectedApt.roadNmBubun }}
+                </template>
+                )
+              </template>
+            </div>
+          </div>
+          <div class="imgDiv">
+            <div v-show="selectedApt" class="mapImgBox" ref="mapBox"></div>
+            <div v-if="!selectedApt" class="mapImgBox">
+              <i class="fa-solid fa-map-location-dot" style="font-size: 5em;"></i>
+              <p>주소 선택 시 이곳에 지도가 표시됩니다.</p>
+            </div>
+            <input type="file" accept="image/*" style="display: none;" ref="fileInput" @change="setImgFile">
+            <img :src="imgFile || fileDefaultImg" alt="" @click="fileInput.click">
           </div>
         </div>
         <div class="form-group">
@@ -225,11 +257,6 @@ const submitProperty = async () => {
     </div>
 
     <div class="section">
-      <div class="title">사진 등록</div>
-      <div class="inputs"></div>
-    </div>
-
-    <div class="section">
       <div class="title">상세 정보</div>
       <div class="inputs">
         <div class="form-group">
@@ -261,6 +288,72 @@ const submitProperty = async () => {
 form {
   width: 100%;
 }
+
+.selected-apt{
+  margin: 10px 0;
+  padding: 10px;
+  background-color:#FCFCFC;
+  border: 1px solid #F5F5F5;
+  border-radius: 5px;
+}
+
+.form-group.addr{
+  height: 300px;
+
+  & > label{
+    display: flex;
+    align-items: center;
+  }
+
+  & > div{
+    & *{
+      height: auto !important;
+    }
+  }
+  & .searchDiv{
+    display: flex;
+    gap: 20px;
+
+    & button{
+      white-space: nowrap;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 3px;
+      border: none;
+      background-color: #222222;
+
+      &:hover{
+        background-color: #434343;
+      }
+    }
+  }
+
+  & .imgDiv{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+
+    & .mapImgBox, & img{
+      width: 100%;
+      height: 100% !important;
+      border-radius: 10px;
+      background-color: #FCFCFC;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+    }
+    & img{
+      width: auto !important;
+      cursor: pointer;
+    }
+  }
+
+}
+
 .section {
   width: 100%;
   padding: 20px 0;
@@ -276,7 +369,7 @@ form {
     align-items: center;
     border: 1px solid #f5f5f5;
 
-    & * {
+    & *:not(.fa-solid) {
       height: 100%;
       font-size: 0.7rem;
     }
@@ -294,14 +387,18 @@ form {
       gap: 10px;
     }
 
+    & input, & textarea{
+      border: 1px solid #ebebeb;
+    }
+
     & input[type='number'] {
-      padding: 20px 10px;
+      padding: 10px;
     }
 
     & input[type='text'],
     & textarea {
       width: 100%;
-      padding: 20px 10px;
+      padding: 10px;
       resize: none;
     }
     & textarea {
@@ -312,5 +409,19 @@ form {
       margin-left: 10px;
     }
   }
+  & .form-group + .form-group{
+    border-top: none;
+  }
+}
+
+.submit-button{
+  background-color: #326CF9;
+  color: white;
+  padding: 20px 40px;
+  margin: 20px auto;
+  display: block;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 </style>

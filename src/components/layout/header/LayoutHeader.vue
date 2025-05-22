@@ -218,6 +218,8 @@ nav div {
   border-radius: 10px;
   white-space: nowrap;
   color: #52616b !important;
+  display: flex;
+  align-items: center;
 }
 .link:last-child {
   background-color: #c7ffc7;

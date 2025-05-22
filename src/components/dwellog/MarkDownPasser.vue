@@ -52,9 +52,9 @@ watch(
 </template>
 
 <style>
-.hljs {
+/* .hljs {
   background: #def4fe !important;
-}
+} */
 blockquote {
   background-color: #f8f9fa;
   margin: 0;

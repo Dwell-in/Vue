@@ -67,7 +67,7 @@ const handleSearchAI = () => {
       <StarredToggle v-if="info" :apt="info"></StarredToggle>
       <div class="title">
         {{ info?.aptNm }}
-        <div class="active">INFO</div>
+        <div class="active" style="margin-left: 50px;">INFO</div>
         <div>MENU2</div>
       </div>
       <svg

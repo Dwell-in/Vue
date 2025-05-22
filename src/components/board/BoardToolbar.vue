@@ -24,6 +24,9 @@ const handleSearch = () => {
 </template>
 
 <style scoped>
+select{
+  border: 1px solid #E3E7EB;
+}
 .search {
   width: 50%;
   height: 40px;

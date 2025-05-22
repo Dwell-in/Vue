@@ -20,6 +20,8 @@ import makerBtn4 from '@/assets/img/marker_HP8_btn.png'
 import makerBtn5 from '@/assets/img/marker_BK9_btn.png'
 import makerBtn6 from '@/assets/img/marker_CS2_btn.png'
 import defaultImg from '@/assets/img/loginbg.png'
+import { useSideStore } from '@/stores/side'
+const sideStore = useSideStore()
 
 const emit = defineEmits(['update:loading'])
 defineProps(['loading'])
@@ -139,6 +141,13 @@ watch(
 watch(infos, () => {
   visibleCount.value = 7
   visibleInfos.value = infos.value.slice(0, visibleCount.value)
+})
+
+watch(
+  () => sideStore.detail,
+  () => {
+  if(sideStore.detail)
+  toggle.value = true
 })
 </script>
 

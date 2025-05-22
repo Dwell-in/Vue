@@ -4,7 +4,7 @@ import ModalBase from './ModalBase.vue'
 import UseCarousel from '@/lib/useCarousel.vue'
 import { useModalStore } from '@/stores/modal'
 import HouseCard from '@/components/house/HouseCard.vue'
-import { useStarredStore } from '@/components/stores/starred'
+import { useStarredStore } from '@/stores/starred'
 
 const modalStore = useModalStore()
 const starredStore = useStarredStore()
