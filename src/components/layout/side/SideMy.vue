@@ -56,7 +56,7 @@ const selectChat = (menu) => {
     </div>
     <div class="my-main">
       <div class="menu" @click="selectChat('Chat')" :class="{ selected: selected == 'Chat' }">
-        <svg
+        <!-- <svg
           xmlns="http://www.w3.org/2000/svg"
           height="40px"
           viewBox="0 -960 960 960"
@@ -66,7 +66,8 @@ const selectChat = (menu) => {
           <path
             d="M480-80 375-238H146.67q-27.5 0-47.09-19.58Q80-277.17 80-304.67v-508.66q0-27.5 19.58-47.09Q119.17-880 146.67-880h666.66q27.5 0 47.09 19.58Q880-840.83 880-813.33v508.66q0 27.5-19.58 47.09Q840.83-238 813.33-238H585L480-80Zm0-120 69.33-104.67h264v-508.66H146.67v508.66h264L480-200Zm0-359.33Z"
           />
-        </svg>
+        </svg> -->
+        <i class="fa-solid fa-comments" style="color: #a2d4fb"></i>
         <div>Chat</div>
       </div>
       <div
@@ -74,21 +75,12 @@ const selectChat = (menu) => {
         @click="handelSelectMenu('Favorite')"
         :class="{ selected: selected == 'Favorite' }"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          height="24px"
-          viewBox="0 -960 960 960"
-          width="35px"
-          fill="#a7a7a7"
-        >
-          <path
-            d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z"
-          />
-        </svg>
+        <i class="fa-solid fa-star" style="color: #ffdf6b"></i>
+        <!-- <i class="fa-regular fa-star" style="color: #ffdf6b"></i> -->
         <div>Favorite</div>
       </div>
       <div class="menu" @click="handelSelectMenu('View')" :class="{ selected: selected == 'View' }">
-        <i class="fa-regular fa-eye"></i>
+        <i class="fa-regular fa-eye" style="color: white"></i>
         <div>Recently View</div>
       </div>
       <div class="menu" @click="handelSelectMenu('?')" :class="{ selected: selected == '?' }"></div>

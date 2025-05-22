@@ -62,7 +62,7 @@ const handleSearchAI = () => {
 </script>
 
 <template>
-  <ModalBase @close="close">
+  <ModalBase @close="close" class="detail">
     <template #header>
       <StarredToggle v-if="info" :apt="info"></StarredToggle>
       <div class="title">
@@ -85,10 +85,12 @@ const handleSearchAI = () => {
       </svg>
     </template>
     <template #main>
-      <div class="grid-chart-title title">CHART</div>
-      <div class="grid-ai-title title">AI</div>
-      <div class="grid-road-view-title title">ROAD VIEW</div>
-      <div class="grid-info-title title">INFO</div>
+      <div class="grid-chart-title title"><i class="fa-solid fa-chart-line"></i> CHART</div>
+      <div class="grid-ai-title title"><i class="fa-solid fa-robot"></i> AI</div>
+      <div class="grid-road-view-title title">
+        <i class="fa-solid fa-map-location-dot"></i> ROAD VIEW
+      </div>
+      <div class="grid-info-title title"><i class="fa-solid fa-magnifying-glass"></i> INFO</div>
       <div class="grid-blog-title title">
         <div :class="{ active: searchCategory == 'blog' }" @click="changeSearchCategory('blog')">
           BLOG

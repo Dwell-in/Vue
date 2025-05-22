@@ -17,7 +17,7 @@ const viewClose = () => {
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .modal {
   width: calc(100vw - 50vh);
   height: calc(90vh - 65px);
@@ -33,7 +33,11 @@ const viewClose = () => {
   flex-direction: column;
 }
 body:has(.map) .modal {
-  background-color: #111111ed;
+  background-color: #11212bf1 !important;
+
+  &.detail {
+    left: 40vh !important;
+  }
 }
 .modal > .close {
   width: auto !important;

@@ -200,11 +200,11 @@ watch(infos, () => {
 .houseList {
   width: 30vh;
   height: calc(100% - 65px);
-  background-color: #343434ec;
+  background-color: #11181dec;
   position: fixed;
   top: 65px;
   left: 0;
-  z-index: 30;
+  z-index: 80;
   overflow-y: scroll;
   -ms-overflow-style: auto;
   /* 인터넷 익스플로러 */

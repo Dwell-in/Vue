@@ -96,6 +96,13 @@ const submitProperty = async () => {
       <div class="title">매물 정보</div>
       <div class="inputs">
         <div class="form-group">
+          <label class="label">매물 주소</label>
+          <div class="block">
+            <div>주소 검색</div>
+            <input type="text" v-model.number="form.netArea" class="input" />
+          </div>
+        </div>
+        <div class="form-group">
           <label class="label">전용면적 (㎡)</label>
           <input type="number" step="0.01" v-model.number="form.netArea" class="input" />
         </div>
@@ -104,6 +111,11 @@ const submitProperty = async () => {
           <label class="label">공급면적 (㎡)</label>
           <input type="number" step="0.01" v-model.number="form.supplyArea" class="input" />
         </div>
+      </div>
+
+      <div class="form-group">
+        <label class="label">방 수</label>
+        <input type="number" v-model.number="form.rooms" class="input" />
       </div>
     </div>
 
@@ -156,11 +168,6 @@ const submitProperty = async () => {
         <div class="form-group">
           <label class="label">건물 전체 층수</label>
           <input type="number" v-model.number="form.totalFloor" class="input" />
-        </div>
-
-        <div class="form-group">
-          <label class="label">방 수</label>
-          <input type="number" v-model.number="form.rooms" class="input" />
         </div>
 
         <div class="form-group">
@@ -227,13 +234,22 @@ const submitProperty = async () => {
       <div class="inputs">
         <div class="form-group">
           <label class="label">제목</label>
-          <input type="text" v-model="form.title" class="input" />
+          <input
+            type="text"
+            v-model="form.title"
+            class="input"
+            placeholder="리스트에 노출되는 문구입니다. 40자 이내로 작성해 주세요."
+          />
         </div>
       </div>
 
       <div class="form-group">
         <label class="label">설명</label>
-        <textarea v-model="form.description" class="input"></textarea>
+        <textarea
+          v-model="form.description"
+          class="input"
+          placeholder="매물 상세 페이지에 노출되는 문구입니다. 1000자 이내로 작성해주세요."
+        ></textarea>
       </div>
     </div>
 
@@ -271,19 +287,28 @@ form {
       flex-shrink: 0;
       background-color: #fcfcfc;
     }
-    & > *:not(:first-child) {
+    & > *:not(:first-child):not(.block) {
       display: flex;
       align-items: center;
       white-space: nowrap;
       gap: 10px;
     }
 
-    & input,
-    & textarea {
-      padding: 10px 5px;
+    & input[type='number'] {
+      padding: 20px 10px;
     }
 
-    & * + * {
+    & input[type='text'],
+    & textarea {
+      width: 100%;
+      padding: 20px 10px;
+      resize: none;
+    }
+    & textarea {
+      height: 200px;
+    }
+
+    & > * + * {
       margin-left: 10px;
     }
   }

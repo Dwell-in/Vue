@@ -72,6 +72,7 @@ const selectApt = (aptSeq) => {
 .apt-title-row {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-bottom: 6px;
 }
 

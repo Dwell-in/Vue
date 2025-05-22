@@ -80,8 +80,9 @@ const loginUserStore = useLoginUserStore()
 header {
   width: 100vw;
   height: 65px;
-  background-color: white;
-  box-shadow: 0 2px 10px #52616b;
+  background: #111519;
+  background: linear-gradient(90deg, rgba(17, 21, 25, 1) 0%, rgba(16, 62, 86, 1) 100%);
+  box-shadow: 0 2px 10px #0a2d44;
   position: fixed;
   top: 0;
   left: 0;
@@ -104,7 +105,7 @@ nav {
   align-items: center;
 }
 nav * {
-  color: #52616b;
+  color: white;
 }
 nav div {
   height: 100%;

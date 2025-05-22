@@ -78,7 +78,13 @@ const selectApt = (aptSeq) => {
 </template>
 
 <style scoped>
+.detailView.open {
+  left: 30vh !important;
+}
 .detailView {
+  left: -40vh !important;
+  background-color: #11212bf1 !important;
+  border-radius: 5px;
   padding: 3vh 2vh;
 }
 .detailView * {

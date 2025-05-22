@@ -5,7 +5,9 @@ import api from '@/lib/api'
 import { useRecentViewedStore } from '@/stores/recentViewed'
 
 import { useSideStore } from '@/stores/side'
+import { useModalStore } from '@/stores/modal'
 
+const modalStore = useModalStore()
 const sideStore = useSideStore()
 const emit = defineEmits(['select'])
 
@@ -40,7 +42,7 @@ const handleClick = (houseInfo) => {
 </script>
 
 <template>
-  <div class="recent-viewed-wrapper" v-show="!sideStore.detail">
+  <div class="recent-viewed-wrapper" v-show="!sideStore.detail && !modalStore.detail">
     <h2 class="title">최근 본 매물</h2>
     <div class="list-box">
       <ul>
