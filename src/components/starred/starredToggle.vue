@@ -6,7 +6,7 @@
     width="26"
     height="26"
     viewBox="0 0 24 24"
-    :fill="isOn ? '#ff69b4' : 'none'"
+    :fill="isStarred ? '#ff69b4' : 'none'"
     stroke="#ff69b4"
     stroke-width="2"
     stroke-linecap="round"
@@ -21,54 +21,44 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from 'vue'
-import api from '@/lib/api'
+import { computed, onMounted } from 'vue'
+import { useStarredStore } from '@/components/stores/starred'
 
 const props = defineProps({
-  aptSeq: Number,
-  initial: Boolean,
+  apt: {
+    type: Object,
+    required: true,
+  },
 })
 
-const emit = defineEmits(['toggled'])
+const starredStore = useStarredStore()
 
-const isOn = ref(props.initial ?? false)
-
-const fetchStarred = async () => {
-  try {
-    const res = await api.get(`/api/v1/house/view/starred/${props.aptSeq}`)
-    isOn.value = res.data.data.isStarred
-  } catch (e) {
-    console.warn('즐겨찾기 상태 조회 실패', e)
-  }
-}
+// 관심 아파트인지 여부 확인 (apt.aptSeq 기준)
+const isStarred = computed(() =>
+  starredStore.starredes.some((item) => item.aptSeq === props.apt?.aptSeq),
+)
 
 const toggle = async () => {
-  const url = `/api/v1/starred/${props.aptSeq}`
   try {
-    if (isOn.value) {
-      const confirmed = confirm('정말 관심지역에서 삭제하시겠습니까?')
-      if (!confirmed) return
-      await api.delete(url)
-      isOn.value = false
+    if (isStarred.value) {
+      const confirmDelete = confirm('정말 관심지역에서 삭제하시겠습니까?')
+      if (!confirmDelete) return
+      await starredStore.removeStarred(props.apt.aptSeq)
     } else {
-      await api.post(url)
-      isOn.value = true
+      console.log(props.apt)
+      await starredStore.addStarred(props.apt)
     }
-    emit('toggled', isOn.value)
   } catch (e) {
     alert('즐겨찾기 처리 중 오류 발생')
     console.error(e)
   }
 }
 
-//   const handleToggle = (starred) => {
-//   if (!starred) {
-//     emit('remove', apt.aptSeq)
-//   }
-//}
-
-onMounted(() => {
-  fetchStarred()
+onMounted(async () => {
+  // 최초에 관심 목록이 비어있으면 서버에서 가져오기
+  if (!starredStore.starredes.length) {
+    await starredStore.fetchStarred()
+  }
 })
 </script>
 
@@ -81,4 +71,3 @@ onMounted(() => {
   transform: scale(1.1);
 }
 </style>
-<!-- <HeartToggle :aptSeq="apt.aptSeq" @toggled="handleToggle" /> -->

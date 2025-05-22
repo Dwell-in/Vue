@@ -10,6 +10,7 @@ import HouseRoadView from '@/components/house/HouseRoadView.vue'
 import PricePredictAi from '@/components/ai/PricePredictAi.vue'
 import { useLoginUserStore } from '@/stores/loginUser'
 import { useRouter } from 'vue-router'
+import StarredToggle from '@/components/starred/StarredToggle.vue'
 
 const router = useRouter()
 const loginUserStore = useLoginUserStore()
@@ -23,41 +24,12 @@ const fullClose = () => {
   sideStore.detailToggle(true)
 }
 
-const isStarred = ref(false)
-// 관심지역 여부 조회
-const fetchStarredStatus = async () => {
-  const res = await api.get(`/api/v1/house/view/starred/${modalStore.aptSeq}`)
-  isStarred.value = res.data.data.isStarred
-  console.log(isStarred.value)
-}
-
-const toggleStarred = async () => {
-  const url = `/api/v1/starred/${modalStore.aptSeq}`
-  console.log(isStarred.value)
-  try {
-    if (isStarred.value) {
-      const confirmed = confirm('정말 관심지역에서 삭제하시겠습니까?')
-      if (!confirmed) return
-
-      await api.delete(url)
-      isStarred.value = false
-    } else {
-      await api.post(url)
-      isStarred.value = true
-    }
-  } catch (e) {
-    alert('처리 중 오류가 발생했습니다.')
-    console.error(e)
-  }
-}
-
 // TODO getInfo() 선택한 아파트로 변경하기
 const info = ref(null)
 const getInfo = async () => {
   if (modalStore.aptSeq == null) return
   const res = await api.get(`/api/v1/house/${modalStore.aptSeq}`)
-  await fetchStarredStatus()
-  console.log(res.data.data)
+
   return res.data.data
 }
 const setInfo = async () => {
@@ -92,24 +64,7 @@ const handleSearchAI = () => {
 <template>
   <ModalBase @close="close">
     <template #header>
-      <svg
-        class="heart-toggle"
-        @click="toggleStarred"
-        xmlns="http://www.w3.org/2000/svg"
-        :fill="isStarred ? '#ff69b4' : 'none'"
-        width="26"
-        height="26"
-        viewBox="0 0 24 24"
-        stroke="#ff69b4"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <path
-          d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78
-        7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
-        />
-      </svg>
+      <StarredToggle :apt="info"></StarredToggle>
       <div class="title">
         {{ info?.aptNm }}
         <div class="active">INFO</div>

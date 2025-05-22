@@ -1,27 +1,24 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { computed, onMounted } from 'vue'
 import ModalBase from './ModalBase.vue'
-import api from '@/lib/api'
 import UseCarousel from '@/lib/useCarousel.vue'
 import { useModalStore } from '@/stores/modal'
 import HouseCard from '@/components/house/HouseCard.vue'
+import { useStarredStore } from '@/components/stores/starred'
 
 const modalStore = useModalStore()
+const starredStore = useStarredStore()
 
-const favorites = ref()
-const getFavorite = async () => {
-  const res = await api.get('/api/v1/starred')
-  return res.data.data.data
-}
+const favorites = computed(() => starredStore.starredes)
 
-const removeFavorite = (aptSeq) => {
-  favorites.value = favorites.value.filter((apt) => apt.aptSeq !== aptSeq)
+const removeFavorite = async (aptSeq) => {
+  await starredStore.removeStarred(aptSeq)
 }
 
 onMounted(async () => {
-  const res = await getFavorite()
-  if (res.length == 0) return
-  favorites.value = res
+  if (!starredStore.starredes.length) {
+    await starredStore.fetchStarred()
+  }
 })
 
 const close = () => {
