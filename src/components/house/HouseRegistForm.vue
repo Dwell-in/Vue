@@ -17,7 +17,7 @@ const handleSelect = (apt) => {
 const form = ref({
   aptSeq: '',
   title: '',
-  type: '전세',
+  type: '매매',
   netArea: null,
   supplyArea: null,
   floor: null,
@@ -134,7 +134,8 @@ const submitProperty = async () => {
 
         <div class="form-group">
           <label class="label">즉시 입주 가능</label>
-          <input type="checkbox" v-model="form.immediateMoveIn" class="checkbox" /> 가능
+          <input type="checkbox" v-model="form.immediateMoveIn" class="checkbox" />
+          <label for="">가능</label>
         </div>
 
         <div class="form-group">
@@ -260,10 +261,12 @@ form {
     border: 1px solid #f5f5f5;
 
     & * {
+      height: 100%;
       font-size: 0.7rem;
     }
     & > *:first-child {
       padding: 20px;
+      line-height: 3em;
       width: 15%;
       flex-shrink: 0;
       background-color: #fcfcfc;
@@ -273,6 +276,15 @@ form {
       align-items: center;
       white-space: nowrap;
       gap: 10px;
+    }
+
+    & input,
+    & textarea {
+      padding: 10px 5px;
+    }
+
+    & * + * {
+      margin-left: 10px;
     }
   }
 }

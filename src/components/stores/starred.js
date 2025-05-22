@@ -32,7 +32,6 @@ export const useStarredStore = defineStore(
 
     const addStarred = async (apt) => {
       try {
-        console.log(apt)
         await api.post(`/api/v1/starred/${apt.aptSeq}`)
         if (!starredes.value.find((a) => a.aptSeq === apt.aptSeq)) {
           console.log('추가 성공')

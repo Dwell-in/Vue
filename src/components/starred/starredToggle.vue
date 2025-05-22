@@ -43,7 +43,6 @@ const toggle = async () => {
       if (!confirmDelete) return
       await starredStore.removeStarred(props.apt.aptSeq)
     } else {
-      console.log(props.apt)
       await starredStore.addStarred(props.apt)
     }
   } catch (e) {
@@ -53,7 +52,6 @@ const toggle = async () => {
 }
 
 const isStarredSetting = () => {
-  console.log(props.apt)
   isStarred.value = starredStore.starredes.some((item) => item.aptSeq === props.apt?.aptSeq)
 }
 onMounted(async () => {
