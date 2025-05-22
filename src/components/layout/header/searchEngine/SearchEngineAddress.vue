@@ -113,6 +113,7 @@ onMounted(() => {
     name="word"
     autocomplete="off"
     ref="inputElement"
+    placeholder="주소를 검색해주세요."
     v-model="inputValue"
     @input="handleInput"
     @keypress.prevent="handleKeypress"

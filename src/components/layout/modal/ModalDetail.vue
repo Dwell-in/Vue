@@ -8,9 +8,12 @@ import HouseChart from '@/components/house/HouseChart.vue'
 import HouseNews from '@/components/house/HouseNews.vue'
 import HouseRoadView from '@/components/house/HouseRoadView.vue'
 import PricePredictAi from '@/components/ai/PricePredictAi.vue'
+import { useLoginUserStore } from '@/stores/loginUser'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
+const loginUserStore = useLoginUserStore()
 const sideStore = useSideStore()
-
 const modalStore = useModalStore()
 const close = () => {
   modalStore.detailToggle(false)
@@ -72,6 +75,17 @@ watch(
 const searchCategory = ref('blog')
 const changeSearchCategory = (category) => {
   searchCategory.value = category
+}
+
+const canAI = ref(false)
+const handleSearchAI = () => {
+  if (loginUserStore.id) {
+    canAI.value = true
+  } else {
+    if (confirm('로그인한 유저만 사용 가능합니다.\n로그인 페이지로 이동하시겠습니까?')) {
+      router.push({ name: 'Login' })
+    }
+  }
 }
 </script>
 
@@ -150,7 +164,10 @@ const changeSearchCategory = (category) => {
       </div>
 
       <div class="grid-ai">
-        <PricePredictAi v-if="info" :aptSeq="info.aptSeq"></PricePredictAi>
+        <div v-if="!canAI" class="blur">
+          <button @click="handleSearchAI">AI 추천 받기</button>
+        </div>
+        <PricePredictAi v-else-if="info" :aptSeq="info.aptSeq"></PricePredictAi>
       </div>
       <HouseRoadView v-if="info" :info="info" class="grid-road-view"></HouseRoadView>
       <div class="grid-chart">
@@ -170,13 +187,13 @@ const changeSearchCategory = (category) => {
 :deep(.main) {
   display: grid;
   grid-template-areas:
-    'infoTitle chartTitle .    roadViewTitle'
-    'info      chart      .    road         '
-    'aiTitle   chart      .    road         '
-    'ai        chart      .    road         '
-    'ai        blogTitle  .    road         '
-    'ai        blog       blog blog         ';
-  grid-template-columns: 3.5fr 3fr 0.5fr 4fr;
+    'infoTitle chartTitle roadViewTitle'
+    'info      chart      road         '
+    'aiTitle   chart      road         '
+    'ai        chart      road         '
+    'ai        blogTitle  road         '
+    'ai        blog       blog         ';
+  grid-template-columns: 3.5fr 3.5fr 4fr;
   grid-template-rows: 1fr 2fr 1fr 1fr 1fr 4fr;
   color: white;
 }
@@ -238,7 +255,9 @@ const changeSearchCategory = (category) => {
 .grid-info td {
   padding: 10px;
 }
-
+.grid-chart {
+  padding-bottom: 2vh;
+}
 .grid-info td + td {
   border-left: 1px solid white;
   width: 75%;
@@ -256,6 +275,26 @@ const changeSearchCategory = (category) => {
 
 :deep(.grid-ai) {
   padding: 0 3vh 0 0 !important;
+
+  & .blur {
+    width: 100%;
+    height: 100%;
+    background: url('@/assets/img/blur.png');
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    & button {
+      padding: 0.5vh 1vh;
+      font-size: 0.8rem;
+      background-color: #49b4e6;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  }
 
   & .md {
     height: 100%;

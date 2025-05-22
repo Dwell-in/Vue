@@ -4,7 +4,7 @@ import { useRoute, useRouter } from 'vue-router'
 
 const props = defineProps({
   titles: Object,
-  name: String
+  name: String,
 })
 
 const route = useRoute()
@@ -32,8 +32,8 @@ watch(
 
 <template>
   <nav>
-    <div class="title">{{ props.titles[route.params.categoryId] }}</div>
-    <div class="navBtnsDiv">
+    <div class="title" v-if="titles">{{ props.titles[route.params.categoryId || 0] }}</div>
+    <div class="navBtnsDiv" v-if="route.params.categoryId">
       <div class="navBtns">
         <div
           v-for="(title, index) in titles"
@@ -55,10 +55,13 @@ nav {
   margin-top: 65px;
   position: relative;
   background: url('@/assets/img/boardNav.png') no-repeat center / cover;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 5px 1px;
 }
 .title {
   width: 100%;
-  height: 73%;
+  height: 100%;
   color: white;
   display: flex;
   justify-content: center;
@@ -68,9 +71,7 @@ nav {
 .navBtnsDiv {
   width: 100%;
   height: 27%;
-  position: absolute;
-  bottom: 0;
-  left: 0;
+  flex-shrink: 0;
   background: rgba(25, 42, 59, 0.8);
   display: flex;
   justify-content: center;

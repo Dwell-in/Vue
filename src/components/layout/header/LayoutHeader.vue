@@ -36,24 +36,23 @@ const loginUserStore = useLoginUserStore()
         <router-link :to="{ name: 'Home' }" class="logo">
           <img src="@/assets/img/logo.png" alt="logo" />
         </router-link>
-        <router-link class="noti" :to="{ name: 'Board', params: { categoryId: 0 } }">
-          게시판
-        </router-link>
         <router-link class="" :to="{ name: 'Dwellog', params: { categoryId: 0 } }">
           Dwellog
         </router-link>
-        <router-link class="" to="/">메뉴</router-link>
-        <router-link class="" to="/">메뉴</router-link>
+        <router-link class="noti" :to="{ name: 'Board', params: { categoryId: 0 } }">
+          게시판
+        </router-link>
+        <router-link class="" :to="{ name: 'PropertyRegist' }">매물 등록</router-link>
         <router-link class="" :to="{ name: 'Starred' }">수정중</router-link>
       </div>
       <div>
         <form class="search" :class="{ hovered: hovered }" @submit.prevent="handleSubmit">
-          <select name="key" v-model="selectedKey">
+          <!-- <select name="key" v-model="selectedKey">
             <option value="add">주소 검색</option>
             <option value="apt">건물명 검색</option>
             <option value="board">게시판</option>
           </select>
-          <div class="border-div"></div>
+          <div class="border-div"></div> -->
           <SearchEngineAddress v-if="selectedKey === 'add'" ref="engineRef" />
           <button class="searchBtn" type="submit">
             <img alt="search" src="@/assets/img/search.png" />
@@ -130,7 +129,7 @@ nav div {
   transition-delay: 0.5s;
 }
 .search {
-  width: 450px;
+  width: 350px;
   height: 40px;
   background-color: #c9d6df;
   border-radius: 20px;
@@ -189,7 +188,7 @@ nav div {
 :deep(.search-input) {
   width: 100%;
   height: 100%;
-  padding: 0 10px;
+  padding: 0 20px;
   border: none;
   background-color: transparent;
 }
