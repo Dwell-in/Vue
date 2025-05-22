@@ -79,14 +79,14 @@ const selectApt = (aptSeq) => {
 
 <style scoped>
 .detailView {
-  padding: 3vh 0;
+  padding: 3vh 2vh;
 }
 .detailView * {
   color: white;
 }
 
 .detailView > * {
-  width: 90% !important;
+  width: 100% !important;
 }
 
 .fullBtn {

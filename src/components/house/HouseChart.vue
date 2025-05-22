@@ -13,10 +13,6 @@ const props = defineProps({
     type: Number,
     default: 14,
   },
-  responsive: {
-    type: Boolean,
-    default: false,
-  },
 })
 
 let chart

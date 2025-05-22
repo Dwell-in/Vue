@@ -91,121 +91,187 @@ const submitProperty = async () => {
       </template>
       )
     </div>
-    <div class="form-group">
-      <label class="label">제목</label>
-      <input type="text" v-model="form.title" class="input" />
-    </div>
 
-    <div class="form-group">
-      <label class="label">매물 유형</label>
-      <select v-model="form.type" class="select">
-        <option value="전세">전세</option>
-        <option value="매매">매매</option>
-        <option value="월세">월세</option>
-      </select>
-    </div>
+    <div class="section">
+      <div class="title">매물 정보</div>
+      <div class="inputs">
+        <div class="form-group">
+          <label class="label">전용면적 (㎡)</label>
+          <input type="number" step="0.01" v-model.number="form.netArea" class="input" />
+        </div>
 
-    <div class="form-group">
-      <label class="label">전용면적 (㎡)</label>
-      <input type="number" step="0.01" v-model.number="form.netArea" class="input" />
-    </div>
-
-    <div class="form-group">
-      <label class="label">공급면적 (㎡)</label>
-      <input type="number" step="0.01" v-model.number="form.supplyArea" class="input" />
-    </div>
-
-    <div class="form-group">
-      <label class="label">층수</label>
-      <input type="number" v-model.number="form.floor" class="input" />
-    </div>
-
-    <div class="form-group">
-      <label class="label">건물 전체 층수</label>
-      <input type="number" v-model.number="form.totalFloor" class="input" />
-    </div>
-
-    <div class="form-group">
-      <label class="label">방 수</label>
-      <input type="number" v-model.number="form.rooms" class="input" />
-    </div>
-
-    <div class="form-group">
-      <label class="label">욕실 수</label>
-      <input type="number" v-model.number="form.bathrooms" class="input" />
-    </div>
-
-    <div class="form-group">
-      <label class="label">방향</label>
-      <input type="text" v-model="form.direction" class="input" />
-    </div>
-
-    <div class="form-group">
-      <label class="label">엘리베이터</label>
-      <input type="checkbox" v-model="form.elevator" class="checkbox" /> 있음
-    </div>
-
-    <div class="form-group">
-      <label class="label">주차 가능</label>
-      <input type="checkbox" v-model="form.parkingAvailable" class="checkbox" /> 가능
-    </div>
-
-    <div class="form-group">
-      <label class="label">즉시 입주 가능</label>
-      <input type="checkbox" v-model="form.immediateMoveIn" class="checkbox" /> 가능
-    </div>
-
-    <div class="form-group">
-      <label class="label">구조</label>
-      <input type="text" v-model="form.structureType" class="input" />
-    </div>
-
-    <div class="form-group">
-      <label class="label">설명</label>
-      <textarea v-model="form.description" class="input"></textarea>
-    </div>
-
-    <div class="form-group">
-      <label class="label">보증금</label>
-      <input type="number" v-model.number="form.deposit" class="input" />
-    </div>
-
-    <div v-if="form.type === '매매'" class="form-group">
-      <label class="label">매매가</label>
-      <input type="number" v-model.number="form.salePrice" class="input" />
-    </div>
-
-    <div v-if="form.type === '월세'" class="form-group">
-      <label class="label">월세</label>
-      <input type="number" v-model.number="form.monthlyRent" class="input" />
-    </div>
-
-    <div class="form-group">
-      <label class="label">관리비</label>
-      <input type="number" v-model.number="form.managementFee" class="input" />
-    </div>
-
-    <div class="form-group">
-      <label class="label">옵션</label>
-      <div class="checkbox-group">
-        <label v-for="option in options" :key="option.id" class="checkbox-label">
-          <input type="checkbox" :value="option.id" v-model="form.optionIds" class="checkbox" />
-          {{ option.name }}
-        </label>
+        <div class="form-group">
+          <label class="label">공급면적 (㎡)</label>
+          <input type="number" step="0.01" v-model.number="form.supplyArea" class="input" />
+        </div>
       </div>
     </div>
 
-    <div class="form-group">
-      <label class="label">안전시설</label>
-      <div class="checkbox-group">
-        <label v-for="safety in safeties" :key="safety.id" class="checkbox-label">
-          <input type="checkbox" :value="safety.id" v-model="form.safetyIds" class="checkbox" />
-          {{ safety.name }}
-        </label>
+    <div class="section">
+      <div class="title">거래 정보</div>
+      <div class="inputs">
+        <div class="form-group">
+          <label class="label">거래 유형</label>
+          <select v-model="form.type" class="select">
+            <option value="전세">전세</option>
+            <option value="매매">매매</option>
+            <option value="월세">월세</option>
+          </select>
+        </div>
+
+        <div v-if="form.type === '전세'" class="form-group">
+          <label class="label">보증금</label>
+          <input type="number" v-model.number="form.deposit" class="input" />
+        </div>
+
+        <div v-else-if="form.type === '매매'" class="form-group">
+          <label class="label">매매가</label>
+          <input type="number" v-model.number="form.salePrice" class="input" />
+        </div>
+
+        <div v-else-if="form.type === '월세'" class="form-group">
+          <label class="label">월세</label>
+          <input type="number" v-model.number="form.monthlyRent" class="input" />
+        </div>
+
+        <div class="form-group">
+          <label class="label">즉시 입주 가능</label>
+          <input type="checkbox" v-model="form.immediateMoveIn" class="checkbox" /> 가능
+        </div>
+
+        <div class="form-group">
+          <label class="label">관리비</label>
+          <input type="number" v-model.number="form.managementFee" class="input" />
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="title">추가 정보</div>
+      <div class="inputs">
+        <div class="form-group">
+          <label class="label">층수</label>
+          <input type="number" v-model.number="form.floor" class="input" />
+        </div>
+
+        <div class="form-group">
+          <label class="label">건물 전체 층수</label>
+          <input type="number" v-model.number="form.totalFloor" class="input" />
+        </div>
+
+        <div class="form-group">
+          <label class="label">방 수</label>
+          <input type="number" v-model.number="form.rooms" class="input" />
+        </div>
+
+        <div class="form-group">
+          <label class="label">욕실 수</label>
+          <input type="number" v-model.number="form.bathrooms" class="input" />
+        </div>
+
+        <div class="form-group">
+          <label class="label">방향</label>
+          <input type="text" v-model="form.direction" class="input" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="label">엘리베이터</label>
+        <input type="checkbox" v-model="form.elevator" class="checkbox" /> 있음
+      </div>
+
+      <div class="form-group">
+        <label class="label">주차 가능</label>
+        <input type="checkbox" v-model="form.parkingAvailable" class="checkbox" /> 가능
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="title">시설 정보</div>
+      <div class="inputs">
+        <div class="form-group">
+          <label class="label">구조</label>
+          <input type="text" v-model="form.structureType" class="input" />
+        </div>
+
+        <div class="form-group">
+          <label class="label">옵션</label>
+          <div class="checkbox-group">
+            <label v-for="option in options" :key="option.id" class="checkbox-label">
+              <input type="checkbox" :value="option.id" v-model="form.optionIds" class="checkbox" />
+              {{ option.name }}
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="label">안전시설</label>
+          <div class="checkbox-group">
+            <label v-for="safety in safeties" :key="safety.id" class="checkbox-label">
+              <input type="checkbox" :value="safety.id" v-model="form.safetyIds" class="checkbox" />
+              {{ safety.name }}
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="title">사진 등록</div>
+      <div class="inputs"></div>
+    </div>
+
+    <div class="section">
+      <div class="title">상세 정보</div>
+      <div class="inputs">
+        <div class="form-group">
+          <label class="label">제목</label>
+          <input type="text" v-model="form.title" class="input" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="label">설명</label>
+        <textarea v-model="form.description" class="input"></textarea>
       </div>
     </div>
 
     <button type="submit" class="submit-button">등록</button>
   </form>
 </template>
-<style lang="scss" scoped></style>
+
+<style lang="scss" scoped>
+form {
+  width: 100%;
+}
+.section {
+  width: 100%;
+  padding: 20px 0;
+
+  & .title {
+    width: 100%;
+    border-bottom: 2px solid black;
+  }
+
+  & .form-group {
+    display: flex;
+    align-items: center;
+    border: 1px solid #f5f5f5;
+
+    & * {
+      font-size: 0.7rem;
+    }
+    & > *:first-child {
+      padding: 20px;
+      width: 15%;
+      flex-shrink: 0;
+      background-color: #fcfcfc;
+    }
+    & > *:not(:first-child) {
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+    }
+  }
+}
+</style>
