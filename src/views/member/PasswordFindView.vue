@@ -2,8 +2,8 @@
 import { ref, watchEffect, onBeforeUnmount } from 'vue'
 import api from '@/lib/api'
 import { useRouter } from 'vue-router'
-import Footer1 from '@/components/footer/Footer1.vue'
-import Header from '@/components/header/Header.vue'
+import LayoutHeader from '@/components/layout/header/LayoutHeader.vue'
+import LayoutFooter1 from '@/components/layout/footer/LayoutFooter1.vue'
 
 const email = ref('')
 
@@ -22,7 +22,7 @@ const requestGetTempPassword = async () => {
 </script>
 
 <template>
-  <Header></Header>
+  <LayoutHeader></LayoutHeader>
   <main>
     <section class="form-section">
       <label for="email">비밀번호를 찾을 이메일을 입력해주세요</label>
@@ -30,7 +30,7 @@ const requestGetTempPassword = async () => {
       <button @click="requestGetTempPassword">임시 비밀번호 발급</button>
     </section>
   </main>
-  <Footer1></Footer1>
+  <LayoutFooter1></LayoutFooter1>
 </template>
 
 <style scoped>
