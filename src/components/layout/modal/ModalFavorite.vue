@@ -43,7 +43,7 @@ const close = () => {
       <div>Favorite</div>
     </template>
     <template #main>
-      <template v-if="favorites">
+      <template v-if="favorites?.length">
         <UseCarousel :width="'17%'" :height="'50%'" :gap="'10vh'">
           <HouseCard
             v-for="apt in favorites"
