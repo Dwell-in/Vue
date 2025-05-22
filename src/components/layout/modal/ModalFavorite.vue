@@ -11,10 +11,6 @@ const starredStore = useStarredStore()
 
 const favorites = computed(() => starredStore.starredes)
 
-const removeFavorite = async (aptSeq) => {
-  await starredStore.removeStarred(aptSeq)
-}
-
 onMounted(async () => {
   if (!starredStore.starredes.length) {
     await starredStore.fetchStarred()
@@ -45,12 +41,7 @@ const close = () => {
     <template #main>
       <template v-if="favorites?.length">
         <UseCarousel :width="'17%'" :height="'50%'" :gap="'10vh'">
-          <HouseCard
-            v-for="apt in favorites"
-            :key="apt.id"
-            :apt="apt"
-            @remove="removeFavorite"
-          ></HouseCard>
+          <HouseCard v-for="apt in favorites" :key="apt.id" :apt="apt"></HouseCard>
         </UseCarousel>
       </template>
     </template>

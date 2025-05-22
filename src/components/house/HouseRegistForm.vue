@@ -112,11 +112,9 @@ const submitProperty = async () => {
       <div class="inputs">
         <div class="form-group">
           <label class="label">거래 유형</label>
-          <select v-model="form.type" class="select">
-            <option value="전세">전세</option>
-            <option value="매매">매매</option>
-            <option value="월세">월세</option>
-          </select>
+          <input type="radio" v-model="form.type" value="매매" /><label for="">매매</label>
+          <input type="radio" v-model="form.type" value="전세" /><label for="">전세</label>
+          <input type="radio" v-model="form.type" value="월세" /><label for="">월세</label>
         </div>
 
         <div v-if="form.type === '전세'" class="form-group">
@@ -177,12 +175,14 @@ const submitProperty = async () => {
 
       <div class="form-group">
         <label class="label">엘리베이터</label>
-        <input type="checkbox" v-model="form.elevator" class="checkbox" /> 있음
+        <input type="checkbox" v-model="form.elevator" class="checkbox" />
+        <div>있음</div>
       </div>
 
       <div class="form-group">
         <label class="label">주차 가능</label>
-        <input type="checkbox" v-model="form.parkingAvailable" class="checkbox" /> 가능
+        <input type="checkbox" v-model="form.parkingAvailable" class="checkbox" />
+        <div>가능</div>
       </div>
     </div>
 
@@ -250,6 +250,7 @@ form {
 
   & .title {
     width: 100%;
+    line-height: 3em;
     border-bottom: 2px solid black;
   }
 
@@ -271,6 +272,7 @@ form {
       display: flex;
       align-items: center;
       white-space: nowrap;
+      gap: 10px;
     }
   }
 }

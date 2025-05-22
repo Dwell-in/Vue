@@ -64,7 +64,7 @@ const handleSearchAI = () => {
 <template>
   <ModalBase @close="close">
     <template #header>
-      <StarredToggle :apt="info"></StarredToggle>
+      <StarredToggle v-if="info" :apt="info"></StarredToggle>
       <div class="title">
         {{ info?.aptNm }}
         <div class="active">INFO</div>

@@ -62,7 +62,7 @@ const selectApt = (aptSeq) => {
     <div class="info_aptNm">
       <div>
         {{ state.info?.aptNm }}
-        <StarredToggle :apt="state.info"></StarredToggle>
+        <StarredToggle v-if="state.info" :apt="state.info"></StarredToggle>
       </div>
     </div>
     <div class="info_viewCount">

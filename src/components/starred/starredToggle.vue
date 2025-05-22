@@ -21,7 +21,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { useStarredStore } from '@/components/stores/starred'
 
 const props = defineProps({
@@ -34,9 +34,7 @@ const props = defineProps({
 const starredStore = useStarredStore()
 
 // 관심 아파트인지 여부 확인 (apt.aptSeq 기준)
-const isStarred = computed(() =>
-  starredStore.starredes.some((item) => item.aptSeq === props.apt?.aptSeq),
-)
+const isStarred = ref()
 
 const toggle = async () => {
   try {
@@ -54,12 +52,23 @@ const toggle = async () => {
   }
 }
 
+const isStarredSetting = () => {
+  console.log(props.apt)
+  isStarred.value = starredStore.starredes.some((item) => item.aptSeq === props.apt?.aptSeq)
+}
 onMounted(async () => {
   // 최초에 관심 목록이 비어있으면 서버에서 가져오기
-  if (!starredStore.starredes.length) {
+  if (!starredStore.starredes?.length) {
     await starredStore.fetchStarred()
   }
+  isStarredSetting()
 })
+
+watch(
+  () => starredStore.starredes,
+  () => isStarredSetting(),
+  { deep: true },
+)
 </script>
 
 <style scoped>

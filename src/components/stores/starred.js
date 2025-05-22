@@ -23,6 +23,7 @@ export const useStarredStore = defineStore(
     const removeStarred = async (aptSeq) => {
       try {
         await api.delete(`/api/v1/starred/${aptSeq}`)
+        console.log('삭제 성공')
         starredes.value = starredes.value.filter((apt) => apt.aptSeq !== aptSeq)
       } catch (e) {
         console.error('즐겨찾기 삭제 실패', e)
@@ -34,6 +35,7 @@ export const useStarredStore = defineStore(
         console.log(apt)
         await api.post(`/api/v1/starred/${apt.aptSeq}`)
         if (!starredes.value.find((a) => a.aptSeq === apt.aptSeq)) {
+          console.log('추가 성공')
           starredes.value.push(apt)
         }
       } catch (e) {
