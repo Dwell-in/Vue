@@ -38,6 +38,9 @@ import { ref, onMounted } from 'vue'
 import api from '@/lib/api'
 
 const emit = defineEmits(['selectApt', 'close'])
+const props = defineProps({
+  condition: String,
+})
 
 const searchInput = ref('')
 const searchType = ref('jibun')
@@ -47,6 +50,8 @@ const sidoList = ref([])
 const gugunList = ref([])
 
 onMounted(async () => {
+  searchInput.value = props.condition
+
   try {
     const sidoRes = await api.get('/api/v1/search/sido')
     sidoList.value = sidoRes.data.data || []

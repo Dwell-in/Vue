@@ -30,6 +30,7 @@ const setImgFile = () => {
   reader.readAsDataURL(file)
   reader.onloadend = () => {
     imgFile.value = reader.result
+    form.value.img = reader.result
   }
 }
 
@@ -56,6 +57,7 @@ const form = ref({
   optionIds: [],
   safetyIds: [],
   memberId: loginUser.id,
+  img: null,
 })
 
 const options = [
@@ -83,18 +85,40 @@ const safeties = [
 
 const submitProperty = async () => {
   try {
-    await api.post('/api/v1/property', { ...form.value })
+    const formData = new FormData()
+
+    for (const [key, value] of Object.entries(form.value)) {
+      if (Array.isArray(value)) {
+        value.forEach((v) => formData.append(key, v))
+      } else if (value !== null && value !== undefined) {
+        formData.append(key, value)
+      }
+    }
+    const file = fileInput.value.files[0]
+    if (file) {
+      formData.append('img', file)
+    }
+
+    await api.post('/api/v1/property', formData)
+
     alert('매물이 등록되었습니다.')
   } catch (e) {
     console.error(e)
     alert('등록 중 오류가 발생했습니다.')
   }
 }
+
+const addressSerachCondition = ref('')
 </script>
 
 <template>
   <form @submit.prevent="submitProperty" class="form">
-    <ApartmentSearchPopup v-if="showPopup" @selectApt="handleSelect" @close="showPopup = false" />
+    <ApartmentSearchPopup
+      v-if="showPopup"
+      @selectApt="handleSelect"
+      :condition="addressSerachCondition"
+      @close="showPopup = false"
+    />
     <div class="section">
       <div class="title">매물 정보</div>
       <div class="inputs">
@@ -106,7 +130,7 @@ const submitProperty = async () => {
           >
             <div style="margin: 10px 0">주소 검색</div>
             <div class="searchDiv">
-              <input type="text" v-model.number="form.netArea" class="input" />
+              <input type="text" v-model="addressSerachCondition" class="input" />
               <button @click.prevent="showPopup = true" class="search-button">검색</button>
             </div>
             <div class="selected-apt">
