@@ -89,8 +89,10 @@ onMounted(async () => {
       <a class="pwFind" href="/member/password-find">비밀번호 찾기</a>
       <router-link :to="{ name: 'SignUp' }" class="link">회원가입</router-link>
     </div>
-    <button type="submit" id="loginBtn">로그인인</button>
-    <a :href="kakaoAuthUrl"> <img id="kakao-login" src="@/assets/img/kakao_login.png" /></a>
+    <button type="submit" class="loginBtn">로그인</button>
+    <a class="loginBtn" :href="kakaoAuthUrl">
+      <img id="kakao-login" src="@/assets/img/kakao_login.png"
+    /></a>
   </form>
 </template>
 
@@ -107,7 +109,7 @@ onMounted(async () => {
   gap: 5%;
 }
 .login-area > * {
-  height: 20%;
+  height: 15%;
   width: 100%;
 }
 .logo {
@@ -126,26 +128,26 @@ label {
   border: 1px solid #ddd;
 }
 .login-bottom {
+  height: 5%;
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  gap: 20px;
 }
 
 .login-bottom * {
-  width: 20%;
-  height: 10%;
-  height: 13%;
   display: flex;
   justify-content: center;
   align-items: center;
   font-weight: bold;
+  font-size: 0.8em;
   text-decoration: none;
   color: rgb(204, 202, 202);
 }
 
-#loginBtn {
+.loginBtn {
   width: 100%;
-  height: 13%;
+  height: 10%;
   background-color: #3c659c;
   color: white;
   border: none;
@@ -154,12 +156,12 @@ label {
   cursor: pointer;
 }
 
-.pwFind {
+.loginBtn + .loginBtn {
+  margin-top: -5%;
 }
 
 a:has(#kakao-login) {
   background-color: #fee500;
-  height: 10%;
 }
 
 #kakao-login {
