@@ -1,11 +1,10 @@
 <script setup>
 import { ref } from 'vue'
-import Header from '@/components/header/Header.vue'
-import Info from '@/components/home/Info.vue'
+import HomeInfo from '@/components/home/HomeInfo.vue'
 import Section2 from '@/components/home/Section2.vue'
 import Section3 from '@/components/home/Section3.vue'
 import Section4 from '@/components/home/Section4.vue'
-import Chat from '@/components/side/chat/Chat.vue'
+import LayoutHeader from '@/components/layout/header/LayoutHeader.vue'
 
 // 버튼으로 섹션 이동
 const nextSection = ref(null)
@@ -15,7 +14,7 @@ const moveSection = () => {
 
 // 마우스 스크롤 가로방향
 const scrollX = (e) => {
-  const isSideView = e.target.closest('.sideView')
+  const isSideView = e.target.closest(['.sideView', '.modal'])
   if (isSideView) return
   if (e.deltaY !== 0) {
     window.scrollBy(e.deltaY, 0) // 가로 방향으로만 스크롤
@@ -24,14 +23,13 @@ const scrollX = (e) => {
 </script>
 
 <template>
-  <Header :isMainHeader="true"></Header>
+  <LayoutHeader :isMainHeader="true"></LayoutHeader>
   <main class="home" @wheel="scrollX">
-    <Info :moveSection="moveSection"></Info>
+    <HomeInfo :moveSection="moveSection"></HomeInfo>
     <Section2 ref="nextSection"></Section2>
     <Section3></Section3>
     <Section4></Section4>
   </main>
-  <Chat />
 </template>
 
 <style>
@@ -58,10 +56,5 @@ body:-webkit-scrollbar {
   height: 100vh;
   flex-shrink: 0;
   scroll-snap-align: start;
-}
-.sideView {
-  position: fixed !important;
-  margin-top: 65px !important;
-  height: calc(100% - 65px) !important;
 }
 </style>

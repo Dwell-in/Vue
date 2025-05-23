@@ -10,6 +10,7 @@ export default defineConfig({
   plugins: [vue(), vueDevTools()],
   server: {
     port: 8080,
+    historyApiFallback: true,
   },
   resolve: {
     alias: {

@@ -1,8 +1,8 @@
-* {
+*:not(.md *) {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-size: 20px;
+  font-size: clamp(13px, 0.93vw, 20px);
   font-family: Pretendard;
   transition:
     opacity 0.2s,
@@ -19,5 +19,5 @@ a {
   cursor: pointer;
 }
 .display-none {
-  display: none;
+  display: none !important;
 }
