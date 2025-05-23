@@ -27,9 +27,9 @@ const handleSelectChatRoom = (target) => {
       </div>
       <div class="chat-body">
         <ChatList :loginUserId="loginUser.id" @select-chat-room="handleSelectChatRoom" />
-        <ChatRoomAI></ChatRoomAI>
+        <ChatRoomAI v-if="selectedTarget?.id == 'AI'" />
         <ChatRoomUser
-          v-if="selectedTarget"
+          v-else-if="selectedTarget"
           :target="selectedTarget"
           :key="selectedTarget.id"
           :loginUserId="loginUser.id"

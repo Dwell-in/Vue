@@ -25,14 +25,16 @@ const selected = ref()
 
 const handelSelectMenu = (menu) => {
   selected.value = menu
-  modalStore.closeAll()
   if (menu == 'Favorite') {
+    modalStore.closeAll()
     modalStore.favoriteToggle(true)
   }
   if (menu == 'View') {
+    modalStore.closeAll()
     modalStore.recentlyToggle(true)
   }
   if (menu == 'My') {
+    modalStore.closeAll()
     modalStore.myToggle(true)
   }
 }

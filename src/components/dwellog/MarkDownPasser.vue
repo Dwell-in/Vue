@@ -45,6 +45,13 @@ watch(
     await urlMdParsing()
   },
 )
+
+watch(
+  () => props.text,
+  async () => {
+    await textMdParsing()
+  },
+)
 </script>
 
 <template>

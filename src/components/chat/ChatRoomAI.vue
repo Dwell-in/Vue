@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import ChatRoomBase from './ChatRoomBase.vue'
 import api from '@/lib/api'
 import { useLoginUserStore } from '@/stores/loginUser'
-import AIImg from '@/assets/img/default_profile.png'
+import AIImg from '@/assets/img/logo.png'
 import ChatCard from '@/components/ai/ChatCart.vue'
 
 const loginUserStore = useLoginUserStore()
@@ -37,9 +37,13 @@ const sendMessage = async () => {
 
     droppedApts.value = []
     try {
+      const msgRef = ref()
+      msgRef.value = { sender: 'ai', content: '<i class="fa-solid fa-spinner fa-spin"></i>', sentAt: new Date() }
+      messages.value.push(msgRef.value)
       const res = await api.post('/api/v1/ai/price', requestPayload)
       const reply = res.data.data.message
-      messages.value.push({ sender: 'ai', content: reply, sentAt: new Date() })
+      msgRef.value.content = reply
+      msgRef.value.sentAt = new Date()
     } catch (e) {
       console.error('AI 응답 실패:', e)
       messages.value.push({ sender: 'ai', text: '죄송합니다. 응답에 실패했습니다.' })
@@ -54,12 +58,15 @@ const sendMessage = async () => {
     messages.value.push(msg)
     console.log(messages)
     try {
+      const msgRef = ref()
+      msgRef.value = { sender: 'ai', content: '<i class="fa-solid fa-spinner fa-spin"></i>', sentAt: new Date() }
+      messages.value.push(msgRef.value)
       const res = await api.post('/api/v1/ai/simple', {
         message: content,
       })
-
       const reply = res.data.data.message
-      messages.value.push({ sender: 'ai', content: reply, sentAt: new Date() })
+      msgRef.value.content = reply
+      msgRef.value.sentAt = new Date()
     } catch (e) {
       console.error('AI 응답 실패:', e)
       messages.value.push({ sender: 'ai', text: '죄송합니다. 응답에 실패했습니다.' })
@@ -110,25 +117,27 @@ const removeFromList = (aptSeq) => {
 
 <style scoped>
 .card-list-container {
-  width: 100%;
+  width: 90%;
+  height: 25%;
+  bottom: 22%;
+  left: 5%;
   background-color: #10344856; /* 어두운 하늘색 느낌 */
   padding: 12px 16px;
   position: absolute;
-  bottom: 22%;
-  width: 90%;
-  left: 5%;
+  overflow-x: auto;
 }
+.card-list {
+  height: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 12px;
+  scrollbar-width: thin;
+}
+
 .data-transfer {
   display: flex;
   width: 100%;
   position: relative;
-}
-
-.card-list {
-  display: flex;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  gap: 12px;
 }
 
 .slide-up-enter-active {
@@ -145,5 +154,9 @@ const removeFromList = (aptSeq) => {
 .slide-up-enter-to {
   opacity: 1;
   transform: translateY(0);
+}
+
+:deep(li){
+  margin-left: -20px;
 }
 </style>
