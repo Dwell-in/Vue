@@ -20,9 +20,9 @@ const handleSelect = (apt) => {
 }
 
 const imgFile = ref()
-const setImgFile = ()=> {
+const setImgFile = () => {
   const file = fileInput.value.files[0]
-  if (!file){
+  if (!file) {
     imgFile.value = null
     return
   }
@@ -100,15 +100,19 @@ const submitProperty = async () => {
       <div class="inputs">
         <div class="form-group addr">
           <label class="label">매물 주소</label>
-          <div class="block" style="flex-shrink: 0; display: flex; flex-direction: column; justify-content: center;">
-            <div style="margin: 10px 0;">주소 검색</div>
+          <div
+            class="block"
+            style="flex-shrink: 0; display: flex; flex-direction: column; justify-content: center"
+          >
+            <div style="margin: 10px 0">주소 검색</div>
             <div class="searchDiv">
               <input type="text" v-model.number="form.netArea" class="input" />
               <button @click.prevent="showPopup = true" class="search-button">검색</button>
             </div>
             <div class="selected-apt">
               <template v-if="selectedApt">
-                {{ selectedApt.sidoName }} {{ selectedApt.gugunName }} {{ selectedApt.dongName || '' }}
+                {{ selectedApt.sidoName }} {{ selectedApt.gugunName }}
+                {{ selectedApt.dongName || '' }}
                 {{ selectedApt.jibun }}
                 {{ selectedApt.aptNm }}
               </template>
@@ -127,11 +131,17 @@ const submitProperty = async () => {
           <div class="imgDiv">
             <div v-show="selectedApt" class="mapImgBox" ref="mapBox"></div>
             <div v-if="!selectedApt" class="mapImgBox">
-              <i class="fa-solid fa-map-location-dot" style="font-size: 5em;"></i>
+              <i class="fa-solid fa-map-location-dot" style="font-size: 5em"></i>
               <p>주소 선택 시 이곳에 지도가 표시됩니다.</p>
             </div>
-            <input type="file" accept="image/*" style="display: none;" ref="fileInput" @change="setImgFile">
-            <img :src="imgFile || fileDefaultImg" alt="" @click="fileInput.click">
+            <input
+              type="file"
+              accept="image/*"
+              style="display: none"
+              ref="fileInput"
+              @change="setImgFile"
+            />
+            <img :src="imgFile || fileDefaultImg" alt="" @click="fileInput.click" />
           </div>
         </div>
         <div class="form-group">
@@ -276,6 +286,7 @@ const submitProperty = async () => {
           v-model="form.description"
           class="input"
           placeholder="매물 상세 페이지에 노출되는 문구입니다. 1000자 이내로 작성해주세요."
+          rows="10"
         ></textarea>
       </div>
     </div>
@@ -289,32 +300,32 @@ form {
   width: 100%;
 }
 
-.selected-apt{
+.selected-apt {
   margin: 10px 0;
   padding: 10px;
-  background-color:#FCFCFC;
-  border: 1px solid #F5F5F5;
+  background-color: #fcfcfc;
+  border: 1px solid #f5f5f5;
   border-radius: 5px;
 }
 
-.form-group.addr{
+.form-group.addr {
   height: 300px;
 
-  & > label{
+  & > label {
     display: flex;
     align-items: center;
   }
 
-  & > div{
-    & *{
+  & > div {
+    & * {
       height: auto !important;
     }
   }
-  & .searchDiv{
+  & .searchDiv {
     display: flex;
     gap: 20px;
 
-    & button{
+    & button {
       white-space: nowrap;
       color: white;
       padding: 10px 20px;
@@ -322,36 +333,36 @@ form {
       border: none;
       background-color: #222222;
 
-      &:hover{
+      &:hover {
         background-color: #434343;
       }
     }
   }
 
-  & .imgDiv{
+  & .imgDiv {
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 20px;
 
-    & .mapImgBox, & img{
+    & .mapImgBox,
+    & img {
       width: 100%;
       height: 100% !important;
       border-radius: 10px;
-      background-color: #FCFCFC;
+      background-color: #fcfcfc;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       gap: 20px;
     }
-    & img{
+    & img {
       width: auto !important;
       cursor: pointer;
     }
   }
-
 }
 
 .section {
@@ -387,7 +398,8 @@ form {
       gap: 10px;
     }
 
-    & input, & textarea{
+    & input,
+    & textarea {
       border: 1px solid #ebebeb;
     }
 
@@ -409,13 +421,16 @@ form {
       margin-left: 10px;
     }
   }
-  & .form-group + .form-group{
+  & .form-group + .form-group {
     border-top: none;
   }
 }
+.form-group:has(textarea) {
+  height: 200px !important;
+}
 
-.submit-button{
-  background-color: #326CF9;
+.submit-button {
+  background-color: #326cf9;
   color: white;
   padding: 20px 40px;
   margin: 20px auto;
