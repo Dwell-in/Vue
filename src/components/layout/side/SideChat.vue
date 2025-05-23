@@ -1,10 +1,11 @@
 <script setup>
 import { ref } from 'vue'
 import ChatList from '@/components/chat/ChatList.vue'
-import ChatRoom from '@/components/chat/ChatRoomUser.vue'
+import ChatRoomUser from '@/components/chat/ChatRoomUser.vue'
 import { useSideStore } from '@/stores/side'
 import { useLoginUserStore } from '@/stores/loginUser'
 import SideBase from './SideBase.vue'
+import ChatRoomAI from '@/components/chat/ChatRoomAI.vue'
 
 const loginUser = useLoginUserStore()
 
@@ -26,7 +27,8 @@ const handleSelectChatRoom = (target) => {
       </div>
       <div class="chat-body">
         <ChatList :loginUserId="loginUser.id" @select-chat-room="handleSelectChatRoom" />
-        <ChatRoom
+        <ChatRoomAI></ChatRoomAI>
+        <ChatRoomUser
           v-if="selectedTarget"
           :target="selectedTarget"
           :key="selectedTarget.id"
