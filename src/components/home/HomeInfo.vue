@@ -26,7 +26,9 @@ onMounted(() => {
       clearInterval(intervalId)
       setTimeout(() => {
         infoChild.forEach((child) => {
-          child.value.style.opacity = '1'
+          if (child.value.style) {
+            child.value.style.opacity = '1'
+          }
         })
       }, 300)
     }

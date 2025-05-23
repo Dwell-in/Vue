@@ -1,10 +1,11 @@
 <script setup>
 import { ref } from 'vue'
 import ChatList from '@/components/chat/ChatList.vue'
-import ChatRoom from '@/components/chat/ChatRoom.vue'
+import ChatRoom from '@/components/chat/ChatRoomUser.vue'
 import { useSideStore } from '@/stores/side'
 import { useLoginUserStore } from '@/stores/loginUser'
 import SideBase from './SideBase.vue'
+
 const loginUser = useLoginUserStore()
 
 const store = useSideStore()
