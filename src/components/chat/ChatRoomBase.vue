@@ -83,7 +83,7 @@ watch(
       ></textarea>
       <div class="chat-btns">
         <div></div>
-        <div><button id="chat-sub" @click="sendMessage">전송</button></div>
+        <div><button id="chat-sub" @click="$emit('sendMessage')">전송</button></div>
       </div>
     </div>
   </div>
