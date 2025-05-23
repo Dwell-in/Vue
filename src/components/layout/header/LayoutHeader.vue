@@ -68,7 +68,6 @@ const loginUserStore = useLoginUserStore()
           </template>
           <template v-else>
             <router-link :to="{ name: 'Login' }" class="link">로그인</router-link>
-            <router-link :to="{ name: 'SignUp' }" class="link">회원가입</router-link>
           </template>
         </div>
       </div>
@@ -214,14 +213,11 @@ nav div {
 .link {
   font-size: 0.8em;
   padding: 10px 20px;
-  background-color: #bbe9fd;
+  background-color: #3c659c;
   border-radius: 10px;
   white-space: nowrap;
-  color: #52616b !important;
+  color: white !important;
   display: flex;
   align-items: center;
-}
-.link:last-child {
-  background-color: #c7ffc7;
 }
 </style>

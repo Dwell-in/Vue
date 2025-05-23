@@ -71,11 +71,11 @@ onMounted(async () => {
   <form class="login-area" @submit.prevent="handleSubmit">
     <img class="logo" src="@/assets/img/logo.png" alt="login" />
     <div>
-      <label class="flex flex-a-c" for="">아이디</label>
+      <label class="flex flex-a-c" for="">E-Mail</label>
       <input v-model="email" type="text" id="loginID" name="email" placeholder="ID" required />
     </div>
     <div>
-      <label class="flex flex-a-c" for="">비밀번호</label>
+      <label class="flex flex-a-c" for="">Password</label>
       <input
         v-model="password"
         type="password"
@@ -85,8 +85,11 @@ onMounted(async () => {
         required
       />
     </div>
-    <button type="submit" id="loginBtn">로그인</button>
-    <a class="pwFind" href="/member/password-find">비밀번호 찾기</a>
+    <div class="login-bottom">
+      <a class="pwFind" href="/member/password-find">비밀번호 찾기</a>
+      <router-link :to="{ name: 'SignUp' }" class="link">회원가입</router-link>
+    </div>
+    <button type="submit" id="loginBtn">로그인인</button>
     <a :href="kakaoAuthUrl"> <img id="kakao-login" src="@/assets/img/kakao_login.png" /></a>
   </form>
 </template>
@@ -96,8 +99,8 @@ onMounted(async () => {
   position: absolute;
   left: 20%;
   padding: 3vh;
-  box-shadow: 10px 10px 25px 10px rgba(0, 0, 0, 0.07);
-  background: #fff;
+  box-shadow: 0 0 20px 3px rgba(212, 212, 212, 0.07);
+  background: #102d3ddc;
   z-index: 10;
   display: flex;
   flex-direction: column;
@@ -122,11 +125,28 @@ label {
   padding: 0 3%;
   border: 1px solid #ddd;
 }
+.login-bottom {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.login-bottom * {
+  width: 20%;
+  height: 10%;
+  height: 13%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  text-decoration: none;
+  color: rgb(204, 202, 202);
+}
 
 #loginBtn {
   width: 100%;
   height: 13%;
-  background-color: #3c90e2;
+  background-color: #3c659c;
   color: white;
   border: none;
   font-weight: bold;
@@ -135,15 +155,6 @@ label {
 }
 
 .pwFind {
-  width: 100%;
-  height: 10%;
-  height: 13%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: bold;
-  text-decoration: none;
-  color: gray;
 }
 
 a:has(#kakao-login) {
