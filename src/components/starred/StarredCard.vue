@@ -1,77 +1,3 @@
-<script setup>
-import { ref, onMounted } from 'vue'
-import api from '@/lib/api'
-
-const props = defineProps({
-  apt: Object,
-  img: String,
-  mode: {
-    type: String,
-    default: 'list',
-  },
-})
-
-const emit = defineEmits(['remove'])
-
-const isStarred = ref(false)
-const img = ref(null)
-
-// 즐겨찾기 확인
-const fetchStarredStatus = async () => {
-  try {
-    const res = await api.get(`/api/v1/house/view/starred/${props.apt.aptSeq}`)
-    isStarred.value = res.data.data.isStarred
-  } catch (e) {
-    console.error('즐겨찾기 조회 실패', e)
-  }
-}
-
-// 즐겨찾기 토글
-const toggleStarred = async () => {
-  try {
-    const url = `/api/v1/starred/${props.apt.aptSeq}`
-    if (isStarred.value) {
-      const confirmDelete = confirm('정말 관심지역에서 삭제하시겠습니까?')
-      if (!confirmDelete) return
-      await api.delete(url)
-      emit('remove', props.apt.aptSeq)
-    } else {
-      await api.post(url)
-    }
-  } catch (e) {
-    console.error('즐겨찾기 처리 중 오류:', e)
-    alert('에러가 발생했습니다.')
-  }
-}
-
-// 이미지 검색
-const fetchSearchHouseImg = async () => {
-  const query = `${props.apt.aptNm} 아파트`
-  const res = await api.get(`/api/v1/search/naver/image`, {
-    params: { query, display: 1 },
-  })
-  img.value = res.data.items?.[0]?.link ?? null
-}
-
-// 드래그 시작
-const onDragStart = (event) => {
-  console.log(props.apt)
-  if (props.mode === 'chat') return
-  const dragData = {
-    ...props.apt,
-    imgSrc: img.value || null,
-  }
-  event.dataTransfer.setData('application/json', JSON.stringify(dragData))
-}
-
-onMounted(() => {
-  if (props.mode === 'list') {
-    fetchSearchHouseImg()
-    fetchStarredStatus()
-  }
-})
-</script>
-
 <template>
   <div
     class="apt-card"
@@ -131,6 +57,17 @@ onMounted(() => {
     </div>
   </div>
 </template>
+
+<script setup>
+const props = defineProps({
+  apt: Object,
+  img: String,
+  mode: {
+    type: String,
+    default: 'list',
+  },
+})
+</script>
 
 <style scoped>
 .apt-title-row {

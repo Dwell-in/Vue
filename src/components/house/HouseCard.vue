@@ -1,5 +1,10 @@
 <template>
-  <div class="apt-card">
+  <div
+    class="apt-card"
+    :class="mode !== 'chat'"
+    :draggable="mode != 'chat'"
+    @dragstart="onDragStart"
+  >
     <div class="image-wrapper">
       <img class="apt-image" :src="img" alt="아파트 이미지" />
       <div class="overlay-icon">
@@ -55,6 +60,14 @@ const fetchSearchHouseImg = async () => {
     img.value = null
   }
   img.value = res.data.items[0]?.link
+}
+
+const onDragStart = (event) => {
+  const dragData = {
+    ...apt,
+    imgSrc: img.value || null,
+  }
+  event.dataTransfer.setData('application/json', JSON.stringify(dragData))
 }
 
 onMounted(() => {
