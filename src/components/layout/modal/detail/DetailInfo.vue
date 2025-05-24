@@ -32,7 +32,7 @@ const handleSearchAI = () => {
 }
 </script>
 <template>
-  <div class="main">
+  <div class="detail-info">
     <div class="grid-chart-title title"><i class="fa-solid fa-chart-line"></i> CHART</div>
     <div class="grid-ai-title title"><i class="fa-solid fa-robot"></i> AI</div>
     <div class="grid-road-view-title title">
@@ -89,7 +89,7 @@ const handleSearchAI = () => {
 
 <style lang="scss" scoped>
 
-.main {
+.detail-info {
   width: 100%;
   height: 100%;
   overflow: hidden;
@@ -106,7 +106,7 @@ const handleSearchAI = () => {
   grid-template-rows: 1fr 2fr 1fr 1fr 1fr 4fr;
   color: white;
 }
-.main > *:not(.grid-chart) {
+.detail-info > *:not(.grid-chart) {
   width: 100% !important;
   height: 100% !important;
   padding: 2vh 0;
