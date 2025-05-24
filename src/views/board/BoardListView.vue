@@ -18,7 +18,7 @@ const getPostList = async (params = {}) => {
 
     const queryString = new URLSearchParams(query).toString()
     const res = await api.get(`/api/v1/board/post-list?${queryString}`)
-    console.log(res.data.data.data)
+    console.log(res.data)
     postList.value = res.data.data.data
     pageInfo.value = res.data.data.pageInfo
   } catch (e) {

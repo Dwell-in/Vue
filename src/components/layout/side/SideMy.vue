@@ -6,17 +6,23 @@ import { useSideStore } from '@/stores/side'
 import { useLoginUserStore } from '@/stores/loginUser'
 import { useModalStore } from '@/stores/modal'
 import auth from '@/lib/auth'
+import api from '@/lib/api'
 
 const sideStore = useSideStore()
 const loginUserStore = useLoginUserStore()
 
-// 로그아웃
 const logout = async () => {
-  auth.removeToken()
-  loginUserStore.logout()
-  sideStore.myToggle(false)
-  sideStore.detailToggle(false)
-  sideStore.chatToggle(false)
+  try {
+    await api.post('/api/v1/auth/logout') // Redis에서 refresh 삭제
+  } catch (e) {
+    console.error('서버 로그아웃 실패:', e)
+  } finally {
+    auth.removeToken()
+    loginUserStore.logout()
+    sideStore.myToggle(false)
+    sideStore.detailToggle(false)
+    sideStore.chatToggle(false)
+  }
 }
 
 const modalStore = useModalStore()
