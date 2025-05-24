@@ -50,6 +50,7 @@ const listToggle = () => {
 <template>
   <div class="chat-list" :class="{ open: isOpen }">
     <img :src="isOpen ? arrowL : arrowR" class="close" @click="listToggle" />
+    <img src="@/assets/img/logo.png" class="chat-room-icon" :class="{ selected: selectedTargetId == 'AI' }" @click="selectChatRoom({id:'AI'})" alt="">
     <img
       v-for="target in targets"
       :key="target.id"
@@ -73,7 +74,10 @@ const listToggle = () => {
   gap: 2vh;
   padding-top: 1vh;
   position: relative;
+  z-index: 2;
 }
+
+
 .chat-list .close {
   position: absolute;
   top: 0;

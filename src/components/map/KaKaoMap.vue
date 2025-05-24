@@ -104,6 +104,15 @@ const init = async () => {
   localSearchAll()
 }
 
+const onDragStart = (event, info, img) => {
+  console.log(img)
+  const dragData = {
+    ...info,
+    imgSrc: img || null,
+  }
+  event.dataTransfer.setData('application/json', JSON.stringify(dragData))
+}
+
 onMounted(async () => {
   await createMap(mapContainer.value)
   await init()
@@ -146,9 +155,9 @@ watch(infos, () => {
 watch(
   () => sideStore.detail,
   () => {
-  if(sideStore.detail)
-  toggle.value = true
-})
+    if (sideStore.detail) toggle.value = true
+  },
+)
 </script>
 
 <template>
@@ -184,9 +193,11 @@ watch(
         <div
           class="house"
           v-if="info.lat != 0"
+          draggable="true"
           @click="listSelect(index)"
           @mouseover="overlayToggle(index, true)"
           @mouseout="overlayToggle(index, false)"
+          @dragstart="(e) => onDragStart(e, info, imgs[index])"
         >
           <div>
             <div class="aptNm">{{ info.aptNm }}</div>

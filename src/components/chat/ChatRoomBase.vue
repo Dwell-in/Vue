@@ -14,6 +14,10 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  loading:{
+    type: Boolean,
+    default: false
+  }
 })
 
 // 부모 컴포넌트에서 접근하게 설정
@@ -70,7 +74,7 @@ watch(
         :key="message.messageId"
         :class="{ sender: message.sender == loginUserStore.id }"
         :message="message"
-        :profileImg="props.target.profileImg"
+        :target="target"
         :profileOn="shouldShowProfile(message, index)"
       />
     </div>
@@ -83,7 +87,7 @@ watch(
       ></textarea>
       <div class="chat-btns">
         <div></div>
-        <div><button id="chat-sub" @click="sendMessage">전송</button></div>
+        <div><button id="chat-sub" @click="$emit('sendMessage')">전송</button></div>
       </div>
     </div>
   </div>
@@ -103,7 +107,7 @@ watch(
   display: flex;
   flex-direction: column;
   gap: 1vh;
-  overflow-y: scroll;
+  overflow-y: auto;
   padding: 1vh;
 }
 

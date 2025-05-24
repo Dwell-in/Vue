@@ -21,10 +21,10 @@ export const useModalStore = defineStore('modal', {
       this.aptSeq = aptSeq
       this.detail = true
     },
-    closeAll(){
-      this.favorite = false;
-      this.recently = false;
-      this.detail = false;
-    }
+    closeAll() {
+      this.favorite = false
+      this.recently = false
+      this.detail = false
+    },
   },
 })

@@ -1,10 +1,5 @@
 <template>
-  <div
-    class="apt-card"
-    :class="mode !== 'chat'"
-    :draggable="mode != 'chat'"
-    @dragstart="onDragStart"
-  >
+  <div class="apt-card" @dragstart="onDragStart">
     <div class="image-wrapper">
       <img class="apt-image" :src="img" alt="아파트 이미지" />
       <div class="overlay-icon">

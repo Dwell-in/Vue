@@ -115,6 +115,7 @@ onMounted(() => {
     ref="inputElement"
     placeholder="주소를 검색해주세요."
     v-model="inputValue"
+    style="color: #7d7e7f"
     @input="handleInput"
     @keypress.prevent="handleKeypress"
     @focus="autocompleteOn"

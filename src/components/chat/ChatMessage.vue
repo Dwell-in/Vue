@@ -2,14 +2,14 @@
 import { computed } from 'vue'
 import DefaultProfile from '@/assets/img/default_profile.png'
 import { formatTime } from '@/lib/timeFormmat'
+import MarkDownPasser from '../dwellog/MarkDownPasser.vue'
 const props = defineProps({
   message: {
     type: Object,
     required: true,
   },
-  profileImg: {
-    type: String,
-    default: DefaultProfile,
+  target: {
+    type: Object,
   },
   profileOn: {
     type: Boolean,
@@ -23,17 +23,18 @@ const formattedContent = computed(() => props.message.content.replace(/\n/g, '<b
 <template>
   <div class="chat-message" v-bind="$attrs">
     <img
-      v-if="!$attrs.class.includes('sender') && profileOn"
-      :src="props.profileImg || DefaultProfile"
+      v-if="!$attrs.class.includes('sender') && profileOn && props.target.id != 'AI'"
+      :src="props.target.profileImg || DefaultProfile"
       alt="profile"
     />
     <template v-if="$attrs.class.includes('sender')">
       <div class="time">{{ formatTime(props.message.sentAt) }}</div>
-      <div class="msg" v-html="formattedContent"></div>
+      <div class="msg" v-html="formattedContent" :class="{margin: props.target.id != 'AI'}"></div>
     </template>
     <template v-else>
-      <div class="msg" v-html="formattedContent"></div>
-      <div class="time">{{ formatTime(props.message.sentAt) }}</div>
+      <MarkDownPasser v-if="props.target.id == 'AI'" class="msg" :text="props.message.content"/>
+      <div v-else class="msg" v-html="formattedContent" :class="{margin: props.target.id != 'AI'}"></div>
+      <div v-if="props.target.id != 'AI'" class="time">{{ formatTime(props.message.sentAt) }}</div>
     </template>
   </div>
 </template>
@@ -64,6 +65,8 @@ const formattedContent = computed(() => props.message.content.replace(/\n/g, '<b
 }
 .chat-message:not(.sender) > .msg {
   background-color: #f0f5f9;
+}
+.margin{
   margin-left: 4vh;
 }
 
