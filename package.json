@@ -16,6 +16,7 @@
   "dependencies": {
     "-": "^0.0.1",
     "@stomp/stompjs": "^7.1.1",
+    "@vueform/slider": "^2.1.10",
     "axios": "^1.9.0",
     "chart.js": "^4.4.9",
     "embedded": "^1.1.0",

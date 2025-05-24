@@ -93,11 +93,13 @@ onMounted(() => {
 
 :deep(.item) {
   flex-shrink: 0;
+  filter: blur(3px) brightness(0.6);
 }
 
 /* 현재 선택된(가운데 있는) 아이템에 확대 효과 */
 :deep(.item.active) {
   transform: scale(1.2);
+  filter: none;
 }
 
 .shadow {
