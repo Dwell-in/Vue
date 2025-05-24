@@ -26,6 +26,9 @@ onMounted(async () => {
     msg = '인증 요청 처리 중 오류가 발생했습니다.'
   }
   result.value = msg
+  setTimeout(() => {
+    window.close()
+  }, 5000)
 })
 </script>
 
