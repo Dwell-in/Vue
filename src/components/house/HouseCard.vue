@@ -137,6 +137,11 @@ const selectApt = (aptSeq) => {
 .overlay-icon svg {
   fill: #ffffff;
 }
+.apt-card:hover {
+  background-color: #0056b3;
+  color: #fff;
+  transform: translateY(-5px);
+}
 
 .apt-card {
   width: 300px;

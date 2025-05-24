@@ -233,6 +233,12 @@ watch(
   text-align: end;
 }
 
+.house:hover {
+  background-color: #0056b3;
+  color: #fff;
+  transform: translateY(-5px);
+}
+
 .houseList:not(.on) {
   height: auto;
   top: calc(65px + 1vh);
