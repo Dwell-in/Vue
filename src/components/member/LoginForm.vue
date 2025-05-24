@@ -89,8 +89,6 @@ onMounted(async () => {
       <a class="pwFind" href="/member/password-find">비밀번호 찾기</a>
       <router-link :to="{ name: 'SignUp' }" class="link">회원가입</router-link>
     </div>
-    <button type="submit" id="loginBtn">로그인</button>
-    <a :href="kakaoAuthUrl"> <img id="kakao-login" src="@/assets/img/kakao_login.png" /></a>
     <button type="submit" class="loginBtn">로그인</button>
     <a class="loginBtn" :href="kakaoAuthUrl">
       <img id="kakao-login" src="@/assets/img/kakao_login.png"
