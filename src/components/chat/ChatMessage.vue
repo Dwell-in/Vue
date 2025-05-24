@@ -29,7 +29,7 @@ const formattedContent = computed(() => props.message.content.replace(/\n/g, '<b
     />
     <template v-if="$attrs.class.includes('sender')">
       <div class="time">{{ formatTime(props.message.sentAt) }}</div>
-      <div class="msg" v-html="formattedContent" :class="{margin: props.target.id != 'AI'}"></div>
+      <div class="msg" v-html="formattedContent"></div>
     </template>
     <template v-else>
       <MarkDownPasser v-if="props.target.id == 'AI'" class="msg" :text="props.message.content"/>

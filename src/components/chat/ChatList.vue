@@ -1,5 +1,6 @@
 <script setup>
 import { ref, watch } from 'vue'
+import { deactivateRoom } from '@/lib/chat'
 import api from '@/lib/api'
 import defaultProfile from '@/assets/img/default_profile.png'
 import arrowL from '@/assets/img/arrowL.png'
@@ -36,6 +37,7 @@ watch(
 const selectedTargetId = ref()
 const emit = defineEmits('select-chat-room')
 const selectChatRoom = (target) => {
+  deactivateRoom()  // 기존 채팅방 연결 해제
   selectedTargetId.value = target.id
   emit('select-chat-room', target)
 }

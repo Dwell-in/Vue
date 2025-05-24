@@ -1,11 +1,9 @@
 <script setup>
 import LayoutFooter1 from '@/components/layout/footer/LayoutFooter1.vue'
-import LayoutHeader from '@/components/layout/header/LayoutHeader.vue'
 import SignUpForm from '@/components/member/SignUpForm.vue'
 </script>
 
 <template>
-  <LayoutHeader></LayoutHeader>
   <main>
     <p class="hi">Dwell-In에 오신걸 환영합니다!!</p>
     <SignUpForm></SignUpForm>

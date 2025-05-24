@@ -1,11 +1,9 @@
 <script setup>
 import LayoutFooter2 from '@/components/layout/footer/LayoutFooter2.vue'
-import LayoutHeader from '@/components/layout/header/LayoutHeader.vue'
 import LoginForm from '@/components/member/LoginForm.vue'
 </script>
 
 <template>
-  <LayoutHeader></LayoutHeader>
   <main>
     <LoginForm></LoginForm>
   </main>

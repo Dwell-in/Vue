@@ -1,7 +1,6 @@
 <script setup>
 import NavBase from '@/components/layout/nav/NavBase.vue'
 import MarkDownPasser from '@/components/dwellog/MarkDownPasser.vue'
-import LayoutHeader from '@/components/layout/header/LayoutHeader.vue'
 import LayoutFooter1 from '@/components/layout/footer/LayoutFooter1.vue'
 import DwellogLinkBox from '@/components/dwellog/DwellogLinkBox.vue'
 import md from '@/assets/data/md.json'
@@ -31,7 +30,6 @@ watch(
 
 <template>
   <div class="mdDetail">
-    <LayoutHeader></LayoutHeader>
     <NavBase :titles="titles" :name="'Dwellog'" />
     <div class="title">
       <div>

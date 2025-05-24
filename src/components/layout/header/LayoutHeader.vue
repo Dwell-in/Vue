@@ -1,19 +1,15 @@
 <script setup>
-import { ref } from 'vue'
+import { onBeforeUnmount, onMounted, ref } from 'vue'
 import SearchEngineAddress from './searchEngine/SearchEngineAddress.vue'
 import auth from '@/lib/auth'
 import defaultProfile from '@/assets/img/default_profile.png'
-
-// pinia
 import { useSideStore } from '@/stores/side'
-
 import { useLoginUserStore } from '@/stores/loginUser'
-const props = defineProps({
-  isMainHeader: Boolean,
-})
+
+const sideStore = useSideStore()
+const loginUserStore = useLoginUserStore()
 
 const hovered = ref(false)
-
 const selectedKey = ref('add')
 
 const engineRef = ref(null)
@@ -21,15 +17,41 @@ const handleSubmit = () => {
   engineRef.value.handleSubmit()
 }
 
-const sideStore = useSideStore()
-const loginUserStore = useLoginUserStore()
+// 헤더 스크롤 감지 hide
+const hideHeader = ref(false);
+let lastScroll = 0;
+
+const onScroll = () => {
+  const currentScroll = window.scrollY;
+
+  if (currentScroll === 0) {
+    hideHeader.value = false;
+    return;
+  }
+
+  if (currentScroll > lastScroll) {
+    hideHeader.value = true;
+  } else {
+    hideHeader.value = false;
+  }
+
+  lastScroll = currentScroll;
+};
+
+onMounted(() => {
+  window.addEventListener('scroll', onScroll);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener('scroll', onScroll);
+});
 </script>
 
 <template>
   <header
     @mouseenter="hovered = true"
     @mouseleave="hovered = false"
-    :class="{ mainHeader: props.isMainHeader }"
+    :class="{ hide: hideHeader }"
   >
     <nav>
       <div class="menu" :class="{ hovered: hovered }">
@@ -74,23 +96,23 @@ const loginUserStore = useLoginUserStore()
   </header>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 header {
   width: 100vw;
   height: 65px;
   background: #111519;
-  background: linear-gradient(90deg, rgba(17, 21, 25, 1) 0%, rgba(16, 62, 86, 1) 100%);
+  background: linear-gradient(to right, #0d121a, #0d1d28, #123652);
   box-shadow: 0 2px 10px #0a2d44;
   position: fixed;
   top: 0;
   left: 0;
   z-index: 100;
-}
-.mainHeader {
-  background-color: #ffffff10;
-}
-.mainHeader :deep(a) {
-  color: white;
+  transition: 0.2s;
+  overflow: hidden;
+
+  &.hide{
+    height: 0;
+  }
 }
 nav {
   width: 100%;
