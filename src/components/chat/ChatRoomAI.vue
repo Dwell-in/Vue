@@ -38,7 +38,11 @@ const sendMessage = async () => {
     droppedApts.value = []
     try {
       const msgRef = ref()
-      msgRef.value = { sender: 'ai', content: '<i class="fa-solid fa-spinner fa-spin"></i>', sentAt: new Date() }
+      msgRef.value = {
+        sender: 'ai',
+        content: '<i class="fa-solid fa-spinner fa-spin"></i>',
+        sentAt: new Date(),
+      }
       messages.value.push(msgRef.value)
       const res = await api.post('/api/v1/ai/price', requestPayload)
       const reply = res.data.data.message
@@ -59,7 +63,11 @@ const sendMessage = async () => {
     console.log(messages)
     try {
       const msgRef = ref()
-      msgRef.value = { sender: 'ai', content: '<i class="fa-solid fa-spinner fa-spin"></i>', sentAt: new Date() }
+      msgRef.value = {
+        sender: 'ai',
+        content: '<i class="fa-solid fa-spinner fa-spin"></i>',
+        sentAt: new Date(),
+      }
       messages.value.push(msgRef.value)
       const res = await api.post('/api/v1/ai/simple', {
         message: content,
@@ -125,6 +133,7 @@ const removeFromList = (aptSeq) => {
   padding: 12px 16px;
   position: absolute;
   overflow-x: auto;
+  z-index: 100;
 }
 .card-list {
   height: 100%;
@@ -156,7 +165,7 @@ const removeFromList = (aptSeq) => {
   transform: translateY(0);
 }
 
-:deep(li){
+:deep(li) {
   margin-left: -20px;
 }
 </style>
