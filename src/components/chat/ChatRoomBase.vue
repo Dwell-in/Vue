@@ -2,6 +2,8 @@
 import { useLoginUserStore } from '@/stores/loginUser'
 import ChatMessage from './ChatMessage.vue'
 import { nextTick, ref, watch } from 'vue'
+import LoadingParts from '../parts/LoadingParts.vue'
+import { loading } from '@/lib/chat'
 
 const loginUserStore = useLoginUserStore()
 
@@ -69,6 +71,7 @@ watch(
 <template>
   <div class="chat-room">
     <div class="chat-output" ref="chatOutputRef">
+      <LoadingParts v-if="loading && target.id!='AI'" :color="'black'" :size="'x2'"/>
       <ChatMessage
         v-for="(message, index) in props.messages"
         :key="message.messageId"
