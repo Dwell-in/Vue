@@ -1,7 +1,7 @@
 <template>
   <div class="apt-card" @dragstart="onDragStart">
     <div class="image-wrapper">
-      <img class="apt-image" :src="img" alt="아파트 이미지" />
+      <img class="apt-image" :src="img" alt="아파트 이미지" @error="(e) => e.target.src = defaultImg"/>
       <div class="overlay-icon">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -41,6 +41,7 @@ const { apt } = defineProps({
 import { ref, onMounted } from 'vue'
 import api from '@/lib/api'
 import StarredToggle from '../starred/StarredToggle.vue'
+import defaultImg from '@/assets/img/loginbg.png'
 const img = ref({})
 
 const fetchSearchHouseImg = async () => {
