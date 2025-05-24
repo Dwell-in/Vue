@@ -7,6 +7,11 @@ export const useModalStore = defineStore('modal', {
     detail: false,
     aptSeq: null,
   }),
+  getters: {
+    isAnyOpen(state) {
+      return state.favorite || state.recently || state.detail
+    }
+  },
   actions: {
     favoriteToggle(oper) {
       this.favorite = oper

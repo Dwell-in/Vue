@@ -1,21 +1,38 @@
+<script setup>
+  const props = defineProps({
+    size: String,
+    background: String
+  })
+</script>
+
 <template>
-  <div class="loading">
-    <i class="fa-solid fa-spinner fa-spin"></i>
+  <div class="loading" :class="props.background">
+    <i class="fa-solid fa-spinner fa-spin" :class="props.size"></i>
   </div>
 </template>
 
 <style lang="scss" scoped>
 .loading{
-  position: absolute;
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #0000007a;
   color: white;
 }
-i{
+.black{
+  background-color: #0000007a;
+}
+.x2{
   font-size: 2em;
+}
+.x3{
+  font-size: 3em;
+}
+.x4{
+  font-size: 4em;
+}
+.x5{
+  font-size: 5em;
 }
 </style>

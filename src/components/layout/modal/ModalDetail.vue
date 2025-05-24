@@ -243,7 +243,7 @@ const handleSearchAI = () => {
     align-items: center;
 
     & button {
-      padding: 0.5vh 1vh;
+      padding: 1vh 2vh;
       font-size: 0.8rem;
       background-color: #49b4e6;
       color: white;
@@ -299,7 +299,7 @@ const handleSearchAI = () => {
   flex-shrink: 0;
   -ms-overflow-style: none;
   scrollbar-width: none;
-  padding: 3vh 0;
+  padding: 2.5vh 0 2vh !important;
 }
 
 .grid-blog:-webkit-scrollbar {

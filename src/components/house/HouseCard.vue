@@ -76,7 +76,7 @@ const selectApt = (aptSeq) => {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .apt-title-row {
   display: flex;
   justify-content: space-between;
@@ -137,11 +137,6 @@ const selectApt = (aptSeq) => {
 .overlay-icon svg {
   fill: #ffffff;
 }
-.apt-card:hover {
-  background-color: #0056b3;
-  color: #fff;
-  transform: translateY(-5px);
-}
 
 .apt-card {
   width: 300px;
@@ -152,6 +147,10 @@ const selectApt = (aptSeq) => {
   display: flex;
   flex-direction: column;
   transition: transform 0.2s ease;
+
+  & img{
+    cursor: grab;
+  }
 }
 
 .apt-meta {

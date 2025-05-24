@@ -1,6 +1,8 @@
 <script setup>
 import api from '@/lib/api'
 import { onMounted, ref, watch } from 'vue'
+import defaultImg from '@/assets/img/loginbg.png'
+import LoadingParts from '../parts/LoadingParts.vue'
 
 const props = defineProps({
   info: Object,
@@ -10,12 +12,11 @@ const props = defineProps({
   },
 })
 
-let previews = ref([])
+let previews = ref()
 
 // 아파트 이름으로 블로그 검색하기
 const searchBlog = async () => {
   const res = await api.get(`/api/v1/search/naver/${props.searchCategory}?query=${encodeURIComponent(props.info.aptNm)}`)
-  previews.value = []
   res.data.items.forEach(item => {
     appendBlog(item)
   });
@@ -24,6 +25,7 @@ const searchBlog = async () => {
 // info-news 안에 블로그 미리보기 생성하기
 const appendBlog = async (item) => {
   try {
+    previews.value = []
     const imgUrl = await getOG2Link(item.link)
     if (!imgUrl || imgUrl.includes('daumcdn.net/thumb/R800x0/?scode=mtistory2')) {
       // imgUrl 없거나, 문제 URL 패턴 감지되면 기본 이미지 사용
@@ -71,6 +73,7 @@ onMounted(async () => searchBlog())
 </script>
 <template>
   <div>
+    <LoadingParts v-if="!previews || previews?.length == 0" :size="'x2'" />
     <a
       v-for="preview in previews"
       :key="preview.link"
@@ -78,7 +81,7 @@ onMounted(async () => searchBlog())
       target="_blank"
       :href="preview.link"
     >
-      <img :src="preview.img" alt="" />
+      <img :src="preview.img" @error="(e) => e.target.src = defaultImg" alt="" />
       <div class="title" v-html="preview.title"></div>
     </a>
   </div>

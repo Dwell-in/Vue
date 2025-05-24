@@ -53,11 +53,6 @@ const routes = [
     component: () => import('@/components/member/EmailVerify.vue'),
   },
   {
-    path: '/starred/list',
-    name: 'Starred',
-    component: () => import('@/views/StarredView.vue'),
-  },
-  {
     path: '/dwellog/:categoryId',
     name: 'Dwellog',
     component: () => import('./views/dwellog/DwellogListView.vue'),

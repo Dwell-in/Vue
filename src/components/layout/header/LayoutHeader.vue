@@ -43,7 +43,6 @@ const loginUserStore = useLoginUserStore()
           게시판
         </router-link>
         <router-link class="" :to="{ name: 'PropertyRegist' }">매물 등록</router-link>
-        <router-link class="" :to="{ name: 'Starred' }">수정중</router-link>
       </div>
       <div>
         <form class="search" :class="{ hovered: hovered }" @submit.prevent="handleSubmit">

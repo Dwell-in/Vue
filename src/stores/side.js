@@ -6,6 +6,11 @@ export const useSideStore = defineStore('side', {
     detail: false,
     my: false,
   }),
+  getters: {
+    isAnyOpen(state) {
+      return state.chat || state.detail || state.my
+    }
+  },
   actions: {
     chatToggle(oper) {
       this.chat = oper

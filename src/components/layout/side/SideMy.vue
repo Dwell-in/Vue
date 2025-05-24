@@ -99,7 +99,7 @@ const changeProfile = () => {
       </div>
       <div>
         <input class="name" type="text" size="12" v-model="idInput" />
-        <div class="email" style="padding: 10px">
+        <div class="email">
           {{ loginUserStore.email }}
         </div>
       </div>
@@ -209,7 +209,7 @@ const changeProfile = () => {
     background-color: #141414;
     color: #a7a7a7;
     border: none;
-    padding: 10px;
+    max-width: 80% !important;
 
     &:focus {
       outline: 1px solid #a7a7a7;

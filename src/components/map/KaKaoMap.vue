@@ -207,7 +207,7 @@ watch(
               <template v-if="info.roadNmBubun !== '0'">-{{ info.roadNmBubun }}</template>
             </div>
           </div>
-          <img class="aptImg" :src="imgs[index]" alt="" />
+          <img class="aptImg" :src="imgs[index]" @error="(e) => e.target.src = defaultImg" alt="" />
         </div>
       </template>
     </template>
