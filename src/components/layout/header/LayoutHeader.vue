@@ -108,9 +108,9 @@ header {
   left: 0;
   z-index: 100;
   transition: 0.2s;
-  overflow: hidden;
 
   &.hide{
+    overflow: hidden;
     height: 0;
   }
 }
