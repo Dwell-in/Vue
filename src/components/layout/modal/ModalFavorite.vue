@@ -30,7 +30,7 @@ const close = () => {
     </template>
     <template #main>
       <template v-if="favorites?.length">
-        <UseCarousel :width="'17%'" :height="'50%'" :gap="'10vh'">
+        <UseCarousel :width="'17%'" :height="'50%'" :gap="'15vh'">
           <HouseCard v-for="apt in favorites" :key="apt.id" :apt="apt"></HouseCard>
         </UseCarousel>
       </template>
