@@ -71,6 +71,7 @@
     },
     {
       "category": "REST API 명세서",
+      "subTitle": "servers: https://dwellin.store",
       "middleURL": "/api",
       "data": [
         {

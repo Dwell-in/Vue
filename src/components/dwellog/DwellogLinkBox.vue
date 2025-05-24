@@ -28,6 +28,9 @@ watch(
   <div class="list">
     <div class="title">
       {{ md.data[route.params.categoryId].category }}
+      <div class="sub-title">
+        {{ md.data[route.params.categoryId].subTitle }}
+      </div>
     </div>
     <ul v-if="listOn">
       <li v-for="(item, index) in list" :key="index" @click="selectUrl(index)"
@@ -59,6 +62,11 @@ watch(
   font-weight: bold;
   line-height: 2em;
   margin-bottom: 30px;
+
+  & .sub-title{
+    margin-top: -10px;
+    color: #3C90E2;
+  }
 }
 
 ul {
