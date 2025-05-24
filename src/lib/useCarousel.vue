@@ -4,9 +4,8 @@ import { computed, onMounted, ref } from 'vue'
 const props = defineProps({
   width: String,
   height: String,
-  gap: String
+  gap: String,
 })
-
 
 const containerStyle = computed(() => ({
   gap: props.gap,
@@ -15,14 +14,14 @@ const containerStyle = computed(() => ({
 const container = ref()
 const activeIndex = ref(0)
 
-const widthStr = props.width.trim();
+const widthStr = props.width.trim()
 const widthInPx = ref()
 const childrenLength = ref()
 
 const onWheel = (e) => {
-  const gap = window.getComputedStyle(container.value).gap;
+  const gap = window.getComputedStyle(container.value).gap
   const totalScrollAmount = widthInPx.value + parseFloat(gap)
-  childrenLength.value = container.value.children.length;
+  childrenLength.value = container.value.children.length
 
   container.value.children[activeIndex.value].classList.remove('active')
   if (e.deltaY < 0) {
@@ -44,10 +43,10 @@ const init = (container) => {
   const lastEl = container.value.lastElementChild
   lastEl.style.marginRight = '50%'
 
-  const newValue = (0.5)*(container.value.offsetWidth) - widthInPx.value/2;
-  firstEl.style.marginLeft = newValue + 'px';
+  const newValue = 0.5 * container.value.offsetWidth - widthInPx.value / 2
+  firstEl.style.marginLeft = newValue + 'px'
 
-  const children = container.value.children; // 요소 노드들만 포함
+  const children = container.value.children // 요소 노드들만 포함
   for (let i = 0; i < children.length; i++) {
     const el = children[i]
     // 클래스 추가
@@ -62,7 +61,9 @@ const init = (container) => {
 }
 
 onMounted(() => {
-  widthInPx.value = widthStr.endsWith('%') ? (parseFloat(widthStr) / 100) * (container.value.offsetWidth) : parseFloat(widthStr);
+  widthInPx.value = widthStr.endsWith('%')
+    ? (parseFloat(widthStr) / 100) * container.value.offsetWidth
+    : parseFloat(widthStr)
   init(container)
 })
 </script>
@@ -71,8 +72,8 @@ onMounted(() => {
   <div ref="container" class="container" :style="containerStyle" @wheel="onWheel">
     <slot></slot>
   </div>
-  <div class="shadow left" :class="{none: activeIndex < 2}"></div>
-  <div class="shadow right" :class="{none: activeIndex > childrenLength-3}"></div>
+  <div class="shadow left" :class="{ none: activeIndex < 2 }"></div>
+  <div class="shadow right" :class="{ none: activeIndex > childrenLength - 3 }"></div>
 </template>
 
 <style scoped>
@@ -80,9 +81,11 @@ onMounted(() => {
   width: 100%;
   height: 100%;
   display: flex;
+  background: #1e1e1e60;
   align-items: center;
   overflow-x: auto;
   scrollbar-width: none;
+  margin-top: 1%;
   /* 파이어폭스용 스크롤바 숨김 */
 }
 
@@ -119,7 +122,7 @@ onMounted(() => {
 .shadow.right {
   right: -1%;
 }
-.none{
+.none {
   display: none;
 }
 </style>
