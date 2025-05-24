@@ -7,7 +7,7 @@ import md from '@/assets/data/md.json'
 import { onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
-const titles = ['BackEnd', 'FrontEnd']
+const titles = ['BackEnd', 'FrontEnd', 'REST API']
 
 const url = ref()
 const route = useRoute()

@@ -68,6 +68,60 @@
           "link": "/scrollsnap.md"
         }
       ]
+    },
+    {
+      "category": "REST API 명세서",
+      "middleURL": "/api",
+      "data": [
+        {
+          "title": "AI Controller",
+          "link": "/ai-api-doc.md"
+        },
+        {
+          "title": "Auth Controller",
+          "link": "/auth-api-doc.md"
+        },
+        {
+          "title": "Chat Controller",
+          "link": "/chat-api-doc.md"
+        },
+        {
+          "title": "House Controller",
+          "link": "/house-api-doc.md"
+        },
+        {
+          "title": "Member Controller",
+          "link": "/member-api-doc.md"
+        },
+        {
+          "title": "Search Controller",
+          "link": "/search-api-doc.md"
+        },
+        {
+          "title": "Starred Controller",
+          "link": "/starred-api-doc.md"
+        },
+        {
+          "title": "Board Controller",
+          "link": "/board-api-doc.md"
+        },
+        {
+          "title": "Comment Controller",
+          "link": "/comment-api-doc.md"
+        },        
+        {
+          "title": "Property Controller",
+          "link": "/property-api-doc.md"
+        },
+        {
+          "title": "Email Controller",
+          "link": "/email-api-doc.md"
+        },
+        {
+          "title": "Predict Controller",
+          "link": "/predict-api-doc.md"
+        }
+      ]
     }
   ]
 }

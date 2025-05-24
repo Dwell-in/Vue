@@ -3,7 +3,7 @@ import NavBase from '@/components/layout/nav/NavBase.vue'
 import DwellogLinkBox from '@/components/dwellog/DwellogLinkBox.vue'
 import LayoutFooter1 from '@/components/layout/footer/LayoutFooter1.vue'
 
-const titles = ['BackEnd', 'FrontEnd']
+const titles = ['BackEnd', 'FrontEnd', 'REST API']
 </script>
 
 <template>
