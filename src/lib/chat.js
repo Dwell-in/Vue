@@ -3,6 +3,7 @@ import api from './api'
 import SockJS from 'sockjs-client'
 import { Client } from '@stomp/stompjs'
 import { useLoginUserStore } from '@/stores/loginUser'
+import { getUnreadCount } from './chatNotification'
 
 const loading = ref(true)
 let loginUserStore
@@ -25,7 +26,9 @@ const getMessagesHistory = async () => {
   return res.data.data
 }
 
+
 // 웹 소켓 연결
+let chatSubscription = null
 const stompClient = ref(null)
 const connect = () => {
   return new Promise((resolve, reject) => {
@@ -37,9 +40,20 @@ const connect = () => {
       onConnect: () => {
         loading.value = false
         // 채팅방 수신 설정
-        client.subscribe(`/sub/chatroom/${roomId.value}`, (message) => {
+        chatSubscription = client.subscribe(`/sub/chatroom/${roomId.value}`, async (message) => {
           const msg = JSON.parse(message.body)
           messages.value.push(msg)
+          // 이미 채팅방에 있는 경우
+          if (msg.sender != loginUserStore.id) {
+            console.log('읽음 처리 요청', msg.messageId, roomId.value)
+            await api.post('/chat/read', {
+              userId: loginUserStore.id,
+              roomId: roomId.value,
+              lastReadMessageId: msg.messageId,
+            })
+            // 전체 unread 갱신
+            getUnreadCount()
+          }
         })
         stompClient.value = client
         resolve();
@@ -84,15 +98,39 @@ const init = async (targetId) => {
   roomId.value = await getRoomId(targetId)
   await connect()
   messages.value = await getMessagesHistory()
+
+  if (messages.value.length > 0) {
+    const last = messages.value[messages.value.length - 1]
+    await api.post('/chat/read', {
+      userId: loginUserStore.id,
+      roomId: roomId.value,
+      lastReadMessageId: last.messageId,
+    })
+    getUnreadCount()
+  }
 }
 
 // 채팅방 연결 해제
 const deactivateRoom = () => {
+  if (chatSubscription) {
+    chatSubscription.unsubscribe()
+    chatSubscription = null
+  }
+
   if (stompClient.value) {
     loading.value = true
     messages.value = []
     stompClient.value.deactivate()
   }
+
+  roomId.value = null // 읽음 처리 방지
 }
 
-export { init, loading, messages, input, sendMessage, deactivateRoom }
+export {
+  init,
+  loading,
+  messages,
+  input,
+  sendMessage,
+  deactivateRoom,
+}

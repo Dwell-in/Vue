@@ -4,6 +4,7 @@ import api from '@/lib/api'
 import auth from '@/lib/auth'
 import { useRouter, useRoute } from 'vue-router'
 import { useLoginUserStore } from '@/stores/loginUser'
+import { initGlobalSocket } from '@/lib/chatNotification'
 const user = useLoginUserStore()
 
 const email = ref('')
@@ -24,9 +25,12 @@ const handleSubmit = async () => {
     const res = await api.get(`/api/v1/member/user-info`)
     user.login(res.data.data)
 
+    initGlobalSocket() // 채팅 알림 구독
+
     router.push({ name: 'Home' })
   } catch (error) {
     console.log(error)
+    alert('아이디와 비밀번호를 정확하게 입력하세요')
   }
 }
 
@@ -48,6 +52,7 @@ onMounted(async () => {
         // 로그인 처리
         const token = res.data.data.token
         auth.setToken(token)
+        initGlobalSocket() // 채팅 알림 구독
         router.push({
           name: 'Home',
         })

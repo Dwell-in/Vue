@@ -4,6 +4,7 @@ import ChatMessage from './ChatMessage.vue'
 import { nextTick, ref, watch } from 'vue'
 import LoadingParts from '../parts/LoadingParts.vue'
 import { loading } from '@/lib/chat'
+import { onMounted } from 'vue'
 
 const loginUserStore = useLoginUserStore()
 
@@ -16,10 +17,13 @@ const props = defineProps({
     type: Object,
     required: true,
   },
-  loading:{
+  loading: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
+  partnerReadId: {
+    type: Number,
+  },
 })
 
 // 부모 컴포넌트에서 접근하게 설정
@@ -66,6 +70,7 @@ watch(
   },
   { deep: true },
 )
+
 </script>
 
 <template>
@@ -79,6 +84,7 @@ watch(
         :message="message"
         :target="target"
         :profileOn="shouldShowProfile(message, index)"
+        :partnerReadId="props.partnerReadId"
       />
     </div>
     <div class="chat-input">

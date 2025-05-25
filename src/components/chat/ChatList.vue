@@ -5,8 +5,8 @@ import api from '@/lib/api'
 import defaultProfile from '@/assets/img/default_profile.png'
 import arrowL from '@/assets/img/arrowL.png'
 import arrowR from '@/assets/img/arrowR.png'
+import { unreadCount } from '@/lib/chatNotification'
 
-// Chat.vue에서 전달된 로그인 아이디 props 받기
 const props = defineProps({
   loginUserId: {
     type: Number,
@@ -19,7 +19,22 @@ const targets = ref([])
 const getTargets = async () => {
   if (!props.loginUserId) return
   const res = await api.get(`/chat/targets/${props.loginUserId}`)
-  return res.data.data
+  const targetList = res.data.data
+
+  const enrichedTargets = await Promise.all(
+    targetList.map(async (target) => {
+      const query = new URLSearchParams({
+        user1Id: props.loginUserId,
+        user2Id: target.id,
+      }).toString()
+      const roomRes = await api.get(`/chat/roomId?${query}`)
+
+      target.roomId = roomRes.data.data // 조용히 추가
+      return target
+    })
+  )
+
+  return enrichedTargets
 }
 
 // loginUserId가 바뀌면 실행
@@ -38,6 +53,7 @@ const selectedTargetId = ref()
 const emit = defineEmits('select-chat-room')
 const selectChatRoom = (target) => {
   deactivateRoom()  // 기존 채팅방 연결 해제
+  console.log(target)
   selectedTargetId.value = target.id
   emit('select-chat-room', target)
 }
@@ -53,15 +69,25 @@ const listToggle = () => {
   <div class="chat-list" :class="{ open: isOpen }">
     <img :src="isOpen ? arrowL : arrowR" class="close" @click="listToggle" />
     <img src="@/assets/img/logo.png" class="chat-room-icon" :class="{ selected: selectedTargetId == 'AI' }" @click="selectChatRoom({id:'AI'})" alt="">
-    <img
+    <div
       v-for="target in targets"
       :key="target.id"
-      class="chat-room-icon"
-      :class="{ selected: target.id === selectedTargetId }"
-      @click="selectChatRoom(target)"
-      :src="target.profileImg || defaultProfile"
-      alt="Profile"
-    />
+      class="chat-room-wrapper"
+    >
+      <img
+        class="chat-room-icon"
+        :class="{ selected: target.id === selectedTargetId }"
+        @click="selectChatRoom(target)"
+        :src="target.profileImg || defaultProfile"
+        alt="Profile"
+      />
+      <div
+        v-if="unreadCount[target.roomId] > 0"
+        class="chat-room-badge"
+      >
+        {{ unreadCount[target.roomId] }}
+      </div>
+    </div>
   </div>
 </template>
 
@@ -103,5 +129,23 @@ const listToggle = () => {
 .chat-room-icon:is(.selected) {
   border-color: #bbe9fd;
   border-width: 3px;
+}
+.chat-room-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.chat-room-badge {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  background-color: red;
+  color: white;
+  font-size: 10px;
+  padding: 2px 5px;
+  border-radius: 10px;
+  line-height: 1;
+  min-width: 16px;
+  text-align: center;
 }
 </style>

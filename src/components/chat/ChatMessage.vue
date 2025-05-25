@@ -14,6 +14,9 @@ const props = defineProps({
   profileOn: {
     type: Boolean,
   },
+  partnerReadId: {
+    type: Number,
+  },
 })
 
 // 줄바꿈 적용
@@ -28,13 +31,17 @@ const formattedContent = computed(() => props.message.content.replace(/\n/g, '<b
       alt="profile"
     />
     <template v-if="$attrs.class.includes('sender')">
-      <div class="time">{{ formatTime(props.message.sentAt) }}</div>
-      <div class="msg" v-html="formattedContent"></div>
+        <div class="time">{{ formatTime(props.message.sentAt) }}</div>
+        <div class="msg" v-html="formattedContent"></div>
     </template>
     <template v-else>
       <MarkDownPasser v-if="props.target.id == 'AI'" class="msg" :text="props.message.content"/>
       <div v-else class="msg" v-html="formattedContent" :class="{margin: props.target.id != 'AI'}"></div>
       <div v-if="props.target.id != 'AI'" class="time">{{ formatTime(props.message.sentAt) }}</div>
+              <span
+            v-if="props.message.messageId === props.partnerReadId"
+            class="read-label-inline"
+          >읽음</span>
     </template>
   </div>
 </template>
@@ -77,4 +84,16 @@ const formattedContent = computed(() => props.message.content.replace(/\n/g, '<b
 .chat-message .time {
   font-size: 0.6em;
 }
+.meta-line {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 2px 0 6px 0;
+}
+
+.read-label-inline {
+  font-size: 11px;
+  color: #888;
+}
+
 </style>

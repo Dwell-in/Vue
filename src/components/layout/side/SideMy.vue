@@ -7,6 +7,7 @@ import { useLoginUserStore } from '@/stores/loginUser'
 import { useModalStore } from '@/stores/modal'
 import auth from '@/lib/auth'
 import api from '@/lib/api'
+import { unreadCount } from '@/lib/chatNotification'
 
 const sideStore = useSideStore()
 const loginUserStore = useLoginUserStore()
@@ -119,7 +120,7 @@ const changeProfile = () => {
       </div>
     </div>
     <div class="my-main">
-      <div class="menu" @click="selectChat('Chat')" :class="{ selected: selected == 'Chat' }">
+      <div class="menu chat-menu" @click="selectChat('Chat')" :class="{ selected: selected == 'Chat' }">
         <!-- <svg
           xmlns="http://www.w3.org/2000/svg"
           height="40px"
@@ -133,6 +134,9 @@ const changeProfile = () => {
         </svg> -->
         <i class="fa-solid fa-comments" style="color: #a2d4fb"></i>
         <div>Chat</div>
+        <div v-if="unreadCount.total > 0" class="chat-badge">
+          {{ unreadCount.total }}
+        </div>
       </div>
       <div
         class="menu"
@@ -288,5 +292,21 @@ svg {
   cursor: pointer;
   top: 1.5vh;
   right: 1.5vh;
+}
+
+.chat-menu {
+  position: relative;
+}
+
+.chat-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: red;
+  color: white;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 12px;
+  line-height: 1;
 }
 </style>

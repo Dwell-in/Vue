@@ -5,6 +5,7 @@ import auth from '@/lib/auth'
 import defaultProfile from '@/assets/img/default_profile.png'
 import { useSideStore } from '@/stores/side'
 import { useLoginUserStore } from '@/stores/loginUser'
+import { unreadCount } from '@/lib/chatNotification'
 
 const sideStore = useSideStore()
 const loginUserStore = useLoginUserStore()
@@ -81,11 +82,14 @@ onBeforeUnmount(() => {
         </form>
         <div class="member">
           <template v-if="auth.isLoggedIn()">
-            <img
-              @click="sideStore.myToggle(!sideStore.my)"
-              class="profile"
-              :src="loginUserStore.profileImg || defaultProfile"
-            />
+           <div class="profile-wrapper">
+              <img
+                @click="sideStore.myToggle(!sideStore.my)"
+                class="profile"
+                :src="loginUserStore.profileImg || defaultProfile"
+              />
+              <div v-if="unreadCount.total > 0" class="red-dot" />
+            </div>
           </template>
           <template v-else>
             <router-link :to="{ name: 'Login' }" class="link">로그인</router-link>
@@ -240,5 +244,18 @@ nav div {
   color: white !important;
   display: flex;
   align-items: center;
+}
+.profile-wrapper {
+  position: relative;
+}
+
+.red-dot {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  border-radius: 50%;
 }
 </style>

@@ -6,6 +6,7 @@ import { useSideStore } from '@/stores/side'
 import { useLoginUserStore } from '@/stores/loginUser'
 import SideBase from './SideBase.vue'
 import ChatRoomAI from '@/components/chat/ChatRoomAI.vue'
+import { deactivateRoom } from '@/lib/chat'
 
 const loginUser = useLoginUserStore()
 
@@ -17,10 +18,17 @@ const selectedTarget = ref()
 const handleSelectChatRoom = (target) => {
   selectedTarget.value = target
 }
+
+
+const handleClose = () => {
+  deactivateRoom() // 채팅방 연결 해제
+  selectedTarget.value = null
+  store.chatToggle(false)
+}
 </script>
 
 <template>
-  <SideBase class="chatView" @close="store.chatToggle(false)">
+  <SideBase class="chatView" @close="handleClose">
     <div class="chat">
       <div class="chat-header">
         <img alt="logo" src="@/assets/img/logo-w.png" />
