@@ -29,6 +29,7 @@ const formattedContent = computed(() => props.message.content.replace(/\n/g, '<b
       v-if="!$attrs.class.includes('sender') && profileOn && props.target.id != 'AI'"
       :src="props.target.profileImg || DefaultProfile"
       alt="profile"
+      :title="props.target.id"
     />
     <template v-if="$attrs.class.includes('sender')">
         <div class="time">{{ formatTime(props.message.sentAt) }}</div>

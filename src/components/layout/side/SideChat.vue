@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from 'vue'
 import ChatList from '@/components/chat/ChatList.vue'
 import ChatRoomUser from '@/components/chat/ChatRoomUser.vue'
 import { useSideStore } from '@/stores/side'
@@ -7,22 +6,23 @@ import { useLoginUserStore } from '@/stores/loginUser'
 import SideBase from './SideBase.vue'
 import ChatRoomAI from '@/components/chat/ChatRoomAI.vue'
 import { deactivateRoom } from '@/lib/chat'
+import { useChatStore } from '@/stores/chatStore'
 
 const loginUser = useLoginUserStore()
+const chatStore = useChatStore()
 
 const store = useSideStore()
 
 // ChatList에서 'select-chat-room' 이벤트 수신
 // ChatRoom에 'selectedTarget' 전달
-const selectedTarget = ref()
 const handleSelectChatRoom = (target) => {
-  selectedTarget.value = target
+  chatStore.selectTarget(target)
 }
 
 
 const handleClose = () => {
   deactivateRoom() // 채팅방 연결 해제
-  selectedTarget.value = null
+  chatStore.selectTarget(null)
   store.chatToggle(false)
 }
 </script>
@@ -35,11 +35,11 @@ const handleClose = () => {
       </div>
       <div class="chat-body">
         <ChatList :loginUserId="loginUser.id" @select-chat-room="handleSelectChatRoom" />
-        <ChatRoomAI v-if="selectedTarget?.id == 'AI'" />
+        <ChatRoomAI v-if="chatStore.selectedTarget?.id == 'AI'" />
         <ChatRoomUser
-          v-else-if="selectedTarget"
-          :target="selectedTarget"
-          :key="selectedTarget.id"
+          v-else-if="chatStore.selectedTarget"
+          :target="chatStore.selectedTarget"
+          :key="chatStore.selectedTarget.id"
           :loginUserId="loginUser.id"
         />
       </div>

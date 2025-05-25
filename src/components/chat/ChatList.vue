@@ -6,6 +6,8 @@ import defaultProfile from '@/assets/img/default_profile.png'
 import arrowL from '@/assets/img/arrowL.png'
 import arrowR from '@/assets/img/arrowR.png'
 import { unreadCount } from '@/lib/chatNotification'
+import { useChatStore } from '@/stores/chatStore'
+const chatStore = useChatStore()
 
 const props = defineProps({
   loginUserId: {
@@ -49,12 +51,10 @@ watch(
 )
 
 // 채팅방 선택하기
-const selectedTargetId = ref()
 const emit = defineEmits('select-chat-room')
 const selectChatRoom = (target) => {
   deactivateRoom()  // 기존 채팅방 연결 해제
   console.log(target)
-  selectedTargetId.value = target.id
   emit('select-chat-room', target)
 }
 
@@ -68,7 +68,7 @@ const listToggle = () => {
 <template>
   <div class="chat-list" :class="{ open: isOpen }">
     <img :src="isOpen ? arrowL : arrowR" class="close" @click="listToggle" />
-    <img src="@/assets/img/logo.png" class="chat-room-icon" :class="{ selected: selectedTargetId == 'AI' }" @click="selectChatRoom({id:'AI'})" alt="">
+    <img src="@/assets/img/logo.png" title="AI" class="chat-room-icon" :class="{ selected: chatStore.selectedTarget?.id == 'AI' }" @click="selectChatRoom({id:'AI'})" alt="">
     <div
       v-for="target in targets"
       :key="target.id"
@@ -76,10 +76,11 @@ const listToggle = () => {
     >
       <img
         class="chat-room-icon"
-        :class="{ selected: target.id === selectedTargetId }"
+        :class="{ selected: target.id === chatStore.selectedTarget?.id }"
         @click="selectChatRoom(target)"
         :src="target.profileImg || defaultProfile"
         alt="Profile"
+        :title="target.name"
       />
       <div
         v-if="unreadCount[target.roomId] > 0"
@@ -91,7 +92,7 @@ const listToggle = () => {
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .chat-list {
   width: 0;
   flex-shrink: 0;
@@ -133,6 +134,7 @@ const listToggle = () => {
 .chat-room-wrapper {
   position: relative;
   display: inline-block;
+  text-align: center;
 }
 
 .chat-room-badge {

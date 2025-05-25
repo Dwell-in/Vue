@@ -1,6 +1,7 @@
 <script setup>
 import PropertyFilter from './PropertyFilter.vue'
-import DealCard from './DealCard.vue'
+import PropertyCard from './PropertyCard.vue'
+import PropertyDetail from './PropertyDetail.vue'
 import { onMounted, reactive, ref, watch } from 'vue'
 import api from '@/lib/api'
 
@@ -113,6 +114,17 @@ const filtering = (result) => {
 
 }
 
+// 매물 상세보기
+const selectedProperty = ref()
+const isOpenOfDetail = ref(false)
+const selectProperty = (property) => {
+  selectedProperty.value = property
+  isOpenOfDetail.value = true
+}
+const detailClose = () => {
+  isOpenOfDetail.value = false
+}
+
 onMounted(async()=>{
   await getPropertys()
   await getRange()
@@ -124,15 +136,29 @@ watch(props.isInfo, () => filteredPropertys.value = propertys.value)
 
 <template>
   <div class="detail-property">
+    <div v-if="filterRange.area.length == 0" class="noData">등록된 매물이 없습니다.</div>
     <PropertyFilter v-if="filterRange.area.length != 0" :filterRange="filterRange" @filtering="filtering"/>
-    <div class="list">
+    <div v-if="filterRange.area.length != 0" class="list">
       <div class="title" style="padding-bottom: 0;">
         <i class="fa-solid fa-list-ul"></i>&ensp;List
       </div>
       <div class="deals">
-        <DealCard v-for="filteredProperty in filteredPropertys" :key="filteredProperty.id" :property="filteredProperty"></DealCard>
+        <PropertyCard
+          v-for="filteredProperty in filteredPropertys"
+          :key="filteredProperty.id"
+          :property="filteredProperty"
+          @click="selectProperty(filteredProperty)"
+        ></PropertyCard>
       </div>
     </div>
+    <PropertyDetail
+      v-if="selectedProperty"
+      :key="selectedProperty.id"
+      class="detail"
+      :class="{open: isOpenOfDetail}"
+      @close="detailClose"
+      :property="selectedProperty"
+    />
   </div>
 </template>
 
@@ -144,11 +170,23 @@ watch(props.isInfo, () => filteredPropertys.value = propertys.value)
   width: 100%;
   height: 100%;
   display: flex;
+  position: relative;
+
+  & .noData{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
+  }
+
   & .filter {
     width: 30%;
     height: 100%;
     flex-shrink: 0;
   }
+
   & .list{
     width: 100%;
     height: 100%;
@@ -162,6 +200,8 @@ watch(props.isInfo, () => filteredPropertys.value = propertys.value)
       gap: 30px;
     }
   }
+
+
 }
 
 .title{

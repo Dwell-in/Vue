@@ -177,18 +177,20 @@ const changeProfile = () => {
   gap: 0;
   width: 30vh;
   background-color: #111111;
-}
-.myView > * {
-  width: 100%;
-  color: #a7a7a7;
-}
-.myView:is(.open) {
-  left: calc(100% - 30vh) !important;
+
+  &.open{
+    left: calc(100% - 29.99vh) !important;
+  }
+  & > *{
+    width: 100%;
+    color: #a7a7a7;
+  }
 }
 .my-profile {
   background-color: #1d1d1d;
   border: 1px solid #323232;
   height: 10%;
+  margin-top: 5%;
   border-radius: 10px;
   display: flex;
   align-content: center;
@@ -242,12 +244,12 @@ const changeProfile = () => {
   align-items: center;
   cursor: pointer;
   gap: 2vh;
-  font-size: 1.2em;
+  font-size: 1.3em;
 }
 .menu > * {
   display: flex;
   align-items: center;
-  font-size: 1.2em;
+  font-size: 1em;
 }
 svg {
   width: 3vh;
