@@ -1,91 +1,109 @@
+<script setup>
+import defaultImg from '@/assets/img/loginbg.png'
+
+const props = defineProps({
+  property: Object
+})
+
+const price = props.property?.type == '매매'? props.property.salePrice
+              : props.property?.type == '전세' ? props.property.deposit
+              : props.property.monthlyRent
+
+const formatToEokMan = v => `${Math.floor(v / 100000000)}억 ${Math.floor(v % 100000000 / 10000)}만원`.replace(/^0억 /, '').replace(/ 0만원$/, '');
+</script>
+
 <template>
   <div class="deal-apt-card">
-    <img :src="apt.img || defaultImg" alt="아파트 이미지" class="deal-apt-image" />
+    <img :src="props.property.propertyImg || defaultImg" alt="아파트 이미지" class="deal-apt-image" />
 
     <div class="deal-apt-info">
       <div class="deal-apt-title">
-        <strong>{{ apt.price }}</strong>
-        <span class="deal-apt-name">{{ apt.name }}</span>
+        <strong class="price">{{ props.property.type }}&ensp;{{ formatToEokMan(price) }}</strong>
+        <span class="deal-apt-name">{{ props.property.aptName }}</span>
       </div>
 
       <div class="deal-apt-details">
-        {{ apt.floor }}층 · {{ apt.area }}m² · 관리비 {{ apt.maintenance }}
+        {{ props.property.floor }}층 · {{ props.property.supplyArea }}m² · 관리비 {{ props.property.managementFee }}
       </div>
 
       <div class="deal-apt-tags">
-        {{ apt.tags }}
+        <div v-for="option in props.property.optionNames" :key="option">{{ option }}</div>
+        <div v-for="option in props.property.safetyNames" :key="option">{{ option }}</div>
       </div>
 
-      <div class="deal-apt-badge">
-        <span>{{ apt.badge }}</span>
-      </div>
+      <!-- <div class="deal-apt-badge">
+        <span>{{  }}</span>
+      </div> -->
     </div>
   </div>
 </template>
 
-<script setup>
-import defaultImg from '@/assets/img/loginbg.png'
 
-//defineProp으로 바꿀예정
-const apt = {
-  img: '',
-  price: '매매 1억9500',
-  name: '우남1차',
-  floor: 4,
-  area: 76.71,
-  maintenance: '4만',
-  tags: '주인거주, 부분수리로 깔끔함, 남향, 주차가능',
-  badge: '방주인',
-}
-</script>
-
-<style scoped>
+<style lang="scss" scoped>
 .deal-apt-card {
-  padding: 20px;
+  width: 100%;
+  height: 200px;
+  padding: 15px;
   display: flex;
+  gap: 20px;
   background-color: white;
   color: black;
   border-radius: 20px;
-  height: 10%;
+  box-shadow: 0 0 2px 1px white;
+  cursor: pointer;
 }
 
 .deal-apt-image {
-  width: 120px;
-  height: 100px;
-  padding-right: 20px;
+  height: 100%;
+  border-radius: 10px;
 }
 
 .deal-apt-info {
   display: flex;
   flex-direction: column;
+  padding: 1vh;
 }
 
 .deal-apt-title {
   display: flex;
   flex-direction: column;
+
+  & .price{
+    font-size: 1.3rem;
+    margin-bottom: 1vh;
+  }
 }
 
 .deal-apt-name {
-  font-size: 15px;
+  font-size: 0.9rem;
   color: #666;
   margin-top: 4px;
 }
 
 .deal-apt-tags {
-  font-size: 10px;
-  color: #777;
-  margin-top: 4px;
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  overflow: hidden;
+  gap: 5px;
+
+  & > div{
+    font-size: 0.8rem;
+    background-color: #e5e5e5;
+    border-radius: 5px;
+    padding: 3px 5px;
+  }
 }
 
 .deal-apt-details {
-  font-size: 15px;
+  font-size: 0.9rem;
   color: #333;
   margin-top: 4px;
 }
 
 .deal-apt-badge span {
   display: inline-block;
-  font-size: 10px;
+  font-size: 0.8rem;
   color: #e74c3c;
   border: 1px solid #e74c3c;
   padding: 2px 6px;

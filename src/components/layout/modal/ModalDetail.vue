@@ -66,8 +66,8 @@ watch(
       </svg>
     </template>
     <template #main>
-      <DetailInfo v-show="isInfo" :info="info"/>
-      <DetailProperty v-show="!isInfo" :info="info"/>
+      <DetailInfo  v-if="info" v-show="isInfo" :info="info"/>
+      <DetailProperty v-if="info" v-show="!isInfo" :info="info" :isInfo="isInfo"/>
     </template>
   </ModalBase>
 </template>

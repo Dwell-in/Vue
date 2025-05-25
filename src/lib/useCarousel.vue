@@ -81,7 +81,6 @@ onMounted(() => {
   width: 100%;
   height: 100%;
   display: flex;
-  background: #1e1e1e60;
   align-items: center;
   overflow-x: auto;
   scrollbar-width: none;
