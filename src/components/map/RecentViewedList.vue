@@ -1,8 +1,8 @@
 <script setup>
-import { ref, onMounted, watch, computed } from 'vue'
-import Cookies from 'js-cookie'
+import { ref, onMounted, watch } from 'vue'
+
 import api from '@/lib/api'
-import { useRecentViewedStore } from '@/stores/recentViewed'
+import { useRecentViewedStore } from '@/stores/recentViewed.js'
 
 import { useSideStore } from '@/stores/side'
 import { useModalStore } from '@/stores/modal'
@@ -13,15 +13,19 @@ const emit = defineEmits(['select'])
 
 const store = useRecentViewedStore()
 const houses = ref([])
+const STORAGE_KEY = 'recentView'
 
 const loadRecentViewed = async () => {
-  const recentViewed = Cookies.get('recentViewed')
-  if (!recentViewed) {
+  const data = sessionStorage.getItem(STORAGE_KEY)
+  console.log(data)
+  if (!data) {
     houses.value = []
     return
   }
 
-  const aptSeqList = decodeURIComponent(recentViewed).split(',')
+  const parsed = JSON.parse(data) // ✅ 객체 배열로 바로 파싱
+  const aptSeqList = parsed.map((item) => item.aptSeq)
+  console.log(aptSeqList)
   try {
     const responses = await Promise.all(aptSeqList.map((seq) => api.get(`/api/v1/house/${seq}`)))
     houses.value = responses.map((res) => res.data.data)
@@ -30,11 +34,9 @@ const loadRecentViewed = async () => {
   }
 }
 
-onMounted(async () => {
-  loadRecentViewed()
-})
+onMounted(loadRecentViewed)
 
-watch(() => store.reloadKey, loadRecentViewed)
+watch(() => store.list, loadRecentViewed, { deep: true })
 
 const handleClick = (houseInfo) => {
   emit('select', houseInfo)
@@ -46,10 +48,14 @@ const isClose = ref(false)
 <template>
   <div class="recent-viewed-wrapper" v-show="!sideStore.isAnyOpen && !modalStore.isAnyOpen">
     <div class="title">
-      <h2 >최근 본 매물</h2>
-      <i class="fa-solid" :class="isClose ? 'fa-caret-down' : 'fa-caret-up'" @click="isClose = !isClose"></i>
+      <h2>최근 본 매물</h2>
+      <i
+        class="fa-solid"
+        :class="isClose ? 'fa-caret-down' : 'fa-caret-up'"
+        @click="isClose = !isClose"
+      ></i>
     </div>
-    <div class="list-box" :class="{close: isClose}">
+    <div class="list-box" :class="{ close: isClose }">
       <ul>
         <li v-for="house in houses" :key="house?.aptSeq" @click="handleClick(house)">
           {{ house?.aptNm }}
@@ -118,9 +124,8 @@ const isClose = ref(false)
     border-bottom: none;
   }
 
-  &.close{
+  &.close {
     top: -300px;
   }
 }
-
 </style>

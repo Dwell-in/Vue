@@ -39,6 +39,23 @@ const toggle = ref(false)
 const markers = ['FD6', 'CE7', 'SC4', 'HP8', 'BK9', 'CS2']
 const markerBtns = [makerBtn1, makerBtn2, makerBtn3, makerBtn4, makerBtn5, makerBtn6]
 
+const recentStore = useRecentViewedStore()
+
+const addToRecentViewed = () => {
+  const apt = state.info
+  if (!apt || !apt.aptSeq) return
+
+  recentStore.addRecentApt({
+    aptSeq: apt.aptSeq,
+    aptNm: apt.aptNm,
+    roadNm: apt.roadNm,
+    roadNmBonbun: apt.roadNmBonbun,
+    roadNmBubun: apt.roadNmBubun,
+    lat: apt.lat,
+    lng: apt.lng,
+  })
+}
+
 const searchHouseInfo = async () => {
   fullAddress = decodeURIComponent(route.path.split('/')[2] || '')
   const [sido, gugun, dong] = fullAddress.split(' ')
@@ -54,7 +71,7 @@ const saveSearchQuery = (queryObj) => {
 
   const updated = [
     queryObj,
-    ...saved.filter(item => JSON.stringify(item) !== JSON.stringify(queryObj))
+    ...saved.filter((item) => JSON.stringify(item) !== JSON.stringify(queryObj)),
   ].slice(0, 10)
 
   sessionStorage.setItem('searchHistory', JSON.stringify(updated))
@@ -130,12 +147,7 @@ const onDragStart = (event, info, img) => {
 onMounted(async () => {
   await createMap(mapContainer.value)
   await init()
-  window.reloadRecentViewedList = () => {
-    const store = useRecentViewedStore()
-    store.triggerReload()
-  }
-  window.reloadRecentViewedList?.()
-  console.log(window.reloadRecentViewedList)
+  addToRecentViewed()
 })
 
 // 경로 변경 시 재검색
@@ -171,6 +183,16 @@ watch(
   () => {
     if (sideStore.detail) toggle.value = true
   },
+)
+
+watch(
+  () => state.info,
+  (newVal) => {
+    if (newVal?.aptSeq) {
+      addToRecentViewed()
+    }
+  },
+  { immediate: true },
 )
 </script>
 
@@ -221,7 +243,12 @@ watch(
               <template v-if="info.roadNmBubun !== '0'">-{{ info.roadNmBubun }}</template>
             </div>
           </div>
-          <img class="aptImg" :src="imgs[index]" @error="(e) => e.target.src = defaultImg" alt="" />
+          <img
+            class="aptImg"
+            :src="imgs[index]"
+            @error="(e) => (e.target.src = defaultImg)"
+            alt=""
+          />
         </div>
       </template>
     </template>
@@ -251,6 +278,7 @@ watch(
   background-color: #0056b3;
   color: #fff;
   transform: translateY(-5px);
+  top: -0.5vh;
 }
 
 .houseList:not(.on) {
@@ -294,9 +322,6 @@ watch(
 }
 .house + .house {
   margin-top: 10%;
-}
-.house:hover {
-  top: -0.5vh;
 }
 
 .house > div {

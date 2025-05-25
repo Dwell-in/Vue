@@ -2,12 +2,13 @@
 import NavBase from '@/components/layout/nav/NavBase.vue'
 import DwellogLinkBox from '@/components/dwellog/DwellogLinkBox.vue'
 import LayoutFooter1 from '@/components/layout/footer/LayoutFooter1.vue'
-
+import TestView from '../TestView.vue'
 const titles = ['BackEnd', 'FrontEnd', 'REST API']
 </script>
 
 <template>
   <NavBase :titles="titles" :name="'Dwellog'" />
+  <TestView></TestView>
   <DwellogLinkBox></DwellogLinkBox>
   <main></main>
   <LayoutFooter1></LayoutFooter1>
