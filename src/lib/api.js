@@ -46,9 +46,12 @@ api.interceptors.response.use(
         isRefreshing = true
         try {
           const res = await api.post('/api/v1/auth/refresh')
-          const newToken = res.data.accessToken
+          const newToken = res.data.data.accessToken
           auth.setToken(newToken)
-          onRefreshed(newToken)
+          console.log(newToken)
+          setTimeout(() => {
+            onRefreshed(newToken)
+          }, 0)
         } catch (refreshError) {
           const message = refreshError.response?.data?.error || '로그인이 필요한 서비스입니다.'
           alert(message) // 또는 toast(message)
@@ -62,10 +65,13 @@ api.interceptors.response.use(
       }
 
       return new Promise((resolve, reject) => {
+        console.log('return')
         subscribeTokenRefresh((newToken) => {
           if (!newToken) {
+            console.log('if')
             return reject(error)
           }
+          console.log('else')
           originalRequest.headers.Authorization = `Bearer ${newToken}`
           resolve(api(originalRequest))
         })
