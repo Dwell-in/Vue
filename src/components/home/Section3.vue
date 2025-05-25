@@ -6,6 +6,6 @@
 
 <style scoped>
 section {
-  background: url(@/assets/img/index3.png) top / cover no-repeat;
+  background-color: #000000aa;
 }
 </style>

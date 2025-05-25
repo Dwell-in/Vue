@@ -38,24 +38,19 @@ onMounted(() => {
 
 <template>
   <section>
-    <div class="title-sub" ref="titleSub">부제</div>
+    <div class="title-sub" ref="titleSub">
+      <div>머무르다</div>
+    </div>
     <div class="title">{{ title }}</div>
-    <div class="content" ref="content">멘트멘트멘트멘트멘트멘트멘트멘트</div>
+    <div class="content" ref="content">당신의 공간, 그 이상의 이야기를 담다.</div>
     <div class="moveSectionIcon" ref="moveSectionIcon">
-      <img
-        src="@/assets/img/moveSectionIcon.png"
-        alt="moveSectionIcon"
-        @click="props.moveSection"
-      />
-      <p>마우스 휠 이동이 가능합니다.</p>
+      <i class="fa-solid fa-angles-right fa-fade" @click="props.moveSection"></i>
+      <p>클릭 또는 마우스 휠 이동이 가능합니다.</p>
     </div>
   </section>
 </template>
 
 <style scoped>
-section {
-  background: url(@/assets/img/index.png) top / cover no-repeat;
-}
 section {
   padding-top: 300px;
   padding-left: 300px;
@@ -88,11 +83,11 @@ section {
   flex-direction: column;
   align-items: end;
 }
-.moveSectionIcon img {
-  width: 45px;
+.moveSectionIcon i {
+  font-size: 3em;
 }
 .moveSectionIcon p {
-  font-size: 0.6em;
+  font-size: 0.8em;
   line-height: 3em;
   text-align: end;
 }

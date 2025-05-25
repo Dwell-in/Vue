@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import HomeInfo from '@/components/home/HomeInfo.vue'
-import Section2 from '@/components/home/Section2.vue'
+import HomeSection2 from '@/components/home/HomeSection2.vue'
 import Section3 from '@/components/home/Section3.vue'
 import Section4 from '@/components/home/Section4.vue'
 
@@ -24,7 +24,7 @@ const scrollX = (e) => {
 <template>
   <main class="home" @wheel="scrollX">
     <HomeInfo :moveSection="moveSection"></HomeInfo>
-    <Section2 ref="nextSection"></Section2>
+    <HomeSection2 ref="nextSection"></HomeSection2>
     <Section3></Section3>
     <Section4></Section4>
   </main>
@@ -38,21 +38,24 @@ body:has(.home) {
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
   -ms-overflow-style: none;
-  /* 인터넷 익스플로러 */
   scrollbar-width: none;
-  /* 파이어폭스 */
+  background: url(@/assets/img/index.png) top / cover no-repeat;
+  background-attachment: fixed;
 }
-/* ( 크롬, 사파리, 오페라, 엣지 ) 동작 */
 body:-webkit-scrollbar {
   display: none;
 }
+</style>
+
+<style lang="scss" scoped>
 .home {
   display: flex;
-}
-.home section {
-  width: 100vw;
-  height: 100vh;
-  flex-shrink: 0;
-  scroll-snap-align: start;
+
+  & section {
+    width: 100vw;
+    height: 100vh;
+    flex-shrink: 0;
+    scroll-snap-align: start;
+  }
 }
 </style>

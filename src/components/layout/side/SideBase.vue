@@ -59,7 +59,7 @@ body:has(.map) .sideView {
 }
 
 .sideView:is(.open) {
-  left: calc(100% - 39.99vh) !important;
+  left: calc(100% - 39.95vh) !important;
 }
 
 .sideView > .close {

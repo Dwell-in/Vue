@@ -137,7 +137,7 @@ const changeProfile = () => {
           />
         </svg> -->
         <i class="fa-solid fa-comments" style="color: #a2d4fb"></i>
-        <div>Chat</div>
+        <div>D-Talk</div>
         <div v-if="unreadCount.total > 0" class="chat-badge">
           {{ unreadCount.total }}
         </div>
@@ -159,8 +159,8 @@ const changeProfile = () => {
         <i class="fa-solid fa-clock-rotate-left" style="color: #ffffff"></i>
         <div>Recent Search</div>
       </div>
-      <div class="menu" @click="handelSelectMenu('?')" :class="{ selected: selected == '?' }"></div>
-      <div class="menu" @click="handelSelectMenu('?')" :class="{ selected: selected == '?' }"></div>
+      <!-- <div class="menu" @click="handelSelectMenu('?')" :class="{ selected: selected == '?' }"></div>
+      <div class="menu" @click="handelSelectMenu('?')" :class="{ selected: selected == '?' }"></div> -->
     </div>
     <!-- <div class="my-footer">
       <div class="settings" @click="handelSelectMenu('My')">
@@ -179,7 +179,7 @@ const changeProfile = () => {
   background-color: #111111;
 
   &.open{
-    left: calc(100% - 29.99vh) !important;
+    left: calc(100% - 29.95vh) !important;
   }
   & > *{
     width: 100%;

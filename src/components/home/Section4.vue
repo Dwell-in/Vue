@@ -1,11 +1,13 @@
 <script setup></script>
 
 <template>
-  <section></section>
+  <section>
+
+  </section>
 </template>
 
 <style scoped>
 section {
-  background: url(@/assets/img/index4.png) top / cover no-repeat;
+  background-color: #000000aa;
 }
 </style>
