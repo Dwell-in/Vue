@@ -44,6 +44,10 @@ const handelSelectMenu = (menu) => {
     modalStore.closeAll()
     modalStore.myToggle(true)
   }
+  if (menu == 'Recent') {
+    modalStore.closeAll()
+    sideStore.recentToggle(true)
+  }
 }
 const selectChat = (menu) => {
   handelSelectMenu(menu)
@@ -150,6 +154,10 @@ const changeProfile = () => {
       <div class="menu" @click="handelSelectMenu('View')" :class="{ selected: selected == 'View' }">
         <i class="fa-regular fa-eye" style="color: white"></i>
         <div>Recently View</div>
+      </div>
+      <div class="menu" @click="handelSelectMenu('Recent')" :class="{ selected: selected == 'Recent' }">
+        <i class="fa-solid fa-clock-rotate-left" style="color: #ffffff"></i>
+        <div>Recent Search</div>
       </div>
       <div class="menu" @click="handelSelectMenu('?')" :class="{ selected: selected == '?' }"></div>
       <div class="menu" @click="handelSelectMenu('?')" :class="{ selected: selected == '?' }"></div>

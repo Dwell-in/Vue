@@ -42,8 +42,22 @@ const markerBtns = [makerBtn1, makerBtn2, makerBtn3, makerBtn4, makerBtn5, maker
 const searchHouseInfo = async () => {
   fullAddress = decodeURIComponent(route.path.split('/')[2] || '')
   const [sido, gugun, dong] = fullAddress.split(' ')
-  const query = new URLSearchParams({ sido, gugun, dong }).toString()
+  const queryObj = { sido, gugun, dong }
+  saveSearchQuery(queryObj)
+
+  const query = new URLSearchParams(queryObj).toString()
   return await api.get(`/api/v1/house?${query}`)
+}
+
+const saveSearchQuery = (queryObj) => {
+  const saved = JSON.parse(sessionStorage.getItem('searchHistory') || '[]')
+
+  const updated = [
+    queryObj,
+    ...saved.filter(item => JSON.stringify(item) !== JSON.stringify(queryObj))
+  ].slice(0, 10)
+
+  sessionStorage.setItem('searchHistory', JSON.stringify(updated))
 }
 
 const searchHouseImg = async (query) => {

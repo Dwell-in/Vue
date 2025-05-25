@@ -5,10 +5,11 @@ export const useSideStore = defineStore('side', {
     chat: false,
     detail: false,
     my: false,
+    recent: false,
   }),
   getters: {
     isAnyOpen(state) {
-      return state.chat || state.detail || state.my
+      return state.chat || state.detail || state.my || state.recent
     }
   },
   actions: {
@@ -30,10 +31,17 @@ export const useSideStore = defineStore('side', {
         document.querySelector('.sideView').scrollTop = 0
       }
     },
+    recentToggle(oper) {
+      this.recent = oper
+      if (document.querySelector('.sideView')) {
+        document.querySelector('.sideView').scrollTop = 0
+      }
+    },
     closeAll(){
       this.chat = false;
       this.detail = false;
       this.my = false;
+      this.recent = false;
     }
   },
 })
