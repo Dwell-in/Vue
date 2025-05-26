@@ -2,7 +2,12 @@
   <div class="admin-container">
     <aside class="sidebar">
       <ul>
-        <li v-for="(item, index) in menu" :key="index" @click="active = item">
+        <li
+          v-for="(item, index) in menu"
+          :key="index"
+          @click="active = item"
+          :class="{ active: active.label === item.label }"
+        >
           {{ item.label }}
         </li>
       </ul>
@@ -16,37 +21,58 @@
 <script setup>
 import { ref, markRaw } from 'vue'
 import MetricsDashboard from '@/components/admincomponent/MetricsDashboard.vue'
+import MemberManage from '@/components/admincomponent/MemberManage.vue'
 
-const menu = [{ label: 'EC2 모니터링', component: markRaw(MetricsDashboard) }]
+const menu = [
+  { label: 'EC2 모니터링', component: markRaw(MetricsDashboard) },
+  { label: '회원 관리', component: markRaw(MemberManage) }
+]
+
 const active = ref(menu[0])
 </script>
 
 <style scoped>
 .admin-container {
   display: flex;
-  height: 100vh;
+  min-height: 100vh;
 }
+
 .sidebar {
   width: 200px;
-  background: #f4f4f4;
-  padding: 1rem;
-  margin-top: 100px; /* 헤더 높이만큼 여백 확보 */
+  background-color: #f8f8f8;
+  border-right: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+  margin-top: 100px;
 }
+
 .sidebar ul {
   list-style: none;
   padding: 0;
+  margin: 0;
+  width: 100%;
 }
+
 .sidebar li {
-  padding: 0.5rem;
+  padding: 10px;
   cursor: pointer;
+  border-radius: 4px;
 }
+
 .sidebar li:hover {
+  background-color: #eee;
+}
+
+.sidebar li.active {
+  font-weight: bold;
   background-color: #ddd;
 }
+
 .content {
   flex: 1;
-  padding: 2rem;
-  overflow-y: auto;
-  margin-top: 65px; /* 헤더 높이만큼 여백 확보 */
+  padding: 24px;
+  background-color: #fff;
 }
 </style>

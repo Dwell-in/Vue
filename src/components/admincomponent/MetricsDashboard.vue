@@ -86,6 +86,9 @@ const getUnitLabel = (key) => {
 </script>
 
 <style scoped>
+.dashboard-container {
+  margin-top: 100px;
+}
 .dashboard-title {
   text-align: center;
   font-size: 1.5rem;
