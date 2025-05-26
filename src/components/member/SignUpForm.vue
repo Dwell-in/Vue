@@ -96,7 +96,7 @@ const handleSubmit = async () => {
       </div>
       <div>
         <p v-if="emailVerified">이메일 인증 완료!</p>
-        <p v-else><button type="button" @click="requestEmailVerification">인증 요청</button></p>
+        <p v-else><button type="button" class="VerificationBtn" @click="requestEmailVerification">인증 요청</button></p>
         <span id="emailMsg"></span>
         <p>- 이메일은 로그인 아이디로 사용됩니다.</p>
       </div>
@@ -266,5 +266,14 @@ input::placeholder {
 
 .btns .sb {
   background-color: #3c90e2;
+}
+
+.VerificationBtn{
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: none;
+  background-color: #49B4E6;
+  color: white;
+  cursor: pointer;
 }
 </style>

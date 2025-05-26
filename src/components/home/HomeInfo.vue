@@ -52,8 +52,8 @@ onMounted(() => {
 
 <style scoped>
 section {
-  padding-top: 300px;
-  padding-left: 300px;
+  padding-top: 30vh;
+  padding-left: 30vh;
   color: white;
   position: relative;
 }

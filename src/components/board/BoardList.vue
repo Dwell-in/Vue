@@ -21,7 +21,7 @@ const loginUser = useLoginUserStore()
   <div class="header">
     <BoardToolbar @search="search"></BoardToolbar>
     <router-link
-      v-if="loginUser && (route.params.categoryId != 1 || loginUser.role === 'ADMIN')"
+      v-if="loginUser && (route.params.categoryId != 0 || loginUser.role === 'ADMIN')"
       class="writeBtn"
       :to="{ name: 'BoardWrite', params: { categoryId: route.params.categoryId } }"
     >

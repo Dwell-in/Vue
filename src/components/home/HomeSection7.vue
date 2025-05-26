@@ -35,6 +35,7 @@ onMounted(() => {
 
 <template>
   <section ref="sectionRef">
+    <div class="aiTitle">AI</div>
     <div class="container container1" :class="{ animate: isVisible1 }">
       <img class="img" src="@/assets/img/section7_1.png" alt="" />
       <div class="info" :class="{ animate: isVisibleText }">
@@ -75,6 +76,15 @@ section {
   & * {
     transition: 1s;
   }
+}
+.aiTitle{
+  position: absolute;
+  top: 22vh;
+  right: 30vh;
+  font-size: 5em;
+  color: #a7e5ff;
+  font-weight: bold;
+  text-shadow: 0 0 50px #ffed63;
 }
 .container {
   position: absolute;
