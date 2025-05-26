@@ -50,7 +50,7 @@ onMounted(() => {
 <template>
   <section ref="sectionRef">
     <div class="container">
-      <i class="fa-solid fa-angle-right next" @click="nextChapter" v-if="isVisibleText"></i>
+      <i class="fa-solid fa-angle-right fa-fade next" @click="nextChapter" v-if="isVisibleText"></i>
       <img class="img" :src="imgs[chapter]" alt="" />
       <div class="innerContainer filter" :class="{ animate: isVisibleLine }">
         <div class="line"></div>
