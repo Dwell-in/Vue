@@ -7,6 +7,7 @@ import { onMounted, ref, watch } from 'vue'
 import api from '@/lib/api'
 import DetailInfo from './detail/DetailInfo.vue'
 import DetailProperty from './detail/DetailProperty.vue'
+import DetailLocal from './detail/DetailLocal.vue'
 
 const sideStore = useSideStore()
 const modalStore = useModalStore()
@@ -18,15 +19,21 @@ const fullClose = () => {
   sideStore.detailToggle(true)
 }
 
-// INFO / 매물 전환
+// 창 전환
 const isInfo = ref(true)
+const isProperty = ref(false)
+const isLocal = ref(false)
+const selectTab = (tab) => {
+  isInfo.value = tab === 'info'
+  isProperty.value = tab === 'property'
+  isLocal.value = tab === 'local'
+}
 
 // aptSeq로 아파트 정보 얻어오기
 const info = ref(null)
 const getInfo = async () => {
   if (modalStore.aptSeq == null) return
   const res = await api.get(`/api/v1/house/${modalStore.aptSeq}`)
-
   return res.data.data
 }
 const setInfo = async () => {
@@ -48,8 +55,11 @@ watch(
       <StarredToggle v-if="info" :apt="info"></StarredToggle>
       <div class="title">
         {{ info?.aptNm }}
-        <div :class="{active: isInfo}" style="margin-left: 50px;" @click="isInfo=true">INFO</div>
-        <div :class="{active: !isInfo}" @click="isInfo=false">매물 보기</div>
+        <div :class="{ active: isInfo }" style="margin-left: 50px" @click="selectTab('info')">
+          INFO
+        </div>
+        <div :class="{ active: isProperty }" @click="selectTab('property')">매물 보기</div>
+        <div :class="{ active: isLocal }" @click="selectTab('local')">주변 시설 보기</div>
       </div>
       <svg
         class="side"
@@ -66,8 +76,9 @@ watch(
       </svg>
     </template>
     <template #main>
-      <DetailInfo  v-if="info" v-show="isInfo" :info="info"/>
-      <DetailProperty v-if="info" v-show="!isInfo" :info="info" :isInfo="isInfo"/>
+      <DetailInfo v-if="info" v-show="isInfo" :info="info" />
+      <DetailProperty v-if="info" v-show="isProperty" :info="info" :isInfo="isInfo" />
+      <DetailLocal v-if="info" v-show="isLocal" :info="info" :lat="info?.lat" :lon="info?.lon" />
     </template>
   </ModalBase>
 </template>
