@@ -52,6 +52,9 @@ onMounted(async () => {
         // 로그인 처리
         const token = res.data.data.token
         auth.setToken(token)
+        const res = await api.get(`/api/v1/member/user-info`)
+        console.log(res.data?.data)
+        user.login(res.data.data)
         initGlobalSocket() // 채팅 알림 구독
         router.push({
           name: 'Home',
@@ -62,6 +65,7 @@ onMounted(async () => {
           query: {
             kakaoId: res.data.data.kakaoId,
             name: res.data.data.name,
+            profileImg: res.data.data.profileImage,
           },
         })
       }

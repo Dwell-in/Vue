@@ -67,7 +67,11 @@ const routes = [
     name: 'PropertyRegist',
     component: () => import('./views/PropertyRegisterView.vue'),
   },
-
+  {
+    path: '/admin/view',
+    name: 'AdminView',
+    component: () => import('./views/AdminView.vue'),
+  },
   {
     path: '/error/:code',
     name: 'ErrorPage',
