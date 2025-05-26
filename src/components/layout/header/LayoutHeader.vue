@@ -19,41 +19,37 @@ const handleSubmit = () => {
 }
 
 // 헤더 스크롤 감지 hide
-const hideHeader = ref(false);
-let lastScroll = 0;
+const hideHeader = ref(false)
+let lastScroll = 0
 
 const onScroll = () => {
-  const currentScroll = window.scrollY;
+  const currentScroll = window.scrollY
 
   if (currentScroll === 0) {
-    hideHeader.value = false;
-    return;
+    hideHeader.value = false
+    return
   }
 
   if (currentScroll > lastScroll) {
-    hideHeader.value = true;
+    hideHeader.value = true
   } else {
-    hideHeader.value = false;
+    hideHeader.value = false
   }
 
-  lastScroll = currentScroll;
-};
+  lastScroll = currentScroll
+}
 
 onMounted(() => {
-  window.addEventListener('scroll', onScroll);
-});
+  window.addEventListener('scroll', onScroll)
+})
 
 onBeforeUnmount(() => {
-  window.removeEventListener('scroll', onScroll);
-});
+  window.removeEventListener('scroll', onScroll)
+})
 </script>
 
 <template>
-  <header
-    @mouseenter="hovered = true"
-    @mouseleave="hovered = false"
-    :class="{ hide: hideHeader }"
-  >
+  <header @mouseenter="hovered = true" @mouseleave="hovered = false" :class="{ hide: hideHeader }">
     <nav>
       <div class="menu" :class="{ hovered: hovered }">
         <router-link :to="{ name: 'Home' }" class="logo">
@@ -82,7 +78,7 @@ onBeforeUnmount(() => {
         </form>
         <div class="member">
           <template v-if="auth.isLoggedIn()">
-           <div class="profile-wrapper">
+            <div class="profile-wrapper">
               <img
                 @click="sideStore.myToggle(!sideStore.my)"
                 class="profile"
@@ -113,7 +109,7 @@ header {
   z-index: 100;
   transition: 0.2s;
 
-  &.hide{
+  &.hide {
     overflow: hidden;
     height: 0;
   }

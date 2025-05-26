@@ -2,8 +2,9 @@
 import { ref } from 'vue'
 import HomeInfo from '@/components/home/HomeInfo.vue'
 import HomeSection2 from '@/components/home/HomeSection2.vue'
-import Section3 from '@/components/home/Section3.vue'
-import Section4 from '@/components/home/Section4.vue'
+import HomeSection3 from '@/components/home/HomeSection3.vue'
+import HomeSection4 from '@/components/home/HomeSection4.vue'
+import HomeSection5 from '@/components/home/HomeSection5.vue'
 
 // 버튼으로 섹션 이동
 const nextSection = ref(null)
@@ -23,10 +24,11 @@ const scrollX = (e) => {
 
 <template>
   <main class="home" @wheel="scrollX">
-    <HomeInfo :moveSection="moveSection"></HomeInfo>
-    <HomeSection2 ref="nextSection"></HomeSection2>
-    <Section3></Section3>
-    <Section4></Section4>
+    <HomeInfo :moveSection="moveSection" />
+    <HomeSection2 ref="nextSection" />
+    <HomeSection3 />
+    <HomeSection4 />
+    <HomeSection5 />
   </main>
 </template>
 

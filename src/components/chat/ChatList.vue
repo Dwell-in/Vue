@@ -33,7 +33,7 @@ const getTargets = async () => {
 
       target.roomId = roomRes.data.data // 조용히 추가
       return target
-    })
+    }),
   )
 
   return enrichedTargets
@@ -53,7 +53,7 @@ watch(
 // 채팅방 선택하기
 const emit = defineEmits('select-chat-room')
 const selectChatRoom = (target) => {
-  deactivateRoom()  // 기존 채팅방 연결 해제
+  deactivateRoom() // 기존 채팅방 연결 해제
   console.log(target)
   emit('select-chat-room', target)
 }
@@ -68,12 +68,14 @@ const listToggle = () => {
 <template>
   <div class="chat-list" :class="{ open: isOpen }">
     <img :src="isOpen ? arrowL : arrowR" class="close" @click="listToggle" />
-    <img src="@/assets/img/logo.png" title="AI" class="chat-room-icon" :class="{ selected: chatStore.selectedTarget?.id == 'AI' }" @click="selectChatRoom({id:'AI'})" alt="">
-    <div
-      v-for="target in targets"
-      :key="target.id"
-      class="chat-room-wrapper"
-    >
+    <img
+      src="@/assets/img/logo.png"
+      title="AI"
+      class="chat-room-icon"
+      :class="{ selected: chatStore.selectedTarget?.id == 'AI' }"
+      @click="selectChatRoom({ id: 'AI' })"
+    />
+    <div v-for="target in targets" :key="target.id" class="chat-room-wrapper">
       <img
         class="chat-room-icon"
         :class="{ selected: target.id === chatStore.selectedTarget?.id }"
@@ -82,10 +84,7 @@ const listToggle = () => {
         alt="Profile"
         :title="target.name"
       />
-      <div
-        v-if="unreadCount[target.roomId] > 0"
-        class="chat-room-badge"
-      >
+      <div v-if="unreadCount[target.roomId] > 0" class="chat-room-badge">
         {{ unreadCount[target.roomId] }}
       </div>
     </div>
@@ -105,7 +104,6 @@ const listToggle = () => {
   position: relative;
   z-index: 2;
 }
-
 
 .chat-list .close {
   position: absolute;
