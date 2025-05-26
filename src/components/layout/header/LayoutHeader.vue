@@ -61,7 +61,7 @@ onBeforeUnmount(() => {
         <router-link class="noti" :to="{ name: 'Board', params: { categoryId: 0 } }">
           게시판
         </router-link>
-        <router-link class="" :to="{ name: 'PropertyRegist' }">매물 등록</router-link>
+        <router-link v-if="loginUserStore.id" class="" :to="{ name: 'PropertyRegist' }">매물 등록</router-link>
       </div>
       <div>
         <form class="search" :class="{ hovered: hovered }" @submit.prevent="handleSubmit">
