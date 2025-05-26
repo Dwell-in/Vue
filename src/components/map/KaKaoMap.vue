@@ -143,6 +143,29 @@ const onDragStart = (event, info, img) => {
   }
   event.dataTransfer.setData('application/json', JSON.stringify(dragData))
 }
+//ai 버튼 추가
+const sendToAiRecommend = async () => {
+  try {
+    const payload = visibleInfos.value.map((apt) => ({
+      aptSeq: apt.aptSeq,
+      aptNm: apt.aptNm,
+      roadNm: apt.roadNm,
+      roadNmBonbun: apt.roadNmBonbun,
+      roadNmBubun: apt.roadNmBubun,
+      lat: apt.lat,
+      lng: apt.lng,
+    }))
+
+    const res = await api.post('/api/v1/ai/recommend', payload)
+    console.log('AI 추천 결과:', res.data.data)
+
+    // 예: 추천된 순서로 visibleInfos 다시 덮어쓰기
+    visibleInfos.value = res.data.data
+  } catch (err) {
+    console.error('AI 추천 실패:', err)
+    alert('AI 추천 요청 중 오류가 발생했습니다.')
+  }
+}
 
 onMounted(async () => {
   await createMap(mapContainer.value)
@@ -225,6 +248,7 @@ watch(
       </svg>
     </div>
     <template v-if="toggle">
+      <button class="ai-recommend-btn" @click="sendToAiRecommend">AI 추천 받기</button>
       <template v-for="(info, index) in visibleInfos" :key="info.aptSeq">
         <div
           class="house"
@@ -381,5 +405,15 @@ watch(
   color: white;
   font-size: 0.6em;
   line-height: 1em;
+}
+
+.ai-recommend-btn {
+  margin: 10px;
+  padding: 8px 16px;
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
 }
 </style>

@@ -126,6 +126,32 @@ const detailClose = () => {
   isOpenOfDetail.value = false
 }
 
+//AI 매물 추천
+const aiRecommended = ref([])
+
+const sendFilteredToServer = async () => {
+  try {
+    const payload = filteredPropertys.value.map((p) => ({
+      aptSeq: p.aptSeq,
+      type: p.type,
+      floor: p.floor,
+      supplyArea: p.supplyArea,
+      salePrice: p.salePrice,
+      deposit: p.deposit,
+      monthlyRent: p.monthlyRent,
+      optionNames: p.optionNames,
+      safetyNames: p.safetyNames,
+    }))
+
+    const res = await api.post('/api/v1/ai/filtered', payload)
+    aiRecommended.value = res.data.data
+    console.log('AI 추천 매물:', aiRecommended.value)
+  } catch (e) {
+    console.error(e)
+    alert('AI 추천 실패')
+  }
+}
+
 onMounted(async () => {
   await getPropertys()
   await getRange()
@@ -148,6 +174,12 @@ watch(props.isInfo, () => (filteredPropertys.value = propertys.value))
       <div class="title" style="padding-bottom: 0">
         <i class="fa-solid fa-list-ul"></i>&ensp;List
       </div>
+      <div>
+        <button class="submit-btn" @click="sendFilteredToServer">
+          이 매물 조건으로 AI 추천 받기
+        </button>
+      </div>
+
       <div class="deals">
         <PropertyCard
           v-for="filteredProperty in filteredPropertys"
