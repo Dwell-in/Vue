@@ -11,20 +11,18 @@ onMounted(() => {
   const observer = new IntersectionObserver(
     ([entry]) => {
       if (entry.isIntersecting) {
-        setTimeout(() => {
-          isVisibleBox.value = true
-        }, 500)
+        isVisibleBox.value = true
         setTimeout(() => {
           isVisibleText.value = true
-        }, 1500)
+        }, 1000)
         setTimeout(() => {
           isVisibleBox2.value = true
           isVisibleText2.value = true
-        }, 2500)
+        }, 2000)
       }
     },
     {
-      threshold: 0.5, // 50% 이상 보이면 감지
+      threshold: 1,
     },
   )
   if (sectionRef.value) {

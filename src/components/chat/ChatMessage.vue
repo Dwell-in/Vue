@@ -32,17 +32,21 @@ const formattedContent = computed(() => props.message.content.replace(/\n/g, '<b
       :title="props.target.id"
     />
     <template v-if="$attrs.class.includes('sender')">
-        <div class="time">{{ formatTime(props.message.sentAt) }}</div>
-        <div class="msg" v-html="formattedContent"></div>
+      <div class="time">{{ formatTime(props.message.sentAt) }}</div>
+      <div class="msg" v-html="formattedContent"></div>
     </template>
     <template v-else>
-      <MarkDownPasser v-if="props.target.id == 'AI'" class="msg" :text="props.message.content"/>
-      <div v-else class="msg" v-html="formattedContent" :class="{margin: props.target.id != 'AI'}"></div>
+      <MarkDownPasser v-if="props.target.id == 'AI'" class="msg" :text="props.message.content" />
+      <div
+        v-else
+        class="msg"
+        v-html="formattedContent"
+        :class="{ margin: props.target.id != 'AI' }"
+      ></div>
       <div v-if="props.target.id != 'AI'" class="time">{{ formatTime(props.message.sentAt) }}</div>
-              <span
-            v-if="props.message.messageId === props.partnerReadId"
-            class="read-label-inline"
-          >읽음</span>
+      <span v-if="props.message.messageId === props.partnerReadId" class="read-label-inline"
+        >읽음</span
+      >
     </template>
   </div>
 </template>
@@ -70,11 +74,12 @@ const formattedContent = computed(() => props.message.content.replace(/\n/g, '<b
 .chat-message > .msg {
   padding: 0.5vh 1vh;
   border-radius: 0.4vh;
+  font-size: 0.9em;
 }
 .chat-message:not(.sender) > .msg {
   background-color: #f0f5f9;
 }
-.margin{
+.margin {
   margin-left: 4vh;
 }
 
@@ -96,5 +101,4 @@ const formattedContent = computed(() => props.message.content.replace(/\n/g, '<b
   font-size: 11px;
   color: #888;
 }
-
 </style>

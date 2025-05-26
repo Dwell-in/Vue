@@ -27,16 +27,14 @@ onMounted(() => {
       if (entry.isIntersecting) {
         isVisibleLine2.value = false
         isVisibleText2.value = false
-        setTimeout(() => {
-          isVisibleLine.value = true
-        }, 500)
+        isVisibleLine.value = true
         setTimeout(() => {
           isVisibleText.value = true
-        }, 1500)
+        }, 1000)
       }
     },
     {
-      threshold: 0.5, // 50% 이상 보이면 감지
+      threshold: 1,
     },
   )
   if (sectionRef.value) {

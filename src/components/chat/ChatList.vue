@@ -69,7 +69,8 @@ const listToggle = () => {
   <div class="chat-list" :class="{ open: isOpen }">
     <img :src="isOpen ? arrowL : arrowR" class="close" @click="listToggle" />
     <img
-      src="@/assets/img/logo.png"
+      src="@/assets/img/AIProfile.png"
+      style="background-color: #f9f9f9"
       title="AI"
       class="chat-room-icon"
       :class="{ selected: chatStore.selectedTarget?.id == 'AI' }"

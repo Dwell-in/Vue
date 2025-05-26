@@ -70,13 +70,12 @@ watch(
   },
   { deep: true },
 )
-
 </script>
 
 <template>
   <div class="chat-room">
     <div class="chat-output" ref="chatOutputRef">
-      <LoadingParts v-if="loading && target.id!='AI'" :color="'black'" :size="'x2'"/>
+      <LoadingParts v-if="loading && target.id != 'AI'" :color="'black'" :size="'x2'" />
       <ChatMessage
         v-for="(message, index) in props.messages"
         :key="message.messageId"
@@ -117,7 +116,7 @@ watch(
   flex-direction: column;
   gap: 1vh;
   overflow-y: auto;
-  padding: 1vh;
+  padding: 1vh 0;
 }
 
 .chat-input {

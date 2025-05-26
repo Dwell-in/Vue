@@ -5,6 +5,9 @@ import HomeSection2 from '@/components/home/HomeSection2.vue'
 import HomeSection3 from '@/components/home/HomeSection3.vue'
 import HomeSection4 from '@/components/home/HomeSection4.vue'
 import HomeSection5 from '@/components/home/HomeSection5.vue'
+import HomeSection6 from '@/components/home/HomeSection6.vue'
+import HomeSection7 from '@/components/home/HomeSection7.vue'
+import HomeSection8 from '@/components/home/HomeSection8.vue'
 
 // 버튼으로 섹션 이동
 const nextSection = ref(null)
@@ -29,6 +32,9 @@ const scrollX = (e) => {
     <HomeSection3 />
     <HomeSection4 />
     <HomeSection5 />
+    <HomeSection6 />
+    <HomeSection7 />
+    <HomeSection8 />
   </main>
 </template>
 
