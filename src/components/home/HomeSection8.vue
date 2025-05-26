@@ -75,7 +75,7 @@ section {
   & .info {
     top: 50%;
     transform: translate(0, -50%);
-    left: 110%;
+    left: 105%;
     position: absolute;
     width: fit-content;
     white-space: nowrap;
