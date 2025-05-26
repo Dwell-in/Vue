@@ -23,7 +23,6 @@ const fetchAgents = async () => {
 }
 
 const categoryCodes = [
-  { code: 'SW8', name: '지하철역' },
   { code: 'CS2', name: '편의점' },
   { code: 'PM9', name: '약국' },
   { code: 'CE7', name: '카페' },
@@ -32,9 +31,12 @@ const categoryCodes = [
   { code: 'PS3', name: '어린이집/유치원' },
 ]
 
+const subwayCategory = { code: 'SW8', name: '지하철역' }
+
 const counts = ref({})
 const details = ref({})
 
+const subway=ref()
 const fetchCategories = async () => {
   for (const cat of categoryCodes) {
     const res = await api.get('/api/v1/kakao/local-search', {
@@ -45,8 +47,18 @@ const fetchCategories = async () => {
         radius: 1500,
       },
     })
-    counts.value[cat.name] = res.data.data.documents.length
+    counts.value[cat.name] = res.data.data.meta.total_count
     details.value[cat.name] = res.data.data.documents
+
+    const subwayRes = await api.get('/api/v1/kakao/local-search', {
+    params: {
+      x: props.lon,
+      y: props.lat,
+      categoryCode: subwayCategory.code,
+      radius: 1500,
+    },
+  })
+  subway.value = subwayRes.data.data.documents
   }
   console.log(details.value)
 }
@@ -56,44 +68,60 @@ onMounted(async () => {
   fetchCategories()
 })
 
-const safeMax = computed(() => {
-  return Math.max(...(Array.isArray(props.data) ? props.data : [0, 5]))
-})
+const highlightWalkText = (text) => {
+  return text.replace('도보', '<span class="walk-label">도보</span>')
+}
 </script>
 
 <template>
   <div class="detail-local">
-    <div class="grid-title title"><i class="fa-solid fa-location-dot"></i> 주변 시설 정보</div>
+    <div class="grid-title title">
+      <i class="fa-solid fa-location-dot"></i> 주변 시설 정보
+    </div>
 
     <div class="grid-content">
-      <div class="agent-list">
-        <h3><i class="fa-solid fa-building-circle-check"></i> 주변 중개사무소</h3>
-        <ul>
-          <li v-for="agent in agents" :key="agent.id">
-            <strong>{{ agent?.place_name }}</strong>
-            <div>{{ agent?.road_address_name || agent.address_name }}</div>
-            <div>{{ agent?.phone || '전화번호 없음' }}</div>
-            <div>도보 약 {{ Math.round(agent?.distance / 67) }}분 ({{ agent?.distance }}m)</div>
-          </li>
-        </ul>
-      </div>
-
-      <div class="facility-lists">
+      <div class="chart-area">
         <RadarChart
-          v-if="Object.keys(counts).length"
           :labels="Object.keys(counts)"
           :data="Object.values(counts)"
         />
-        <div v-for="(items, name) in details" :key="name">
-          <h4>📍 {{ name }}</h4>
+        <div class="subway-list">
+          <h4> {{ subwayCategory.name }}</h4>
           <ul>
-            <li v-for="item in items" :key="item.id">
+            <li v-for="item in subway?.slice(0, 3)" :key="item.id">
               <strong>{{ item.place_name }}</strong>
-              <div>{{ item.road_address_name || item.address_name }}</div>
-              <div v-if="item.phone">📞 {{ item.phone }}</div>
+              <div v-html="highlightWalkText(`도보 약 ${Math.round(item.distance / 67)}분`)"></div>
             </li>
           </ul>
         </div>
+      </div>
+
+      <div class="facility-area">
+        <div
+          v-for="(items, name) in details"
+          :key="name"
+          class="facility-block"
+        >
+          <h4>{{ name }}</h4>
+          <ul>
+            <li v-for="item in items?.slice(0, 3)" :key="item.id">
+              <strong>{{ item.place_name }}</strong>
+              <div v-html="highlightWalkText(`도보 약 ${Math.round(item.distance / 67)}분`)"></div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="agent-area">
+        <h3><i class="fa-solid fa-building-circle-check"></i> 주변 중개사무소</h3>
+        <ul>
+          <li v-for="agent in agents" :key="agent.id">
+            <strong>{{ agent.place_name }}</strong>
+            <div>{{ agent.road_address_name || agent.address_name }}</div>
+            <div>{{ agent.phone || '전화번호 없음' }}</div>
+            <div v-html="highlightWalkText(`도보 약 ${Math.round(agent.distance / 67)}분 (${agent.distance}m)`)"></div>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
@@ -125,29 +153,103 @@ const safeMax = computed(() => {
 .grid-content {
   grid-area: content;
   display: flex;
+  flex-direction: row;
   gap: 2vh;
-  padding: 2vh 0;
-  font-size: 1rem;
-  line-height: 1.6;
+  height: 100%;
+  overflow: hidden;
 
-  .agent-list {
-    flex: 1;
+  > div {
+    overflow-y: auto;
   }
 
-  .facility-lists {
-    flex: 1;
-    overflow-y: auto;
-    max-height: 100%;
+.chart-area {
+  flex: 0.8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  gap: 2vh;
+  overflow: hidden;
+  padding-top: 3vh;
+}
+
+.radar-chart {
+  width: 100%;
+  max-width: 350px;
+  height: 250px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.radar-chart canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.subway-list {
+  width: 100%;
+  padding: 1vh 1vh 0 1vh;
+  font-size: 1rem;
+  text-align: center;
+
+  h4 {
+    margin-bottom: 1vh;
+    font-size: 1.1rem;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  li {
+    margin-bottom: 1.5vh;
+    padding-bottom: 1vh;
+    border-bottom: 1px solid #444;
+    line-height: 1.4;
   }
 }
 
-.agent-list {
-  padding: 1vh;
-  color: white;
-  h3 {
-    font-size: 1.2rem;
-    margin-bottom: 1vh;
+  .facility-area {
+  flex: 2;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, auto);
+  gap: 2vh 2vh;
+
+  .facility-block {
+    padding: 0 1vh;
+
+    h4 {
+      font-size: 1.1rem;
+      margin-bottom: 1vh;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      margin-bottom: 1.5vh;
+      padding-bottom: 1vh;
+      border-bottom: 1px solid #444;
+      line-height: 1.4;
+    }
   }
+}
+
+
+  .agent-area {
+    flex: 0.7;
+  }
+}
+
+.agent-area, .facility-area {
+  font-size: 1rem;
+  line-height: 1.5;
   ul {
     list-style: none;
     padding: 0;
@@ -156,13 +258,14 @@ const safeMax = computed(() => {
     margin-bottom: 1.5vh;
     padding-bottom: 1vh;
     border-bottom: 1px solid #444;
-    line-height: 1.4;
   }
 }
-.radar-chart {
-  width: 100%;
-  max-width: 350px;
-  height: 250px;
-  margin: 0 auto;
+
+:deep(.walk-label) {
+  background-color: #49b4e6;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-weight: bold;
 }
 </style>

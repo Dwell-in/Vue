@@ -60,14 +60,16 @@ const safeMax = computed(() => {
   </div>
 </template>
 <style scoped>
-.radar-chart {
+.radar-wrapper {
   width: 100%;
   max-width: 350px;
   height: 250px;
   margin: 0 auto;
+  position: relative;
 }
-.radar-chart canvas {
-  height: 100% !important;
+
+.radar-wrapper canvas {
   width: 100% !important;
+  height: 100% !important;
 }
 </style>
