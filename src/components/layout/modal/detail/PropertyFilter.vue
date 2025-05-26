@@ -172,7 +172,7 @@ onMounted(() => {
         </div>
       </div>
       <!-- /.wrap price -->
-      <div v-if="selectedType == '전세'" class="wrap price slider-container">
+      <div v-else-if="selectedType == '전세'" class="wrap price slider-container">
         <div class="header">
           <div class="title">보증금</div>
           <span class="rangeText"
@@ -196,7 +196,7 @@ onMounted(() => {
         </div>
       </div>
       <!-- /.wrap price -->
-      <div v-else class="wrap price slider-container">
+      <div v-else-if="selectedType == '월세'" class="wrap price slider-container">
         <div class="header">
           <div class="title">월세</div>
           <span class="rangeText"
@@ -230,7 +230,7 @@ onMounted(() => {
             @click="selectArea(area)"
             :class="{ active: selectedArea.includes(area) }"
           >
-            {{ area }}
+            {{ parseFloat(area.toFixed(2)) }}
           </div>
         </div>
       </div>

@@ -2,19 +2,29 @@
 import defaultImg from '@/assets/img/loginbg.png'
 
 const props = defineProps({
-  property: Object
+  property: Object,
 })
 
-const price = props.property?.type == '매매'? props.property.salePrice
-              : props.property?.type == '전세' ? props.property.deposit
-              : props.property.monthlyRent
+const price =
+  props.property?.type == '매매'
+    ? props.property.salePrice
+    : props.property?.type == '전세'
+      ? props.property.deposit
+      : props.property.monthlyRent
 
-const formatToEokMan = v => `${Math.floor(v / 100000000)}억 ${Math.floor(v % 100000000 / 10000)}만원`.replace(/^0억 /, '').replace(/ 0만원$/, '');
+const formatToEokMan = (v) =>
+  `${Math.floor(v / 100000000)}억 ${Math.floor((v % 100000000) / 10000)}만원`
+    .replace(/^0억 /, '')
+    .replace(/ 0만원$/, '')
 </script>
 
 <template>
   <div class="deal-apt-card">
-    <img :src="props.property.propertyImg || defaultImg" alt="아파트 이미지" class="deal-apt-image" />
+    <img
+      :src="props.property.propertyImg || defaultImg"
+      alt="아파트 이미지"
+      class="deal-apt-image"
+    />
 
     <div class="deal-apt-info">
       <div class="deal-apt-title">
@@ -23,7 +33,8 @@ const formatToEokMan = v => `${Math.floor(v / 100000000)}억 ${Math.floor(v % 10
       </div>
 
       <div class="deal-apt-details">
-        {{ props.property.floor }}층 · {{ props.property.supplyArea }}m² · 관리비 {{ props.property.managementFee }}
+        {{ props.property.floor }}층 · {{ parseFloat(props.property.supplyArea.toFixed(2)) }}m² ·
+        관리비 {{ props.property.managementFee }}
       </div>
 
       <div class="deal-apt-tags">
@@ -37,7 +48,6 @@ const formatToEokMan = v => `${Math.floor(v / 100000000)}억 ${Math.floor(v % 10
     </div>
   </div>
 </template>
-
 
 <style lang="scss" scoped>
 .deal-apt-card {
@@ -68,7 +78,7 @@ const formatToEokMan = v => `${Math.floor(v / 100000000)}억 ${Math.floor(v % 10
   display: flex;
   flex-direction: column;
 
-  & .price{
+  & .price {
     font-size: 1.3rem;
     margin-bottom: 1vh;
   }
@@ -87,7 +97,7 @@ const formatToEokMan = v => `${Math.floor(v / 100000000)}억 ${Math.floor(v % 10
   overflow: hidden;
   gap: 5px;
 
-  & > div{
+  & > div {
     font-size: 0.8rem;
     background-color: #e5e5e5;
     border-radius: 5px;
