@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, computed } from 'vue'
+import { onMounted, ref} from 'vue'
 import api from '@/lib/api'
 import RadarChart from './LocalRadarChart.vue'
 

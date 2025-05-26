@@ -14,21 +14,21 @@
         <option value="road">도로명주소</option>
         <option value="aptNm">건물명</option>
       </select>
-      <button @click.prevent="search">검색</button>
+      <button @click.prevent="search" class="search-button">검색</button>
 
-      <div v-if="results.length">
+      <div v-if="results.length" class="result-list">
         <div v-for="item in results" :key="item.aptSeq" class="result" @click="select(item)">
           {{ item.sidoName }} {{ item.gugunName }} {{ item.dongName || '' }} {{ item.jibun }}
           {{ item.aptNm }}
           <br />
           ({{ item.roadNm }} {{ item.roadNmBonbun
-          }}<template v-if="item.roadNmBubun && item.roadNmBubun !== '0'"
-            >-{{ item.roadNmBubun }}</template
-          >)
+          }}<template v-if="item.roadNmBubun && item.roadNmBubun !== '0'">
+            -{{ item.roadNmBubun }}
+          </template>)
         </div>
       </div>
 
-      <button @click="$emit('close')">닫기</button>
+      <button @click="$emit('close')" class="close-button">닫기</button>
     </div>
   </div>
 </template>
@@ -80,12 +80,7 @@ const search = async () => {
         condition.gugunName = token
       } else if (
         !condition.dongName &&
-        (token.endsWith('동') ||
-          token.endsWith('읍') ||
-          token.endsWith('면') ||
-          token.endsWith('리') ||
-          token.endsWith('가') ||
-          token.endsWith(')'))
+        (token.endsWith('동') || token.endsWith('읍') || token.endsWith('면') || token.endsWith('리') || token.endsWith('가') || token.endsWith(')'))
       ) {
         condition.dongName = token
       } else if (!condition.jibun && /^\d/.test(token)) {
@@ -139,31 +134,62 @@ const select = (apt) => {
 }
 
 .popup-content {
-  background: white;
-  padding: 20px;
+  background: #fff;
+  padding: 24px;
   border-radius: 8px;
-  width: 400px;
+  width: 500px;
   max-height: 90vh;
   overflow-y: auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
+  gap: 12px;
 }
 
-.result {
-  padding: 8px;
-  border-bottom: 1px solid #ddd;
+.input,
+.select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.search-button,
+.close-button {
+  padding: 10px 16px;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
   cursor: pointer;
 }
 
-.result:hover {
-  background: #eee;
+.search-button:hover,
+.close-button:hover {
+  background-color: #555;
 }
 
 .result-list {
-  margin-top: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid #ddd;
   border-radius: 4px;
   max-height: 300px;
   overflow-y: auto;
+  padding: 8px;
+}
+
+.result {
+  padding: 10px 12px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.result:hover {
+  background: #f9f9f9;
 }
 </style>
