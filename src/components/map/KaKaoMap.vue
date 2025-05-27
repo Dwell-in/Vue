@@ -158,9 +158,6 @@ const sendToAiRecommend = async () => {
 
     const res = await api.post('/api/v1/ai/apt-recommend', payload)
     console.log('AI 추천 결과:', res.data.data)
-
-    // 예: 추천된 순서로 visibleInfos 다시 덮어쓰기
-    visibleInfos.value = res.data.data
   } catch (err) {
     console.error('AI 추천 실패:', err)
     alert('AI 추천 요청 중 오류가 발생했습니다.')
