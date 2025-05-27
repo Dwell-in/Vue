@@ -3,6 +3,7 @@ import defaultImg from '@/assets/img/loginbg.png'
 
 const props = defineProps({
   property: Object,
+  isHighlighted: Boolean,
 })
 
 const price =
@@ -20,6 +21,7 @@ const formatToEokMan = (v) =>
 
 <template>
   <div class="deal-apt-card">
+    <div v-if="isHighlighted" class="badge">AI 추천 매물</div>
     <img
       :src="props.property.propertyImg || defaultImg"
       alt="아파트 이미지"
@@ -61,11 +63,13 @@ const formatToEokMan = (v) =>
   border-radius: 20px;
   box-shadow: 0 0 2px 1px white;
   cursor: pointer;
+  position: relative;
 }
 
 .deal-apt-image {
   height: 100%;
   border-radius: 10px;
+  width: 45%;
 }
 
 .deal-apt-info {
@@ -119,5 +123,17 @@ const formatToEokMan = (v) =>
   padding: 2px 6px;
   border-radius: 4px;
   margin-top: 6px;
+}
+.badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: red;
+  color: white;
+  font-size: 0.9em;
+  padding: 3px 7px;
+  border-radius: 5px;
+  z-index: 2;
+  font-weight: bold;
 }
 </style>

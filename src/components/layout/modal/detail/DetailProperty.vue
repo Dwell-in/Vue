@@ -4,6 +4,7 @@ import PropertyCard from './PropertyCard.vue'
 import PropertyDetail from './PropertyDetail.vue'
 import { onMounted, reactive, ref, watch } from 'vue'
 import api from '@/lib/api'
+import LoadingParts from '@/components/parts/LoadingParts.vue'
 
 const props = defineProps({
   info: Object,
@@ -128,28 +129,44 @@ const detailClose = () => {
 
 //AI 매물 추천
 const aiRecommended = ref([])
+// 임시 사용
+const isBlurred = ref(false)
+const highlightedId = ref(null)
+const isLoading = ref(false)
 
 const sendFilteredToServer = async () => {
-  try {
-    const payload = filteredPropertys.value.map((p) => ({
-      aptSeq: p.aptSeq,
-      type: p.type,
-      floor: p.floor,
-      supplyArea: p.supplyArea,
-      salePrice: p.salePrice,
-      deposit: p.deposit,
-      monthlyRent: p.monthlyRent,
-      optionNames: p.optionNames,
-      safetyNames: p.safetyNames,
-    }))
+  // 기존 AI 요청 주석 처리
+  // try {
+  //   const payload = filteredPropertys.value.map((p) => ({
+  //     aptSeq: p.aptSeq,
+  //     type: p.type,
+  //     floor: p.floor,
+  //     supplyArea: p.supplyArea,
+  //     salePrice: p.salePrice,
+  //     deposit: p.deposit,
+  //     monthlyRent: p.monthlyRent,
+  //     optionNames: p.optionNames,
+  //     safetyNames: p.safetyNames,
+  //   }))
+  //   const res = await api.post('/api/v1/ai/filtered', payload)
+  //   aiRecommended.value = res.data.data
+  //   console.log('AI 추천 매물:', aiRecommended.value)
+  // } catch (e) {
+  //   console.error(e)
+  //   alert('AI 추천 실패')
+  // }
+  isLoading.value = true
+  isBlurred.value = true
 
-    const res = await api.post('/api/v1/ai/filtered', payload)
-    aiRecommended.value = res.data.data
-    console.log('AI 추천 매물:', aiRecommended.value)
-  } catch (e) {
-    console.error(e)
-    alert('AI 추천 실패')
-  }
+  await new Promise((resolve) => setTimeout(resolve, 3500))
+
+  // 매물 섞기
+  filteredPropertys.value = [...filteredPropertys.value].sort(() => Math.random() - 0.5)
+
+  highlightedId.value = filteredPropertys.value[0]?.id || null
+
+  isBlurred.value = false
+  isLoading.value = false
 }
 
 onMounted(async () => {
@@ -170,19 +187,24 @@ watch(props.isInfo, () => (filteredPropertys.value = propertys.value))
       :filterRange="filterRange"
       @filtering="filtering"
     />
-    <div v-if="filterRange.area.length != 0" class="list">
+    <div v-if="filterRange.area.length != 0" class="list" style="position: relative;">
       <div class="title" style="padding-bottom: 0">
         <i class="fa-solid fa-list-ul"></i>&ensp;List
         <button class="aiBtn" @click="sendFilteredToServer">AI 추천 받기</button>
       </div>
-
+      <LoadingParts v-if="isLoading" size="x4" style="position: absolute;z-index: 2;" color="white" />
       <div class="deals">
         <PropertyCard
           v-for="filteredProperty in filteredPropertys"
           :key="filteredProperty.id"
           :property="filteredProperty"
+          :isHighlighted="highlightedId === filteredProperty.id"
+          :class="[
+            isBlurred ? 'blurred' : '',
+            highlightedId === filteredProperty.id ? 'highlighted' : ''
+          ]"
           @click="selectProperty(filteredProperty)"
-        ></PropertyCard>
+        />
       </div>
     </div>
     <PropertyDetail
@@ -255,5 +277,15 @@ watch(props.isInfo, () => (filteredPropertys.value = propertys.value))
   padding: 5px 10px;
   border: none;
   border-radius: 5px;
+}
+.blurred {
+  filter: blur(3px) brightness(0.6);
+  pointer-events: none;
+  transition: filter 0.3s;
+}
+
+.highlighted {
+  border: 5px solid red;
+  border-radius: 10px;
 }
 </style>
