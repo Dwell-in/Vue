@@ -11,7 +11,7 @@
         class="category-swiper"
       >
         <SwiperSlide
-          v-for="(label, code) in typeMap"
+          v-for="[code, label] in orderedTypes"
           :key="code"
           @click="selectType(code)"
           :class="['category-slide', { active: selectedType === code }]"
@@ -45,7 +45,7 @@
             <div class="info">
               <h3 class="title">{{ item.title }}</h3>
               <p class="addr">{{ item.addr1 }}</p>
-              <p class="desc">{{ item.content }}</p>
+              <p class="desc">{{ item.addr2 }}</p>
             </div>
           </div>
         </SwiperSlide>
@@ -55,9 +55,9 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import api from '@/lib/api'
-import defaultImg from '@/assets/img/default_profile.png'
+import defaultImg from '@/assets/img/boardNav.png'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { EffectCoverflow, Mousewheel } from 'swiper/modules'
 import 'swiper/css'
@@ -66,21 +66,26 @@ import 'swiper/css/effect-coverflow'
 const responseData = ref([])
 const selectedType = ref(39)
 
-const typeMap = {
-  12: '관광지',
-  14: '문화시설',
-  15: '축제공연행사',
-  25: '여행코스',
-  28: '레포츠',
-  32: '숙박',
-  38: '쇼핑',
-  39: '식당',
-}
+const orderedTypes = [
+  [39, '식당'],
+  [12, '관광지'],
+  [38, '쇼핑'],
+  [14, '문화시설'],
+  [15, '축제공연행사'],
+  [25, '여행코스'],
+  [28, '레포츠'],
+  [32, '숙박'],
+]
+
+const props = defineProps({
+  info: Object,
+})
 
 const fetchAttractions = async () => {
   try {
+    console.log(props)
     const res = await api.post('/api/v1/attraction/attraction-list', {
-      aptSeq: '11110-100',
+      aptSeq: props.info.aptSeq,
       type: selectedType.value,
     })
     responseData.value = res.data.data.data
@@ -93,6 +98,14 @@ const selectType = (code) => {
   selectedType.value = code
   fetchAttractions()
 }
+
+watch(
+  () => props.info?.aptSeq,
+  (newVal) => {
+    if (newVal) fetchAttractions()
+  },
+  { immediate: true }, // 마운트될 때도 실행
+)
 
 fetchAttractions()
 </script>
@@ -186,6 +199,7 @@ fetchAttractions()
 }
 
 .info {
+  color: black !important;
   padding: 12px;
   flex: 1;
   display: flex;
@@ -194,7 +208,7 @@ fetchAttractions()
 
 .title {
   font-weight: bold;
-  color: #d63384;
+  color: #d63384 !important;
   font-size: 16px;
   margin-bottom: 4px;
 }
@@ -202,7 +216,7 @@ fetchAttractions()
 .addr,
 .desc {
   font-size: 12px;
-  color: #444;
+  color: #444 !important;
   margin-bottom: 2px;
   overflow: hidden;
   text-overflow: ellipsis;

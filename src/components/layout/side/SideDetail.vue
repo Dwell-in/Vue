@@ -9,6 +9,7 @@ import HouseRoadView from '@/components/house/HouseRoadView.vue'
 import HouseChart from '@/components/house/HouseChart.vue'
 import HouseNews from '@/components/house/HouseNews.vue'
 import StarredToggle from '@/components/starred/StarredToggle.vue'
+import NearbyView from '@/views/NearbyView.vue'
 
 const sideStore = useSideStore()
 
@@ -70,6 +71,8 @@ const selectApt = (aptSeq) => {
       <div class="info_viewCount_count">{{ viewCount }}</div>
     </div>
     <HouseRoadView class="info-roadview" :info="clonedInfo"></HouseRoadView>
+    <div class="section-nearby">NEARBY</div>
+    <NearbyView class="info-nearby" :info="clonedInfo"></NearbyView>
     <div class="section-title">CHART</div>
     <HouseChart :info="clonedInfo"></HouseChart>
     <div class="section-title">BLOG</div>
@@ -91,6 +94,13 @@ const selectApt = (aptSeq) => {
   color: white;
 }
 
+.detailView ::v-deep(.info-nearby) {
+  color: black !important;
+}
+
+.info-nearby {
+  color: black;
+}
 .detailView > * {
   width: 100% !important;
 }
