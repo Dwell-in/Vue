@@ -21,7 +21,9 @@ import makerBtn5 from '@/assets/img/marker_BK9_btn.png'
 import makerBtn6 from '@/assets/img/marker_CS2_btn.png'
 import defaultImg from '@/assets/img/loginbg.png'
 import { useSideStore } from '@/stores/side'
+import { useChatStore } from '@/stores/chatStore'
 const sideStore = useSideStore()
+const chatStore = useChatStore()
 
 const emit = defineEmits(['update:loading'])
 defineProps(['loading'])
@@ -143,8 +145,15 @@ const onDragStart = (event, info, img) => {
   }
   event.dataTransfer.setData('application/json', JSON.stringify(dragData))
 }
+
 //ai 버튼 추가
 const sendToAiRecommend = async () => {
+  chatStore.selectTarget({
+    id: 'AI',
+  })
+  sideStore.chatToggle(false)
+  sideStore.chatToggle(true)
+
   try {
     const payload = visibleInfos.value.map((apt) => ({
       aptSeq: apt.aptSeq,
@@ -157,7 +166,7 @@ const sendToAiRecommend = async () => {
     }))
 
     const res = await api.post('/api/v1/ai/apt-recommend', payload)
-    console.log('AI 추천 결과:', res.data.data)
+    chatStore.setRecommendMsg(res.data.data)
   } catch (err) {
     console.error('AI 추천 실패:', err)
     alert('AI 추천 요청 중 오류가 발생했습니다.')

@@ -1,10 +1,26 @@
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import ChatRoomBase from './ChatRoomBase.vue'
 import api from '@/lib/api'
 import { useLoginUserStore } from '@/stores/loginUser'
 import AIImg from '@/assets/img/logo.png'
 import ChatCard from '@/components/ai/ChatCart.vue'
+import { useChatStore } from '@/stores/chatStore'
+const chatStore = useChatStore()
+
+// 맵 페이지에서 추천 바로 받기
+const recommendMsgRef = ref()
+onMounted(()=>{
+  recommendMsgRef.value = {
+    sender: 'ai',
+    content: '<i class="fa-solid fa-spinner fa-spin"></i>',
+    sentAt: new Date(),
+  }
+  messages.value.push(recommendMsgRef.value)
+})
+watch(()=>chatStore.recommendMsg,()=>{
+  recommendMsgRef.value.content = chatStore.recommendMsg
+})
 
 const loginUserStore = useLoginUserStore()
 

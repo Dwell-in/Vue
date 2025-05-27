@@ -128,14 +128,14 @@ const detailClose = () => {
 }
 
 //AI 매물 추천
-const aiRecommended = ref([])
+// const aiRecommended = ref([])
 // 임시 사용
 const isBlurred = ref(false)
 const highlightedId = ref(null)
 const isLoading = ref(false)
 
 const sendFilteredToServer = async () => {
-  // 기존 AI 요청 주석 처리
+  // 기존 AI 요청 주석 처리 (AI Key 만료)
   // try {
   //   const payload = filteredPropertys.value.map((p) => ({
   //     aptSeq: p.aptSeq,
