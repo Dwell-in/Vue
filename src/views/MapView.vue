@@ -50,7 +50,7 @@ main {
   background-color: rgba(0, 0, 0, 0.384);
   position: absolute;
   top: 0;
-  z-index: 10;
+  z-index: 1000;
   display: flex;
   justify-content: center;
   align-items: center;

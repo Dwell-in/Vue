@@ -39,7 +39,7 @@ watch(() => recentStore.list, loadRecentViewed, { deep: true })
       <div>Recently View</div>
     </template>
     <template #main>
-      <template v-if="recently">
+      <template v-if="recently && recently.length > 0">
         <UseCarousel :width="'17%'" :height="'50%'" :gap="'10vh'">
           <HouseCard v-for="apt in recently" :key="apt.id" :apt="apt"></HouseCard>
         </UseCarousel>

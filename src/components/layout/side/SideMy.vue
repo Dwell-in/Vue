@@ -8,9 +8,11 @@ import { useModalStore } from '@/stores/modal'
 import auth from '@/lib/auth'
 import api from '@/lib/api'
 import { unreadCount } from '@/lib/chatNotification'
+import MemberOptionForm from '@/components/member/MemberOptionForm.vue'
 
 const sideStore = useSideStore()
 const loginUserStore = useLoginUserStore()
+const optionSettingOn = ref(false)
 
 const logout = async () => {
   try {
@@ -47,6 +49,10 @@ const handelSelectMenu = (menu) => {
   if (menu == 'Recent') {
     modalStore.closeAll()
     sideStore.recentToggle(true)
+  }
+  if (menu == 'Option') {
+    modalStore.closeAll()
+    optionSettingOn.value = true
   }
 }
 const selectChat = (menu) => {
@@ -124,18 +130,11 @@ const changeProfile = () => {
       </div>
     </div>
     <div class="my-main">
-      <div class="menu chat-menu" @click="selectChat('Chat')" :class="{ selected: selected == 'Chat' }">
-        <!-- <svg
-          xmlns="http://www.w3.org/2000/svg"
-          height="40px"
-          viewBox="0 -960 960 960"
-          width="40px"
-          fill="#a7a7a7"
-        >
-          <path
-            d="M480-80 375-238H146.67q-27.5 0-47.09-19.58Q80-277.17 80-304.67v-508.66q0-27.5 19.58-47.09Q119.17-880 146.67-880h666.66q27.5 0 47.09 19.58Q880-840.83 880-813.33v508.66q0 27.5-19.58 47.09Q840.83-238 813.33-238H585L480-80Zm0-120 69.33-104.67h264v-508.66H146.67v508.66h264L480-200Zm0-359.33Z"
-          />
-        </svg> -->
+      <div
+        class="menu chat-menu"
+        @click="selectChat('Chat')"
+        :class="{ selected: selected == 'Chat' }"
+      >
         <i class="fa-solid fa-comments" style="color: #a2d4fb"></i>
         <div>D-Talk</div>
         <div v-if="unreadCount.total > 0" class="chat-badge">
@@ -148,26 +147,30 @@ const changeProfile = () => {
         :class="{ selected: selected == 'Favorite' }"
       >
         <i class="fa-solid fa-star" style="color: #ffdf6b"></i>
-        <!-- <i class="fa-regular fa-star" style="color: #ffdf6b"></i> -->
         <div>Favorite</div>
       </div>
       <div class="menu" @click="handelSelectMenu('View')" :class="{ selected: selected == 'View' }">
         <i class="fa-regular fa-eye" style="color: white"></i>
         <div>Recently View</div>
       </div>
-      <div class="menu" @click="handelSelectMenu('Recent')" :class="{ selected: selected == 'Recent' }">
+      <div
+        class="menu"
+        @click="handelSelectMenu('Recent')"
+        :class="{ selected: selected == 'Recent' }"
+      >
         <i class="fa-solid fa-clock-rotate-left" style="color: #ffffff"></i>
         <div>Recent Search</div>
       </div>
-      <!-- <div class="menu" @click="handelSelectMenu('?')" :class="{ selected: selected == '?' }"></div>
-      <div class="menu" @click="handelSelectMenu('?')" :class="{ selected: selected == '?' }"></div> -->
-    </div>
-    <!-- <div class="my-footer">
-      <div class="settings" @click="handelSelectMenu('My')">
-        <i class="fa-solid fa-gear"></i>
-        <div>Settings</div>
+      <div
+        class="menu"
+        @click="handelSelectMenu('Option')"
+        :class="{ selected: selected == 'Option' }"
+      >
+        <i class="fa-solid fa-clock-rotate-left" style="color: #ffffff"></i>
+        <div>Option Setting</div>
       </div>
-    </div> -->
+    </div>
+    <MemberOptionForm v-if="optionSettingOn" @close="optionSettingOn = false" />
   </SideBase>
 </template>
 
@@ -177,11 +180,12 @@ const changeProfile = () => {
   gap: 0;
   width: 30vh;
   background-color: #111111;
+  overflow: visible;
 
-  &.open{
+  &.open {
     left: calc(100% - 29.95vh) !important;
   }
-  & > *{
+  & > * {
     width: 100%;
     color: #a7a7a7;
   }
