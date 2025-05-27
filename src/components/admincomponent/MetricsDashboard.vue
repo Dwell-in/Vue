@@ -24,7 +24,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import api from '@/lib/api'
 import LineChart from '@/components/admincomponent/LineChart.vue'
 
@@ -83,6 +83,10 @@ const getUnitLabel = (key) => {
   }
   return units[key] || ''
 }
+
+onMounted(() => {
+  loadData()
+})
 </script>
 
 <style scoped>
