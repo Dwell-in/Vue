@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, onUnmounted, ref, watch } from 'vue'
 import ChatRoomBase from './ChatRoomBase.vue'
 import api from '@/lib/api'
 import { useLoginUserStore } from '@/stores/loginUser'
@@ -7,20 +7,6 @@ import AIImg from '@/assets/img/logo.png'
 import ChatCard from '@/components/ai/ChatCart.vue'
 import { useChatStore } from '@/stores/chatStore'
 const chatStore = useChatStore()
-
-// 맵 페이지에서 추천 바로 받기
-const recommendMsgRef = ref()
-onMounted(()=>{
-  recommendMsgRef.value = {
-    sender: 'ai',
-    content: '<i class="fa-solid fa-spinner fa-spin"></i>',
-    sentAt: new Date(),
-  }
-  messages.value.push(recommendMsgRef.value)
-})
-watch(()=>chatStore.recommendMsg,()=>{
-  recommendMsgRef.value.content = chatStore.recommendMsg
-})
 
 const loginUserStore = useLoginUserStore()
 
@@ -33,6 +19,28 @@ const childComponent = ref()
 const message = ref('')
 const messages = ref([])
 const droppedApts = ref([])
+
+// 맵 페이지에서 추천 바로 받기
+const recommendMsgRef = ref()
+let isFirstChange = true;
+watch(()=>chatStore.recommendMsg,()=>{
+  if (!chatStore.recommendMsg) return
+  if (isFirstChange){
+    isFirstChange = false
+    recommendMsgRef.value = {
+      sender: 'ai',
+      content: '<i class="fa-solid fa-spinner fa-spin"></i>',
+      sentAt: new Date(),
+    }
+    messages.value.push(recommendMsgRef.value)
+  } else{
+    recommendMsgRef.value.content = chatStore.recommendMsg
+  }
+}, { immediate: true })
+onUnmounted(()=>{
+  isFirstChange = true;
+  chatStore.setRecommendMsg(null)
+})
 
 const sendMessage = async () => {
   message.value = childComponent.value.innerDiv.value //채팅창으로부터 받은 데이터

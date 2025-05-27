@@ -154,6 +154,7 @@ const sendToAiRecommend = async () => {
   sideStore.chatToggle(false)
   sideStore.chatToggle(true)
 
+  chatStore.setRecommendMsg('.')
   try {
     const payload = visibleInfos.value.map((apt) => ({
       aptSeq: apt.aptSeq,
