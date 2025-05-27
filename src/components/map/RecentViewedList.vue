@@ -42,7 +42,7 @@ const handleClick = (houseInfo) => {
   emit('select', houseInfo)
 }
 
-const isClose = ref(false)
+const isClose = ref(true)
 </script>
 
 <template>
@@ -73,7 +73,7 @@ const isClose = ref(false)
   width: 200px;
   border-radius: 8px;
   overflow: hidden;
-  z-index: 1000;
+  z-index: 100;
 }
 
 .title {

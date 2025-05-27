@@ -408,9 +408,9 @@ watch(
 }
 
 .ai-recommend-btn {
-  margin: 10px;
+  margin: -1vh 5% 2vh;
   padding: 8px 16px;
-  background-color: #4a90e2;
+  background-color: #49b4e5;
   color: white;
   border: none;
   border-radius: 6px;

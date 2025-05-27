@@ -173,11 +173,7 @@ watch(props.isInfo, () => (filteredPropertys.value = propertys.value))
     <div v-if="filterRange.area.length != 0" class="list">
       <div class="title" style="padding-bottom: 0">
         <i class="fa-solid fa-list-ul"></i>&ensp;List
-      </div>
-      <div>
-        <button class="submit-btn" @click="sendFilteredToServer">
-          이 매물 조건으로 AI 추천 받기
-        </button>
+        <button class="aiBtn" @click="sendFilteredToServer">AI 추천 받기</button>
       </div>
 
       <div class="deals">
@@ -242,8 +238,22 @@ watch(props.isInfo, () => (filteredPropertys.value = propertys.value))
 
 .title {
   font-size: 1.5em;
+  position: relative;
   & i {
     font-size: 1em;
   }
+}
+
+.aiBtn {
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 1vh;
+  height: 100%;
+  background-color: #49b4e6;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
 }
 </style>

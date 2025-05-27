@@ -2,13 +2,11 @@
 import LayoutFooter1 from '@/components/layout/footer/LayoutFooter1.vue'
 import NavBase from '@/components/layout/nav/NavBase.vue'
 import HouseRegistForm from '@/components/house/HouseRegistForm.vue'
-import UserOptionView from './UserOptionView.vue'
 </script>
 
 <template>
   <NavBase :titles="['매물 등록']"></NavBase>
   <main>
-    <UserOptionView></UserOptionView>
     <HouseRegistForm></HouseRegistForm>
   </main>
   <LayoutFooter1></LayoutFooter1>

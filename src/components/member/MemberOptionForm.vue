@@ -1,7 +1,7 @@
 <template>
-  <NavBase :titles="['사용자 정보 등록']" />
-  <main class="form-container">
-    <form @submit.prevent="submitPreferences" class="dark-form">
+  <div class="scrollDiv" :class="{ animate: isOn }">
+    <img class="close" src="@/assets/img/closeIcon.png" @click="$emit('close')" />
+    <form class="form-container dark-form" @submit.prevent="submitPreferences">
       <h2>내 집 찾기 선호 정보</h2>
 
       <!-- 희망 지역 -->
@@ -17,6 +17,7 @@
         :max="3000000000"
         :step="10000000"
         :showTooltip="'focus'"
+        style="flex-shrink: 0"
       />
 
       <!-- 월세 -->
@@ -28,6 +29,7 @@
         :max="3000000"
         :step="50000"
         :showTooltip="'focus'"
+        style="flex-shrink: 0"
       />
 
       <!-- 주택 유형 -->
@@ -101,13 +103,12 @@
 
       <button type="submit">등록하기</button>
     </form>
-  </main>
+  </div>
 </template>
 
 <script setup>
-import { reactive } from 'vue'
+import { nextTick, onMounted, reactive, ref } from 'vue'
 import api from '@/lib/api'
-import NavBase from '@/components/layout/nav/NavBase.vue'
 import Slider from '@vueform/slider'
 
 const allFeatures = ['엘리베이터', '주차장', 'CCTV', '반려동물 가능']
@@ -115,8 +116,8 @@ const allPriorities = ['교통', '학군', '상권', '조용함', '공원 인접
 
 const form = reactive({
   preferredLocation: '',
-  budgetRange: [1100000000, 1200000000],
-  rentRange: [0, 1000000],
+  budgetRange: [50000000, 3000000000],
+  rentRange: [0, 3000000],
   preferredType: '',
   spaceRequirements: { minArea: 0, minRooms: 0 },
   commuteTarget: '',
@@ -141,6 +142,14 @@ const submitPreferences = async () => {
     alert('오류가 발생했습니다.')
   }
 }
+
+const isOn = ref(false)
+onMounted(async () => {
+  await nextTick()
+  setTimeout(() => {
+    isOn.value = true
+  }, 1)
+})
 </script>
 
 <style>
@@ -152,22 +161,60 @@ const submitPreferences = async () => {
 }
 </style>
 
-<style scoped>
+<style lang="scss" scoped>
 @import '@vueform/slider/themes/default.css';
 
-.form-container {
-  background: #111;
+.scrollDiv {
+  background: #181818;
   color: #fff;
-  padding: 2rem;
-  max-width: 460px;
-  margin: 80px auto;
+  width: 460px;
   border-radius: 12px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-}
-.dark-form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+  box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
+  position: absolute;
+  top: 1%;
+  right: -100%;
+  height: 98%;
+  overflow: hidden;
+  padding: 1%;
+  transition: 0.5s;
+  z-index: 10;
+
+  &.animate {
+    right: 60%;
+  }
+
+  & .close {
+    position: absolute;
+    width: 5%;
+    top: 0.5vh;
+    left: 0.5vh;
+    cursor: pointer;
+  }
+
+  & .form-container {
+    width: 100%;
+    height: 100%;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #333 #555;
+
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #555;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: #333;
+      border-radius: 3px;
+    }
+  }
 }
 input,
 select {
