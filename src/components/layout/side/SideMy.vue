@@ -166,8 +166,8 @@ const changeProfile = () => {
         @click="handelSelectMenu('Option')"
         :class="{ selected: selected == 'Option' }"
       >
-        <i class="fa-solid fa-clock-rotate-left" style="color: #ffffff"></i>
-        <div>Option Setting</div>
+        <i class="fa-solid fa-filter" style="color: #ffffff"></i>
+        <div>Filter Setting</div>
       </div>
     </div>
     <MemberOptionForm v-if="optionSettingOn" @close="optionSettingOn = false" />
