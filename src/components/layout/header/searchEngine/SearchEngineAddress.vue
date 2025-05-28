@@ -22,11 +22,16 @@ const inputElement = ref()
 const inputValue = ref('')
 const listElement = ref()
 
-const sido_update = () =>
-  api.get(`/api/v1/search/sido`).then((res) => {
-    sido = res.data.data
-    filtered.value = sido
-  })
+const sido_update = () => {
+  try {
+    api.get(`/api/v1/search/sido`).then((res) => {
+      sido = res.data.data
+      filtered.value = sido
+    })
+  } catch (e) {
+    console.log(e)
+  }
+}
 
 const gugun_update = (param) =>
   api.get(`/api/v1/search/gugun/${param}`).then((res) => (gugun = res.data.data))

@@ -35,7 +35,10 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config
     const status = error.response?.status
-    if (originalRequest.url.includes('/auth/refresh') || originalRequest.url.includes('/auth/login')) {
+    if (
+      originalRequest.url.includes('/auth/refresh') ||
+      originalRequest.url.includes('/auth/login')
+    ) {
       return Promise.reject(error)
     }
     // 루프 방지를 위해 !originalRequest._retry 추가
@@ -78,11 +81,11 @@ api.interceptors.response.use(
       })
     }
 
-    if ([403, 404, 405, 500].includes(status)) {
-      router.replace({ name: 'ErrorPage', params: { code: status } })
-    } else {
-      router.replace({ name: 'ErrorPage', params: { code: 'default' } })
-    }
+    // if ([403, 404, 405, 500].includes(status)) {
+    //   router.replace({ name: 'ErrorPage', params: { code: status } })
+    // } else {
+    //   router.replace({ name: 'ErrorPage', params: { code: 'default' } })
+    // }
 
     return Promise.reject(error)
   },
