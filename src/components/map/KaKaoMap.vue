@@ -170,7 +170,7 @@ const sendToAiRecommend = async () => {
     chatStore.setRecommendMsg(res.data.data)
   } catch (err) {
     console.error('AI 추천 실패:', err)
-    alert('AI 추천 요청 중 오류가 발생했습니다.')
+    alert('사용자 선호도를 설정하세요!!')
   }
 }
 
