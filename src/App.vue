@@ -6,7 +6,7 @@ import ModalGroup from '@/components/layout/modal/ModalGroup.vue'
 import LayoutHeader from './components/layout/header/LayoutHeader.vue'
 
 onMounted(() => {
-  loadScript('https://kit.fontawesome.com/64319e1cb9.js', true)
+  loadScript(`https://kit.fontawesome.com/${import.meta.env.VITE_FONTAWESOME_API_KEY}.js`, true)
 })
 </script>
 <template>
